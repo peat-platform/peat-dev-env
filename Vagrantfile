@@ -95,7 +95,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 Vagrant::VERSION >= "1.1.0" and Vagrant.configure("2") do |config|
     
-    config.vm.synced_folder OPENI_REPO_PATH, "/home/vagrant/repos", :nfs => true
+    config.vm.synced_folder OPENI_REPO_PATH, "/home/vagrant/repos", :nfs => true, :nfs_version => 3
 
     config.vm.network :private_network, ip: CLIENT_IP_ADDRESS
     

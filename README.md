@@ -15,6 +15,11 @@ Some people may have difficulty with the ssh forward agent feature, to address t
 
     # Add if not already added
     [[ -z $(ssh-add -L | grep $key_file) ]] && ssh-add $key_file
+    
+
+You should also add the following entry into your /etc/hosts file.
+
+   192.168.33.10 dev.openi-ict.eu
 
 
 ## Setup
