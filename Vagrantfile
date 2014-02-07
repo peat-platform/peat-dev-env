@@ -5,7 +5,6 @@
 
 VAGRANTFILE_API_VERSION = "2"
 OPENI_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4"
-SSH_KEY_PATH            = "/Users/dmccarthy/.ssh/id_rsa"
 CPU_ALLOC               = 4
 RAM_ALLOC               = 4096
 CLIENT_IP_ADDRESS       = "192.168.33.10"
@@ -98,8 +97,7 @@ Vagrant::VERSION >= "1.1.0" and Vagrant.configure("2") do |config|
     config.vm.synced_folder OPENI_REPO_PATH, "/home/vagrant/repos", :nfs => true, :nfs_version => 3
 
     config.vm.network :private_network, ip: CLIENT_IP_ADDRESS
-    
-    #config.ssh.private_key_path = SSH_KEY_PATH
+
     config.ssh.forward_agent     = true
     
     config.vm.provider :virtualbox do |vb, override|

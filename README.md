@@ -36,7 +36,6 @@ Modify the parameters at the top of the Vagrant file to suit your system.
 
     VAGRANTFILE_API_VERSION = "2"
     OPENI_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4"
-    SSH_KEY_PATH            = "/Users/dmccarthy/.ssh/id_rsa"
     CPU_ALLOC               = 4
     RAM_ALLOC               = 4096
     CLIENT_IP_ADDRESS       = "192.168.33.10"
