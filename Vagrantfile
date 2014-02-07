@@ -49,6 +49,10 @@ dpkg -i /tmp/couchbase-server-enterprise_2.2.0_x86_64.deb
 
 usermod -a -G vagrant vagrant
 
+sudo mkdir -p /opt/openi/cloudlet_platform/logs/
+sudo chown -R vagrant:vagrant /opt/openi/cloudlet_platform/
+
+
 tmp=`mktemp -q` && {
     apt-get install -q -y --no-upgrade linux-image-generic-lts-raring | \
     tee "$tmp"
