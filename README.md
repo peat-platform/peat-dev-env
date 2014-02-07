@@ -21,6 +21,9 @@ You should also add the following entry into your /etc/hosts file.
 
     192.168.33.10 dev.openi-ict.eu
 
+Install Vagrant
+
+    http://www.vagrantup.com/downloads
 
 ## Setup
 
