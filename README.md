@@ -63,6 +63,10 @@ Once the
 
     node lib/local-runner.js
 
+## Couchbase
+
+Once running Couchbase need some additional setup.
+Please go to 127.0.0.1:8091 to setup couchbase.
 
 ## Troubleshooting
 
