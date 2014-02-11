@@ -51,6 +51,11 @@ usermod -a -G vagrant vagrant
 sudo mkdir -p /opt/openi/cloudlet_platform/logs/
 sudo chown -R vagrant:vagrant /opt/openi/cloudlet_platform/
 
+#Install build tools
+sudo npm install -g grunt-cli
+
+#Install CouchDB
+sudo apt-get install couchdb -y
 
 tmp=`mktemp -q` && {
     apt-get install -q -y --no-upgrade linux-image-generic-lts-raring | \
