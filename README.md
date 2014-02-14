@@ -9,7 +9,7 @@ Our Vagrant image has the following tools and applications installed: node, Zero
 
 ## Preparation
 
-Some people may have difficulty with the ssh forward agent feature, to address this issue add your SSH key to host ssh-agent.
+Some people may have difficulty with the ssh forward agent feature, to address this issue add your SSH key to host ssh-agent.*
 
     key_file=~/.ssh/id_rsa
 
@@ -63,10 +63,15 @@ Once the
 
     node lib/main.js
 
+## Couchbase
+
+Once running Couchbase need some additional setup.
+Please go to 127.0.0.1:8091 to setup couchbase.
 
 ## Troubleshooting
 
 If you have difficulty running the node applications try deleting their node_modules folder and executing npm install again. One of the dependencies links to a file on the host operating system, deleting the folder from within vagrant and rebuilding it will link to the client operating system.
 
+ *Note: If using Windows, any paths must use double slashes i.e. "C:\Users\user1\docs" -> "C:\\Users\\user1\\docs"
 ## Links
 http://earlyandoften.wordpress.com/2012/09/06/vagrant-cheatsheat/
