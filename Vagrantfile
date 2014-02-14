@@ -4,7 +4,7 @@
 
 
 VAGRANTFILE_API_VERSION = "2"
-OPENI_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4"
+OPENI_REPO_PATH         = "/Users/dmccarthy/work/openi/tmp"
 CPU_ALLOC               = 4
 RAM_ALLOC               = 4096
 CLIENT_IP_ADDRESS       = "192.168.33.10"
@@ -20,9 +20,10 @@ apt-get install -qy g++ curl libssl-dev apache2-utils
 apt-get install -y make
 
 #INSTALL node.js
-cd /tmp ; wget http://www.nodejs.org/dist/v0.10.21/node-v0.10.21.tar.gz; tar -xzvf node-v0.10.21.tar.gz
-cd /tmp/node-v0.10.21/ ; ./configure ; make ;  make install
-cd /tmp
+sudo apt-get install python-software-properties
+sudo add-apt-repository ppa:chris-lea/node.js
+sudo apt-get update
+sudo apt-get install nodejs
 
 
 #INSTALL ZMQ
@@ -46,8 +47,8 @@ cd /tmp/zedshaw-mongrel2-bc721eb/ ; ./configure ; make ; make install
 cd /tmp ; wget http://packages.couchbase.com/releases/2.2.0/couchbase-server-enterprise_2.2.0_x86_64.deb
 dpkg -i /tmp/couchbase-server-enterprise_2.2.0_x86_64.deb
 
-usermod -a -G vagrant vagrant
-
+#usermod -a -G vagrant vagrant
+#
 sudo mkdir -p /opt/openi/cloudlet_platform/logs/
 sudo chown -R vagrant:vagrant /opt/openi/cloudlet_platform/
 
@@ -56,6 +57,34 @@ sudo npm install -g grunt-cli
 
 #Install CouchDB
 sudo apt-get install couchdb -y
+
+cat > /home/vagrant/.ssh/config <<DELIM
+Host gitlab.openi-ict.eu
+StrictHostKeyChecking no
+DELIM
+
+ssh -oStrictHostKeyChecking=no git@gitlab.openi-ict.eu
+
+cd /home/vagrant/repos
+
+git clone git@gitlab.openi-ict.eu:cloudlet_platform.git
+git clone git@gitlab.openi-ict.eu:cloudlet_api.git
+git clone git@gitlab.openi-ict.eu:object_api.git
+git clone git@gitlab.openi-ict.eu:type_api.git
+git clone git@gitlab.openi-ict.eu:m2nodehandler.git
+git clone git@gitlab.openi-ict.eu:dao.git
+git clone git@gitlab.openi-ict.eu:mongrel2.git
+git clone git@gitlab.openi-ict.eu:dbc.git
+git clone git@gitlab.openi-ict.eu:openi-cloudlet-utils.git
+git clone git@gitlab.openi-ict.eu:openi-docker.git
+git clone git@gitlab.openi-ict.eu:openi-logger.git
+git clone git@gitlab.openi-ict.eu:openi-docker.git
+
+sudo cp /vagrant/custom_hosts_file /etc/hosts
+sudo cp /vagrant/custom_couchdb_config_file /etc/couchdb/default.ini
+
+sudo sh /etc/init.d/networking restart
+sudo service couchdb restart
 
 tmp=`mktemp -q` && {
     apt-get install -q -y --no-upgrade linux-image-generic-lts-raring | \

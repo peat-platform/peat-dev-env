@@ -59,9 +59,9 @@ Once the
 
     sh startMongrel.sh
 
-    cd ../data_api/
+    cd ../cloudlet_platform/
 
-    node lib/local-runner.js
+    node lib/main.js
 
 
 ## Troubleshooting
