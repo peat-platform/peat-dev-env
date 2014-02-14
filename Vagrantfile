@@ -20,18 +20,19 @@ apt-get install -qy g++ curl libssl-dev apache2-utils
 apt-get install -y make
 
 #INSTALL node.js
-sudo apt-get install python-software-properties
-sudo add-apt-repository ppa:chris-lea/node.js
-sudo apt-get update
-sudo apt-get install nodejs
+cd /tmp ; wget http://www.nodejs.org/dist/v0.10.21/node-v0.10.21.tar.gz; tar -xzvf node-v0.10.21.tar.gz
+cd /tmp/node-v0.10.21/ ; ./configure ; make ;  sudo make install
+cd /tmp
 
 
 #INSTALL ZMQ
 
 apt-get install -y g++ uuid-dev binutils libtool autoconf automake
 cd /tmp ; wget http://download.zeromq.org/zeromq-3.2.4.tar.gz ; tar -xzvf zeromq-3.2.4.tar.gz
-cd /tmp/zeromq-3.2.4/ ; ./configure ; make ; make install
+cd /tmp/zeromq-3.2.4/ ; ./configure ; make ; sudo make install
 ldconfig
+
+cd /home/vagrant
 
 # INSTALL SQLite3
 

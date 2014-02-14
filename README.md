@@ -61,6 +61,8 @@ Once the
 
     cd ../cloudlet_platform/
 
+    npm install
+
     node lib/main.js
 
 ## Couchbase
