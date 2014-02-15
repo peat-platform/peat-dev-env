@@ -17,7 +17,7 @@ Some people may have difficulty with the ssh forward agent feature, to address t
     [[ -z $(ssh-add -L | grep $key_file) ]] && ssh-add $key_file
 
 
-You should also add the following entry into your /etc/hosts file.
+Add the following entry into your /etc/hosts file.
 
     192.168.33.10 dev.openi-ict.eu
 
@@ -40,7 +40,7 @@ Modify the parameters at the top of the Vagrant file to suit your system.
     RAM_ALLOC               = 4096
     CLIENT_IP_ADDRESS       = "192.168.33.10"
 
-Once you are happy with your parameters you execute the following commands to download and provision the vm. Note: the first time that you run vagrant up it could take up to an hour to execute.
+Once you are happy with your parameters you execute the following commands to download and provision the vm. Note: the first time that you run vagrant up it provisions the system by downloading and installing a number of applications. This can take up to an hour to execute.
 
     cd openi_dev_env
 
@@ -59,13 +59,15 @@ Once the VM has been built and provisioned execute the following commands to get
 
     cd repos/mongrel2
 
-    sh startMongrel.sh
+    sh start_mongrel2.sh
 
     cd ../cloudlet_platform/
 
     npm install
 
     node lib/main.js
+
+Nagigate to `http://dev.openi-ict.eu/api-docs/` on your host system and try out a few of the endpoints.
 
 All the Cloudlet Platforms modules are downloaded to a shared folder `/home/vagrant/repos` on the Virtual Machine and which ever directory you set the OPENI_REPO_PATH variable to on the Host. All edits to module files on the Host are replicated on the VM. To test changes you need to ssh into the VM by firstly changing directory to `openi_dev_env` and then running the `vagrant ssh` command. Once you have SSHed into the VM, navigate to the module that you edited on the Host in e.g. `cd /home/vagrant/repos/object_api`, install the node dependencies with the `npm install` command, and run the build script (includes jshint and unit tests) with the `grunt jenkins`. To run the module in isolation execute the `node lib/local-runner.js` command (The module may have a dependency on others so you may have to start more than one to test it properly).
 
