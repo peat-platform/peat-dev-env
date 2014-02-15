@@ -67,14 +67,8 @@ Once the VM has been built and provisioned execute the following commands to get
 
     node lib/main.js
 
-All the Cloudlet Platforms modules are downloaded to a shared folder `/home/vagrant/repos` on the Virtual Machine and
-which ever directory you set the OPENI_REPO_PATH config variable to on the Host. All edits to module files on the Host
-are replicated on the VM. To test changes you need to ssh into the VM by firstly changing directory to the
-openi_dev_env module downloaded from git and then running the `vagrant ssh` command. Once you have SSHed in navigate to
-the module that you are interested in e.g. `cd /home/vagrant/repos/object_api`, install the node dependencies with the
-`npm install` command, and run the buildm script (includes jshint and unit tests) with the 'grunt jenkins'. To run the
-module in isolation from the others execute the 'node lib/local-runner.js' command.
-  
+All the Cloudlet Platforms modules are downloaded to a shared folder `/home/vagrant/repos` on the Virtual Machine and which ever directory you set the OPENI_REPO_PATH variable to on the Host. All edits to module files on the Host are replicated on the VM. To test changes you need to ssh into the VM by firstly changing directory to `openi_dev_env` and then running the `vagrant ssh` command. Once you have SSHed into the VM, navigate to the module that you edited on the Host in e.g. `cd /home/vagrant/repos/object_api`, install the node dependencies with the `npm install` command, and run the build script (includes jshint and unit tests) with the `grunt jenkins`. To run the module in isolation execute the 'node lib/local-runner.js' command (The module may have a dependency on others so you may have to start more than one to test it properly).
+
 
 ## Couchbase
 
