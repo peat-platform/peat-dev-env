@@ -18,10 +18,12 @@ apt-get install -y git
 apt-get install -qy wget curl
 apt-get install -qy g++ curl libssl-dev apache2-utils
 apt-get install -y make
+apt-get install -y nmap
+apt-get install -y vim
 
 #INSTALL node.js
 cd /tmp ; wget http://www.nodejs.org/dist/v0.10.21/node-v0.10.21.tar.gz; tar -xzvf node-v0.10.21.tar.gz
-cd /tmp/node-v0.10.21/ ; ./configure ; make ;  sudo make install
+cd /tmp/node-v0.10.21/ ; ./configure ; make ; make install
 cd /tmp
 
 
@@ -29,7 +31,7 @@ cd /tmp
 
 apt-get install -y g++ uuid-dev binutils libtool autoconf automake
 cd /tmp ; wget http://download.zeromq.org/zeromq-3.2.4.tar.gz ; tar -xzvf zeromq-3.2.4.tar.gz
-cd /tmp/zeromq-3.2.4/ ; ./configure ; make ; sudo make install
+cd /tmp/zeromq-3.2.4/ ; ./configure ; make ; make install
 ldconfig
 
 cd /home/vagrant
@@ -59,10 +61,26 @@ sudo npm install -g grunt-cli
 #Install CouchDB
 sudo apt-get install couchdb -y
 
+cat > /etc/hosts <<DELIM
+127.0.0.1	localhost
+127.0.1.1	precise64 dev.openi-ict.eu
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+DELIM
+
+sed -i -e 's/bind_address = 127.0.0.1/bind_address = 0.0.0.0/g' /etc/couchdb/default.ini
+
 cat > /home/vagrant/.ssh/config <<DELIM
 Host gitlab.openi-ict.eu
 StrictHostKeyChecking no
 DELIM
+
+sudo service couchdb restart
 
 ssh -oStrictHostKeyChecking=no git@gitlab.openi-ict.eu
 
@@ -79,13 +97,24 @@ git clone git@gitlab.openi-ict.eu:dbc.git
 git clone git@gitlab.openi-ict.eu:openi-cloudlet-utils.git
 git clone git@gitlab.openi-ict.eu:openi-docker.git
 git clone git@gitlab.openi-ict.eu:openi-logger.git
-git clone git@gitlab.openi-ict.eu:openi-docker.git
 
-sudo cp /vagrant/custom_hosts_file /etc/hosts
-sudo cp /vagrant/custom_couchdb_config_file /etc/couchdb/default.ini
+cat > /home/vagrant/repos/build_all.sh <<DELIM
+
+cd /home/vagrant/repos/cloudlet_platform; npm install
+cd /home/vagrant/repos/cloudlet_api; npm install
+cd /home/vagrant/repos/object_api; npm install
+cd /home/vagrant/repos/type_api; npm install
+cd /home/vagrant/repos/m2nodehandler; npm install
+cd /home/vagrant/repos/dao; npm install
+cd /home/vagrant/repos/mongrel2; npm install
+cd /home/vagrant/repos/dbc; npm install
+cd /home/vagrant/repos/openi-cloudlet-utils; npm install
+cd /home/vagrant/repos/openi-docker; npm install
+cd /home/vagrant/repos/openi-logger; npm install
+
+DELIM
 
 sudo sh /etc/init.d/networking restart
-sudo service couchdb restart
 
 tmp=`mktemp -q` && {
     apt-get install -q -y --no-upgrade linux-image-generic-lts-raring | \
