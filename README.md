@@ -72,8 +72,11 @@ All the Cloudlet Platforms modules are downloaded to a shared folder `/home/vagr
 
 ## Troubleshooting
 
+
 If you have difficulty running the node applications try deleting their node_modules folder and executing npm install again. One of the dependencies links to a file on the host operating system, deleting the folder from within vagrant and rebuilding it will link to the client operating system.
 
  *Note: If using Windows, any paths must use double slashes i.e. "C:\Users\user1\docs" -> "C:\\Users\\user1\\docs"
+
+
 ## Links
 http://earlyandoften.wordpress.com/2012/09/06/vagrant-cheatsheat/
