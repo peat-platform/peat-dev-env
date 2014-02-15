@@ -42,6 +42,8 @@ Modify the parameters at the top of the Vagrant file to suit your system.
 
 Once you are happy with your parameters you execute the following commands to download and provision the vm. Note: the first time that you run vagrant up it could take up to an hour to execute.
 
+    cd openi_dev_env
+
     vagrant up
 
     vagrant halt
@@ -51,7 +53,7 @@ Once you are happy with your parameters you execute the following commands to do
 
 ## Post Setup
 
-Once the 
+Once the VM has been built and provisioned execute the following commands to get the Cloudlet platform up and running.
 
     vagrant ssh
 
@@ -64,6 +66,15 @@ Once the
     npm install
 
     node lib/main.js
+
+All the Cloudlet Platforms modules are downloaded to a shared folder `/home/vagrant/repos` on the Virtual Machine and
+which ever directory you set the OPENI_REPO_PATH config variable to on the Host. All edits to module files on the Host
+are replicated on the VM. To test changes you need to ssh into the VM by firstly changing directory to the
+openi_dev_env module downloaded from git and then running the `vagrant ssh` command. Once you have SSHed in navigate to
+the module that you are interested in e.g. `cd /home/vagrant/repos/object_api`, install the node dependencies with the
+`npm install` command, and run the buildm script (includes jshint and unit tests) with the 'grunt jenkins'. To run the
+module in isolation from the others execute the 'node lib/local-runner.js' command.
+  
 
 ## Couchbase
 
