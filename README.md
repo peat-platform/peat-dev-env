@@ -57,6 +57,8 @@ Once the VM has been built and provisioned execute the following commands to get
 
     vagrant ssh
 
+    sh provision_openi.sh
+
     cd repos/mongrel2
 
     sh start_mongrel2.sh
