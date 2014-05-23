@@ -1,4 +1,4 @@
-# Cloudlet Platform Vagrant Development Environment Setup GuideEdit
+# Cloudlet Platform Vagrant Development Environment Setup Guide
 
 ## Introduction
 
@@ -29,7 +29,7 @@ Install Vagrant
 
 Clone the openi_dev_env project on the git repo.
 
-    git clone git@gitlab.openi-ict.eu:openi_dev_env.git
+    git clone git@github.com:OPENi-ict/openi-dev-env.git
 
 
 Modify the parameters at the top of the Vagrant file to suit your system.
