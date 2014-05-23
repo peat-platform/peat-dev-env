@@ -88,27 +88,27 @@ cd /home/vagrant/repos
 
 git clone git@github.com:OPENi-ict/cloudlet-platform.git
 git clone git@github.com:OPENi-ict/cloudlet-api.git
-git clone git@github.com:OPENi-ict/object_api.git
-git clone git@github.com:OPENi-ict/type_api.git
+git clone git@github.com:OPENi-ict/object-api.git
+git clone git@github.com:OPENi-ict/type-api.git
 git clone git@github.com:OPENi-ict/m2nodehandler.git
 git clone git@github.com:OPENi-ict/dao.git
 git clone git@github.com:OPENi-ict/mongrel2.git
 git clone git@github.com:OPENi-ict/dbc.git
-git clone git@github.com:OPENi-ict/openi-cloudlet-utils.git
+git clone git@github.com:OPENi-ict/cloudlet-utils.git
 # # git clone git@github.com:OPENi-ict/openi-docker.git
 git clone git@github.com:OPENi-ict/openi-logger.git
 
 cat > /home/vagrant/repos/build_all.sh <<DELIM
 
-cd /home/vagrant/repos/cloudlet_platform; npm install
-cd /home/vagrant/repos/cloudlet_api; npm install
-cd /home/vagrant/repos/object_api; npm install
-cd /home/vagrant/repos/type_api; npm install
+cd /home/vagrant/repos/cloudlet-platform; npm install
+cd /home/vagrant/repos/cloudlet-api; npm install
+cd /home/vagrant/repos/object-api; npm install
+cd /home/vagrant/repos/type-api; npm install
 cd /home/vagrant/repos/m2nodehandler; npm install
 cd /home/vagrant/repos/dao; npm install
 cd /home/vagrant/repos/mongrel2; npm install
 cd /home/vagrant/repos/dbc; npm install
-cd /home/vagrant/repos/openi-cloudlet-utils; npm install
+cd /home/vagrant/repos/cloudlet-utils; npm install
 # cd /home/vagrant/repos/openi-docker; npm install
 cd /home/vagrant/repos/openi-logger; npm install
 
