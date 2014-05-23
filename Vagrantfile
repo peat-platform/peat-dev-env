@@ -4,27 +4,27 @@
 
 
 VAGRANTFILE_API_VERSION = "2"
-OPENI_REPO_PATH         = "/Users/dmccarthy/work/openi/tmp"
+OPENI_REPO_PATH         = "C:\\Users\\dconway\\TSSG\\tmp"
+SSH_KEYS                = "C:\\Users\\dconway\\.ssh"
 CPU_ALLOC               = 4
 RAM_ALLOC               = 4096
-CLIENT_IP_ADDRESS       = "192.168.33.10"
+CLIENT_IP_ADDRESS       = "192.168.56.10"
 
 
 $script = <<SCRIPT
 
 apt-get update -q
 
-apt-get install -y git
+apt-get install -y git tmux vim
 apt-get install -qy wget curl
 apt-get install -qy g++ curl libssl-dev apache2-utils
 apt-get install -y make
-apt-get install -y nmap
-apt-get install -y vim
 
 #INSTALL node.js
-cd /tmp ; wget http://www.nodejs.org/dist/v0.10.21/node-v0.10.21.tar.gz; tar -xzvf node-v0.10.21.tar.gz
-cd /tmp/node-v0.10.21/ ; ./configure ; make ; make install
-cd /tmp
+add-apt-repository ppa:chris-lea/node.js
+apt-get update -q
+apt-get install -qy python-software-properties python g++ make nodejs
+
 
 
 #INSTALL ZMQ
@@ -34,8 +34,6 @@ cd /tmp ; wget http://download.zeromq.org/zeromq-3.2.4.tar.gz ; tar -xzvf zeromq
 cd /tmp/zeromq-3.2.4/ ; ./configure ; make ; make install
 ldconfig
 
-cd /home/vagrant
-
 # INSTALL SQLite3
 
 apt-get install -y sqlite3
@@ -43,23 +41,15 @@ apt-get install -y libsqlite3-dev
 
 # INSTALL Mongrel2
 
-cd /tmp ; wget --no-check-certificate https://github.com/zedshaw/mongrel2/tarball/v1.8.0 ; tar -xzvf v1.8.0
-cd /tmp/zedshaw-mongrel2-bc721eb/ ; ./configure ; make ; make install
+##cd /tmp ; wget --no-check-certificate https://github.com/zedshaw/mongrel2/tarball/v1.8.0 ; tar -xzvf v1.8.0
+##cd /tmp/zedshaw-mongrel2-bc721eb/ ; ./configure ; make ; make install
 
 # INSTALL Couchbase
-cd /tmp ; wget http://packages.couchbase.com/releases/2.2.0/couchbase-server-enterprise_2.2.0_x86_64.deb
-dpkg -i /tmp/couchbase-server-enterprise_2.2.0_x86_64.deb
+##cd /tmp ; wget http://packages.couchbase.com/releases/2.2.0/couchbase-server-enterprise_2.2.0_x86_64.deb
+##dpkg -i /tmp/couchbase-server-enterprise_2.2.0_x86_64.deb
 
-#usermod -a -G vagrant vagrant
-#
-sudo mkdir -p /opt/openi/cloudlet_platform/logs/
-sudo chown -R vagrant:vagrant /opt/openi/cloudlet_platform/
-
-#Install build tools
-sudo npm install -g grunt-cli
-
-#Install CouchDB
-sudo apt-get install couchdb -y
+# INSTALL CouchDB
+##apt-get install -y couchdb
 
 cat > /etc/hosts <<DELIM
 127.0.0.1	localhost
@@ -89,28 +79,28 @@ cd /home/vagrant/repos
 git clone https://github.com/OPENi-ict/cloudlet-platform.git
 git clone https://github.com/OPENi-ict/cloudlet-api.git
 git clone https://github.com/OPENi-ict/object-api.git
-git clone https://github.com/OPENi-ict/type_api.git
+git clone https://github.com/OPENi-ict/type-api.git
 git clone https://github.com/OPENi-ict/m2nodehandler.git
 git clone https://github.com/OPENi-ict/dao.git
 git clone https://github.com/OPENi-ict/mongrel2.git
 git clone https://github.com/OPENi-ict/dbc.git
-git clone https://github.com/OPENi-ict/openi-cloudlet-utils.git
+git clone https://github.com/OPENi-ict/cloudlet-utils.git
 git clone https://github.com/OPENi-ict/openi-docker.git
 git clone https://github.com/OPENi-ict/openi-logger.git
 
 cat > /home/vagrant/repos/build_all.sh <<DELIM
 
-cd /home/vagrant/repos/cloudlet-platform; npm install
-cd /home/vagrant/repos/cloudlet-api; npm install
-cd /home/vagrant/repos/object-api; npm install
-cd /home/vagrant/repos/type-api; npm install
-cd /home/vagrant/repos/m2nodehandler; npm install
-cd /home/vagrant/repos/dao; npm install
-cd /home/vagrant/repos/mongrel2; npm install
-cd /home/vagrant/repos/dbc; npm install
-cd /home/vagrant/repos/openi-cloudlet-utils; npm install
-cd /home/vagrant/repos/openi-docker; npm install
-cd /home/vagrant/repos/openi-logger; npm install
+cd /home/vagrant/repos/cloudlet-platform; npm install --no-bin-links
+cd /home/vagrant/repos/cloudlet-api; npm install --no-bin-links
+cd /home/vagrant/repos/object-api; npm install --no-bin-links
+cd /home/vagrant/repos/type-api; npm install --no-bin-links
+cd /home/vagrant/repos/m2nodehandler; npm install --no-bin-links
+cd /home/vagrant/repos/dao; npm install --no-bin-links
+cd /home/vagrant/repos/mongrel2; npm install --no-bin-links
+cd /home/vagrant/repos/dbc; npm install --no-bin-links
+cd /home/vagrant/repos/cloudlet-utils; npm install --no-bin-links
+cd /home/vagrant/repos/openi-docker; npm install --no-bin-links
+cd /home/vagrant/repos/openi-logger; npm install --no-bin-links
 
 DELIM
 
