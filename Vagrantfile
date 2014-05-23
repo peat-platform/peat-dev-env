@@ -203,7 +203,7 @@ cd /home/vagrant/repos/api-framework/OPENiapp/
 virtualenv venv
 source venv/bin/activate
 
-cd /home/vagrant/repos/api-framework/
+cd /home/vagrant/repos/api-framework/OPENiapp/
 
 pip install -r requirements.txt
 
