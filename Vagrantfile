@@ -41,15 +41,15 @@ apt-get install -y libsqlite3-dev
 
 # INSTALL Mongrel2
 
-##cd /tmp ; wget --no-check-certificate https://github.com/zedshaw/mongrel2/tarball/v1.8.0 ; tar -xzvf v1.8.0
-##cd /tmp/zedshaw-mongrel2-bc721eb/ ; ./configure ; make ; make install
+cd /tmp ; wget --no-check-certificate https://github.com/zedshaw/mongrel2/tarball/v1.8.0 ; tar -xzvf v1.8.0
+cd /tmp/zedshaw-mongrel2-bc721eb/ ; ./configure ; make ; make install
 
 # INSTALL Couchbase
-##cd /tmp ; wget http://packages.couchbase.com/releases/2.2.0/couchbase-server-enterprise_2.2.0_x86_64.deb
-##dpkg -i /tmp/couchbase-server-enterprise_2.2.0_x86_64.deb
+cd /tmp ; wget http://packages.couchbase.com/releases/2.2.0/couchbase-server-enterprise_2.2.0_x86_64.deb
+dpkg -i /tmp/couchbase-server-enterprise_2.2.0_x86_64.deb
 
 # INSTALL CouchDB
-##apt-get install -y couchdb
+apt-get install -y couchdb
 
 cat > /etc/hosts <<DELIM
 127.0.0.1	localhost
