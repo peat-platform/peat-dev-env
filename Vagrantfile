@@ -217,8 +217,10 @@ DELIM
 cat > /home/vagrant/start_openi.sh <<DELIM
 
 python /home/vagrant/repos/api-framework/manage.py runserver 0.0.0.0:8889 &
-sh repos/mongrel2/start_mongrel2.sh
-node repos/cloudlet-platform/lib/main.js
+cd /home/vagrant/repos/mongrel2/
+sh start_mongrel2.sh
+cd /home/vagrant/repos/cloudlet-platform/
+node lib/main.js &
 
 DELIM
 
