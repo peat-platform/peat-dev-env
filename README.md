@@ -59,15 +59,7 @@ Once the VM has been built and provisioned execute the following commands to get
 
     sh provision_openi.sh
 
-    cd repos/mongrel2
-
-    sh start_mongrel2.sh
-
-    cd ../cloudlet_platform/
-
-    npm install
-
-    node lib/main.js
+    sh start_openi.sh
 
 Navigate to `http://dev.openi-ict.eu/api-docs/` on your host system and try out a few of the endpoints.
 

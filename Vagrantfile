@@ -4,7 +4,7 @@
 
 
 VAGRANTFILE_API_VERSION = "2"
-OPENI_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4"
+OPENI_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4_new"
 CPU_ALLOC               = 4
 RAM_ALLOC               = 4096
 CLIENT_IP_ADDRESS       = "192.168.33.10"
@@ -87,7 +87,7 @@ sudo service couchdb restart
 
 add-apt-repository -y ppa:fkrull/deadsnakes
 apt-get update  -y
-apt-get install python2.7  -y
+sudo apt-get install python2.7  -y
 
 #Install requirements for API platform
 
@@ -201,11 +201,12 @@ cd /home/vagrant/repos/cloudlet-store;    npm install --no-bin-links
 cd /home/vagrant/repos/api-framework/OPENiapp/
 
 virtualenv venv
+
 source venv/bin/activate
 
 cd /home/vagrant/repos/api-framework/OPENiapp/
 
-pip install -r requirements.txt
+sudo pip install -r requirements.txt
 
 python manage.py syncdb
 
@@ -216,7 +217,7 @@ DELIM
 
 cat > /home/vagrant/start_openi.sh <<DELIM
 
-python /home/vagrant/repos/api-framework/manage.py runserver 0.0.0.0:8889 &
+python /home/vagrant/repos/api-framework/OPENiapp/manage.py runserver 0.0.0.0:8889 &
 cd /home/vagrant/repos/mongrel2/
 sh start_mongrel2.sh
 cd /home/vagrant/repos/cloudlet-platform/
