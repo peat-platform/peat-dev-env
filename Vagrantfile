@@ -4,7 +4,7 @@
 
 
 VAGRANTFILE_API_VERSION = "2"
-OPENI_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4_new"
+OPENI_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4"
 CPU_ALLOC               = 4
 RAM_ALLOC               = 4096
 CLIENT_IP_ADDRESS       = "192.168.33.10"
@@ -208,7 +208,7 @@ cd /home/vagrant/repos/api-framework/OPENiapp/
 
 sudo pip install -r requirements.txt
 
-python manage.py syncdb
+sudo python manage.py syncdb
 
 cd
 
@@ -266,7 +266,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box     = "presice64"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
- end
+end
+
 
 Vagrant::VERSION >= "1.1.0" and Vagrant.configure("2") do |config|
 
