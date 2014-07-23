@@ -4,7 +4,7 @@
 
 
 VAGRANTFILE_API_VERSION = "2"
-OPENI_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4"
+OPENI_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4_test_install"
 CPU_ALLOC               = 4
 RAM_ALLOC               = 4096
 CLIENT_IP_ADDRESS       = "192.168.33.10"
@@ -24,16 +24,17 @@ apt-get install -y vim
 
 
 #Install requirements for Android sdk generation
-sudo apt-get install -Y openjdk-7-jdk
-sudo apt-get install -Y maven=3.0.4-2
+sudo apt-get install -y openjdk-7-jdk
+sudo apt-get install -y maven=3.0.4-2
+sudo apt-get install -y libjansi-java
 
 sudo apt-get remove scala-library scala
 wget www.scala-lang.org/files/archive/scala-2.10.3.deb
 sudo dpkg -i scala-2.10.3.deb
 sudo apt-get update
-sudo apt-get install scala
-sudo apt-get -f install
-sudo apt-get install scala
+sudo apt-get install -y scala
+#sudo apt-get -f install
+#sudo apt-get install scala
 
 wget http://scalasbt.artifactoryonline.com/scalasbt/sbt-native-packages/org/scala-sbt/sbt//0.12.3/sbt.deb
 sudo dpkg -i sbt.deb
@@ -104,9 +105,10 @@ DELIM
 
 sudo service couchdb restart
 
+sudo apt-get install -y software-properties-common python-software-properties
 
-add-apt-repository -y ppa:fkrull/deadsnakes
-apt-get update  -y
+sudo add-apt-repository -y ppa:fkrull/deadsnakes
+sudo apt-get update  -y
 sudo apt-get install python2.7  -y
 
 #Install requirements for API platform
@@ -181,6 +183,7 @@ DELIM
 /etc/init.d/apache2 restart
 
 cat > /home/vagrant/provision_openi.sh <<DELIM
+#!/bin/bash
 
 cd /home/vagrant/repos
 
@@ -224,13 +227,13 @@ cd /home/vagrant/repos/api-framework/OPENiapp/
 
 virtualenv venv
 
-source venv/bin/activate
+source /home/vagrant/repos/api-framework/OPENiapp/venv/bin/activate
 
 cd /home/vagrant/repos/api-framework/OPENiapp/
 
 sudo pip install -r requirements.txt
 
-sudo python manage.py syncdb
+python manage.py syncdb
 
 cd
 
@@ -239,7 +242,8 @@ DELIM
 
 cat > /home/vagrant/start_openi.sh <<DELIM
 
-python /home/vagrant/repos/api-framework/OPENiapp/manage.py runserver 0.0.0.0:8889 &
+cd /home/vagrant/repos/api-framework/OPENiapp/
+python manage.py runserver 0.0.0.0:8889 &
 cd /home/vagrant/repos/mongrel2/
 sh start_mongrel2.sh
 cd /home/vagrant/repos/cloudlet-platform/

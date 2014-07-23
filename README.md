@@ -57,7 +57,7 @@ Once the VM has been built and provisioned execute the following commands to get
 
     vagrant ssh
 
-    sh provision_openi.sh
+    bash provision_openi.sh
 
     sh start_openi.sh
 
