@@ -274,7 +274,7 @@ if [ ! -d /opt/VBoxGuestAdditions-4.3.6/ ]; then
     # Kernel Headers and dkms are required to build the vbox guest kernel
     # modules.
     apt-get install -q -y linux-headers-generic-lts-raring dkms
-    apt-get install build-essential linux-headers-`uname -r` dkms
+    apt-get install -y build-essential linux-headers-`uname -r` dkms
 
     echo 'Downloading VBox Guest Additions...'
     wget -cq http://dlc.sun.com.edgesuite.net/virtualbox/4.3.6/VBoxGuestAdditions_4.3.6.iso
