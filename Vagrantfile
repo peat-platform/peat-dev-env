@@ -21,6 +21,8 @@ apt-get install -qy g++ curl libssl-dev apache2-utils
 apt-get install -y make
 apt-get install -y nmap
 apt-get install -y vim
+apt-get install -y libssl0.9.8
+
 
 
 #Install requirements for Android sdk generation
@@ -74,8 +76,43 @@ make clean all
 sudo make install
 
 # INSTALL Couchbase
-cd /tmp ; wget http://packages.couchbase.com/releases/2.2.0/couchbase-server-enterprise_2.2.0_x86_64.deb
-dpkg -i /tmp/couchbase-server-enterprise_2.2.0_x86_64.deb
+cd /tmp ;
+wget http://packages.couchbase.com/releases/2.5.1/couchbase-server-enterprise_2.5.1_x86_64.deb
+sudo dpkg -i /tmp/couchbase-server-enterprise_2.5.1_x86_64.deb
+rm /tmp/couchbase-server-enterprise_2.5.1_x86_64.deb
+/bin/sleep 5
+/opt/couchbase/bin/couchbase-cli cluster-init -c 127.0.0.1:8091 --cluster-init-username=admin --cluster-init-password=password --cluster-init-ramsize=2372
+/opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=openi --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
+
+
+# Install Elasticsearch
+wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.0.1.deb
+sudo dpkg -i elasticsearch-1.0.1.deb
+
+# Install and Configure the Couchbase/Elasticsearch Plugin
+sudo /usr/share/elasticsearch/bin/plugin -install transport-couchbase -url http://packages.couchbase.com.s3.amazonaws.com/releases/elastic-search-adapter/1.3.0/elasticsearch-transport-couchbase-1.3.0.zip
+sudo /usr/share/elasticsearch/bin/plugin -install mobz/elasticsearch-head
+sudo mkdir /usr/share/elasticsearch/templates
+sudo wget https://raw2.github.com/couchbaselabs/elasticsearch-transport-couchbase/master/src/main/resources/couchbase_template.json -P /usr/share/elasticsearch/templates
+
+sudo bash -c "echo couchbase.password: password >> /etc/elasticsearch/elasticsearch.yml"
+sudo bash -c "echo couchbase.username: admin >> /etc/elasticsearch/elasticsearch.yml"
+sudo bash -c "echo couchbase.maxConcurrentRequests: 1024 >> /etc/elasticsearch/elasticsearch.yml"
+sudo service elasticsearch start
+
+
+# Setup the Elasticsearch indexing parameters
+until $(curl --output /dev/null --silent --head --fail http://localhost:9200); do
+    printf '.'
+    sleep 5
+done
+
+curl --retry 10 -XPUT http://localhost:9200/openi/ -d '{"index":{"analysis":{"analyzer":{"default":{"type":"whitespace","tokenizer":"whitespace"}}}}}'
+
+# Setup the replication from Couchbase to Elasticsearch
+curl -v -u admin:password http://localhost:8091/pools/default/remoteClusters -d name=elasticsearch -d hostname=localhost:9091 -d username=admin -d password=password
+curl -v -X POST -u admin:password http://localhost:8091/controller/createReplication -d fromBucket=openi -d toCluster=elasticsearch -d toBucket=openi -d replicationType=continuous -d type=capi
+
 
 # usermod -a -G vagrant vagrant
 #
