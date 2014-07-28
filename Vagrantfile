@@ -66,8 +66,12 @@ apt-get install -y libsqlite3-dev
 
 # INSTALL Mongrel2
 
-cd /tmp ; wget --no-check-certificate https://github.com/zedshaw/mongrel2/tarball/v1.8.0 ; tar -xzvf v1.8.0
-cd /tmp/zedshaw-mongrel2-bc721eb/ ; ./configure ; make ; make install
+cd /tmp ;
+wget --no-check-certificate https://github.com/zedshaw/mongrel2/releases/download/v1.9.1/mongrel2-v1.9.1.tar.gz ;
+tar -xzvf mongrel2-v1.9.1.tar.gz
+cd /tmp/mongrel2-v1.9.1/ ;
+make clean all
+sudo make install
 
 # INSTALL Couchbase
 cd /tmp ; wget http://packages.couchbase.com/releases/2.2.0/couchbase-server-enterprise_2.2.0_x86_64.deb
