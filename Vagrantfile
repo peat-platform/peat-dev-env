@@ -66,8 +66,12 @@ apt-get install -y libsqlite3-dev
 
 # INSTALL Mongrel2
 
-cd /tmp ; wget --no-check-certificate https://github.com/zedshaw/mongrel2/tarball/v1.8.0 ; tar -xzvf v1.8.0
-cd /tmp/zedshaw-mongrel2-bc721eb/ ; ./configure ; make ; make install
+cd /tmp ;
+wget --no-check-certificate https://github.com/zedshaw/mongrel2/releases/download/v1.9.1/mongrel2-v1.9.1.tar.gz ;
+tar -xzvf mongrel2-v1.9.1.tar.gz
+cd /tmp/mongrel2-v1.9.1/ ;
+make clean all
+sudo make install
 
 # INSTALL Couchbase
 cd /tmp ; wget http://packages.couchbase.com/releases/2.2.0/couchbase-server-enterprise_2.2.0_x86_64.deb
@@ -271,6 +275,41 @@ cp openi-graph-api-android-sdk-1.0.0.jar /home/vagrant/repos/mongrel2/static/and
 cp openi-android-sdk-1.0.0.jar           /home/vagrant/repos/mongrel2/static/android-sdk/
 
 DELIM
+
+
+
+cat > /home/vagrant/tmux_openi.sh <<DELIM
+
+SESSION="OPENi"
+
+tmux has-session -t \$SESSION
+if [ \$? -eq 0 ]; then
+    echo "Session \$SESSION already exists. Attaching."
+    sleep 1
+    tmux attach -t \$SESSION
+    exit 0;
+fi
+
+tmux new-session -d -s \$SESSION
+
+tmux rename-window -t \$SESSION:0        'Default'
+tmux new-window    -t \$SESSION -a -n    'Mongrel2'
+tmux new-window    -t \$SESSION -a -n    'Cloudlet Platform'
+tmux new-window    -t \$SESSION -a -n    'OPENi App'
+
+
+
+tmux send-keys -t \$SESSION:1 ' cd /home/vagrant/repos/mongrel2/                 && sh start_mongrel2.sh'                        Enter
+tmux send-keys -t \$SESSION:2 ' cd /home/vagrant/repos/cloudlet-platform/        && node lib/main.js'                            Enter
+tmux send-keys -t \$SESSION:3 ' cd /home/vagrant/repos/api-framework/OPENiapp/   && python manage.py runserver 0.0.0.0:8889'     Enter
+
+
+
+tmux attach -t \$SESSION
+
+
+DELIM
+
 
 
 sudo sh /etc/init.d/networking restart
