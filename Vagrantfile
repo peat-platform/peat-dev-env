@@ -283,14 +283,14 @@ cat > /home/vagrant/tmux_openi.sh <<DELIM
 SESSION="OPENi"
 
 tmux has-session -t \$SESSION
-if [ $? -eq 0 ]; then
+if [ \$? -eq 0 ]; then
     echo "Session \$SESSION already exists. Attaching."
     sleep 1
     tmux attach -t \$SESSION
     exit 0;
 fi
 
-tmux new-session -d -s $SESSION
+tmux new-session -d -s \$SESSION
 
 tmux rename-window -t \$SESSION:0        'Default'
 tmux new-window    -t \$SESSION -a -n    'Mongrel2'

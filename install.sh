@@ -257,7 +257,7 @@ cat > /home/ubuntu/tmux_openi.sh <<DELIM
 SESSION="OPENi"
 
 tmux has-session -t \$SESSION
-if [ $? -eq 0 ]; then
+if [ \$? -eq 0 ]; then
     echo "Session \$SESSION already exists. Attaching."
     sleep 1
     tmux attach -t \$SESSION
