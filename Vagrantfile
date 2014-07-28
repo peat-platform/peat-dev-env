@@ -248,6 +248,30 @@ cd
 
 DELIM
 
+cat > /home/vagrant/pull_all.sh <<DELIM
+#!/bin/bash
+
+cd /home/vagrant/repos
+
+echo cloudlet-platform  && cd cloudlet-platform     && git pull && cd ../
+echo cloudlet-api       && cd cloudlet-api          && git pull && cd ../
+echo object-api         && cd object-api            && git pull && cd ../
+echo type-api           && cd type-api              && git pull && cd ../
+echo m2nodehandler      && cd m2nodehandler         && git pull && cd ../
+echo dao                && cd dao                   && git pull && cd ../
+echo mongrel2           && cd mongrel2              && git pull && cd ../
+echo dbc                && cd dbc                   && git pull && cd ../
+echo cloudlet-utils     && cd cloudlet-utils        && git pull && cd ../
+echo openi-logger       && cd openi-logger          && git pull && cd ../
+echo cloudlet-store     && cd cloudlet-store        && git pull && cd ../
+echo api-builder        && cd api-builder           && git pull && cd ../
+echo api-framework      && cd api-framework         && git pull && cd ../
+echo openi_android_sdk  && cd openi_android_sdk     && git pull && cd ../
+echo api-builder        && cd api-builder           && git pull && cd ../
+
+
+DELIM
+
 
 cat > /home/vagrant/start_openi.sh <<DELIM
 
@@ -335,7 +359,7 @@ if [ ! -d /opt/VBoxGuestAdditions-4.3.6/ ]; then
     # Kernel Headers and dkms are required to build the vbox guest kernel
     # modules.
     apt-get install -q -y linux-headers-generic-lts-raring dkms
-    apt-get install build-essential linux-headers-`uname -r` dkms
+    apt-get install -y build-essential linux-headers-`uname -r` dkms
 
     echo 'Downloading VBox Guest Additions...'
     wget -cq http://dlc.sun.com.edgesuite.net/virtualbox/4.3.6/VBoxGuestAdditions_4.3.6.iso
