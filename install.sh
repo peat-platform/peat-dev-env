@@ -256,30 +256,30 @@ cat > /home/ubuntu/tmux_openi.sh <<DELIM
 
 SESSION="OPENi"
 
-tmux has-session -t \$SESSION
-if [ \$? -eq 0 ]; then
-    echo "Session \$SESSION already exists. Attaching."
+tmux has-session -t \\$SESSION
+if [ \\$? -eq 0 ]; then
+    echo "Session \\$SESSION already exists. Attaching."
     sleep 1
-    tmux attach -t \$SESSION
+    tmux attach -t \\$SESSION
     exit 0;
 fi
 
-tmux new-session -d -s \$SESSION
+tmux new-session -d -s \\$SESSION
 
-tmux rename-window -t \$SESSION:0        'Default'
-tmux new-window    -t \$SESSION -a -n    'Mongrel2'
-tmux new-window    -t \$SESSION -a -n    'Cloudlet Platform'
-tmux new-window    -t \$SESSION -a -n    'OPENi App'
-
-
-
-tmux send-keys -t \$SESSION:1 ' cd /home/ubuntu/repos/mongrel2/                 && sh start_mongrel2.sh'                        Enter
-tmux send-keys -t \$SESSION:2 ' cd /home/ubuntu/repos/cloudlet-platform/        && node lib/main.js'                            Enter
-tmux send-keys -t \$SESSION:3 ' cd /home/ubuntu/repos/api-framework/OPENiapp/   && python manage.py runserver 0.0.0.0:8889'     Enter
+tmux rename-window -t \\$SESSION:0        'Default'
+tmux new-window    -t \\$SESSION -a -n    'Mongrel2'
+tmux new-window    -t \\$SESSION -a -n    'Cloudlet Platform'
+tmux new-window    -t \\$SESSION -a -n    'OPENi App'
 
 
 
-tmux attach -t \$SESSION
+tmux send-keys -t \\$SESSION:1 ' cd /home/ubuntu/repos/mongrel2/                 && sh start_mongrel2.sh'                        Enter
+tmux send-keys -t \\$SESSION:2 ' cd /home/ubuntu/repos/cloudlet-platform/        && node lib/main.js'                            Enter
+tmux send-keys -t \\$SESSION:3 ' cd /home/ubuntu/repos/api-framework/OPENiapp/   && python manage.py runserver 0.0.0.0:8889'     Enter
+
+
+
+tmux attach -t \\$SESSION
 
 
 DELIM
@@ -289,9 +289,9 @@ cat > /home/ubuntu/generate_api_clients.sh <<DELIM
 #!/bin/bash
 cd /home/ubuntu/repos/openi_android_sdk
 
-bash build-cloudlet-sdk.sh \$1
-bash build-graph-api-sdk.sh \$1
-bash build-android-sdk.sh \$1
+bash build-cloudlet-sdk.sh \\$1
+bash build-graph-api-sdk.sh \\$1
+bash build-android-sdk.sh \\$1
 
 cp openi-cloudlet-android-sdk-1.0.0.jar  /home/ubuntu/repos/mongrel2/static/android-sdk/
 cp openi-graph-api-android-sdk-1.0.0.jar /home/ubuntu/repos/mongrel2/static/android-sdk/
