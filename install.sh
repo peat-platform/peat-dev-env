@@ -1,18 +1,4 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
-
-
-VAGRANTFILE_API_VERSION = "2"
-OPENI_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4"
-CPU_ALLOC               = 4
-RAM_ALLOC               = 4096
-CLIENT_IP_ADDRESS       = "192.168.33.10"
-
-
-
-$script = <<SCRIPT
-
+#!/bin/sh
 apt-get update -q
 
 apt-get install -y git tmux vim
@@ -57,7 +43,7 @@ cd /tmp ; wget http://download.zeromq.org/zeromq-3.2.4.tar.gz ; tar -xzvf zeromq
 cd /tmp/zeromq-3.2.4/ ; ./configure ; make ; make install
 ldconfig
 
-cd /home/vagrant
+cd /home/ubuntu
 
 # INSTALL SQLite3
 
@@ -66,17 +52,21 @@ apt-get install -y libsqlite3-dev
 
 # INSTALL Mongrel2
 
-cd /tmp ; wget --no-check-certificate https://github.com/zedshaw/mongrel2/tarball/v1.8.0 ; tar -xzvf v1.8.0
-cd /tmp/zedshaw-mongrel2-bc721eb/ ; ./configure ; make ; make install
+cd /tmp ;
+wget --no-check-certificate https://github.com/zedshaw/mongrel2/releases/download/v1.9.1/mongrel2-v1.9.1.tar.gz ;
+tar -xzvf mongrel2-v1.9.1.tar.gz
+cd /tmp/mongrel2-v1.9.1/ ;
+make clean all
+sudo make install
 
 # INSTALL Couchbase
 cd /tmp ; wget http://packages.couchbase.com/releases/2.2.0/couchbase-server-enterprise_2.2.0_x86_64.deb
 dpkg -i /tmp/couchbase-server-enterprise_2.2.0_x86_64.deb
 
-# usermod -a -G vagrant vagrant
+# usermod -a -G ubuntu ubuntu
 #
 sudo mkdir -p /opt/openi/cloudlet_platform/logs/
-sudo chown -R vagrant:vagrant /opt/openi/cloudlet_platform/
+sudo chown -R ubuntu:ubuntu /opt/openi/cloudlet_platform/
 
 #Install build tools
 sudo npm install -g grunt-cli
@@ -98,7 +88,7 @@ DELIM
 
 sed -i -e 's/bind_address = 127.0.0.1/bind_address = 0.0.0.0/g' /etc/couchdb/default.ini
 
-cat > /home/vagrant/.ssh/config <<DELIM
+cat > /home/ubuntu/.ssh/config <<DELIM
 Host github.com
 StrictHostKeyChecking no
 DELIM
@@ -138,12 +128,12 @@ cat > /etc/apache2/sites-enabled/builder_apache_conf <<DELIM
 <VirtualHost *:8888>
 	ServerAdmin webmaster@localhost
 
-	DocumentRoot /home/vagrant/repos/api-builder
+	DocumentRoot /home/ubuntu/repos/api-builder
 	<Directory />
 		Options FollowSymLinks
 		AllowOverride None
 	</Directory>
-	<Directory /home/vagrant/repos/api-builder>
+	<Directory /home/ubuntu/repos/api-builder>
 		Options Indexes FollowSymLinks MultiViews
 		AllowOverride None
 		Order allow,deny
@@ -182,10 +172,15 @@ DELIM
 
 /etc/init.d/apache2 restart
 
-cat > /home/vagrant/provision_openi.sh <<DELIM
+sudo chown -R ubuntu:ubuntu /home/ubuntu/tmp
+
+
+cat > /home/ubuntu/provision_openi.sh <<DELIM
 #!/bin/bash
 
-cd /home/vagrant/repos
+mkdir /home/ubuntu/repos
+
+cd /home/ubuntu/repos
 
 
 git clone https://github.com/OPENi-ict/cloudlet-platform.git
@@ -210,31 +205,31 @@ git clone https://github.com/OPENi-ict/api-framework.git
 git clone https://github.com/OPENi-ict/openi_android_sdk
 
 
-cd /home/vagrant/repos/cloudlet-platform; npm install --no-bin-links
-cd /home/vagrant/repos/cloudlet-api;      npm install --no-bin-links
-cd /home/vagrant/repos/swagger-def;      npm install --no-bin-links
-cd /home/vagrant/repos/object-api;        npm install --no-bin-links
-cd /home/vagrant/repos/type-api;          npm install --no-bin-links
-cd /home/vagrant/repos/m2nodehandler;     npm install --no-bin-links
-cd /home/vagrant/repos/dao;               npm install --no-bin-links
-cd /home/vagrant/repos/mongrel2;          npm install --no-bin-links
-cd /home/vagrant/repos/dbc;               npm install --no-bin-links
-cd /home/vagrant/repos/cloudlet-utils;    npm install --no-bin-links
-cd /home/vagrant/repos/openi-logger;      npm install --no-bin-links
-cd /home/vagrant/repos/cloudlet-store;    npm install --no-bin-links
+cd /home/ubuntu/repos/cloudlet-platform; npm install --no-bin-links
+cd /home/ubuntu/repos/cloudlet-api;      npm install --no-bin-links
+cd /home/ubuntu/repos/swagger-def;       npm install --no-bin-links
+cd /home/ubuntu/repos/object-api;        npm install --no-bin-links
+cd /home/ubuntu/repos/type-api;          npm install --no-bin-links
+cd /home/ubuntu/repos/m2nodehandler;     npm install --no-bin-links
+cd /home/ubuntu/repos/dao;               npm install --no-bin-links
+cd /home/ubuntu/repos/mongrel2;          npm install --no-bin-links
+cd /home/ubuntu/repos/dbc;               npm install --no-bin-links
+cd /home/ubuntu/repos/cloudlet-utils;    npm install --no-bin-links
+cd /home/ubuntu/repos/openi-logger;      npm install --no-bin-links
+cd /home/ubuntu/repos/cloudlet-store;    npm install --no-bin-links
 
 
-cd /home/vagrant/repos/openi_android_sdk; bash setup.sh
+cd /home/ubuntu/repos/openi_android_sdk;    bash setup.sh
 
 
 
-cd /home/vagrant/repos/api-framework/OPENiapp/
+cd /home/ubuntu/repos/api-framework/OPENiapp/
 
 virtualenv venv
 
-source /home/vagrant/repos/api-framework/OPENiapp/venv/bin/activate
+source /home/ubuntu/repos/api-framework/OPENiapp/venv/bin/activate
 
-cd /home/vagrant/repos/api-framework/OPENiapp/
+cd /home/ubuntu/repos/api-framework/OPENiapp/
 
 sudo pip install -r requirements.txt
 
@@ -245,92 +240,61 @@ cd
 DELIM
 
 
-cat > /home/vagrant/start_openi.sh <<DELIM
-
-cd /home/vagrant/repos/api-framework/OPENiapp/
+cat > /home/ubuntu/start_openi.sh <<DELIM
+#!/bin/bash
+cd /home/ubuntu/repos/api-framework/OPENiapp/
 python manage.py runserver 0.0.0.0:8889 &
-cd /home/vagrant/repos/mongrel2/
+cd /home/ubuntu/repos/mongrel2/
 sh start_mongrel2.sh
-cd /home/vagrant/repos/cloudlet-platform/
+cd /home/ubuntu/repos/cloudlet-platform/
 node lib/main.js &
 
 DELIM
 
 
+cat > /home/ubuntu/tmux_openi.sh <<DELIM
 
-cat > /home/vagrant/generate_api_clients.sh <<DELIM
+SESSION="OPENi"
+
+tmux has-session -t $SESSION
+if [ $? -eq 0 ]; then
+    echo "Session $SESSION already exists. Attaching."
+    sleep 1
+    tmux attach -t $SESSION
+    exit 0;
+fi
+
+tmux new-session -d -s $SESSION
+
+tmux rename-window -t $SESSION:0        'Default'
+tmux new-window    -t $SESSION -a -n    'Mongrel2'
+tmux new-window    -t $SESSION -a -n    'Cloudlet Platform'
+tmux new-window    -t $SESSION -a -n    'OPENi App'
+
+
+
+tmux send-keys -t $SESSION:1 ' cd /home/vagrant/repos/mongrel2/                 && sh start_mongrel2.sh'                        Enter
+tmux send-keys -t $SESSION:2 ' cd /home/vagrant/repos/cloudlet-platform/        && node lib/main.js'                            Enter
+tmux send-keys -t $SESSION:3 ' cd /home/vagrant/repos/api-framework/OPENiapp/   && python manage.py runserver 0.0.0.0:8889'     Enter
+
+
+
+tmux attach -t $SESSION
+
+
+DELIM
+
+
+cat > /home/ubuntu/generate_api_clients.sh <<DELIM
 #!/bin/bash
-cd /home/vagrant/repos/openi_android_sdk
+cd /home/ubuntu/repos/openi_android_sdk
 
 bash build-cloudlet-sdk.sh \$1
 bash build-graph-api-sdk.sh \$1
 bash build-android-sdk.sh \$1
 
-cp openi-cloudlet-android-sdk-1.0.0.jar  /home/vagrant/repos/mongrel2/static/android-sdk/
-cp openi-graph-api-android-sdk-1.0.0.jar /home/vagrant/repos/mongrel2/static/android-sdk/
-cp openi-android-sdk-1.0.0.jar           /home/vagrant/repos/mongrel2/static/android-sdk/
+cp openi-cloudlet-android-sdk-1.0.0.jar  /home/ubuntu/repos/mongrel2/static/android-sdk/
+cp openi-graph-api-android-sdk-1.0.0.jar /home/ubuntu/repos/mongrel2/static/android-sdk/
+cp openi-android-sdk-1.0.0.jar           /home/ubuntu/repos/mongrel2/static/android-sdk/
 
 DELIM
-
-
-sudo sh /etc/init.d/networking restart
-
-tmp=`mktemp -q` && {
-    apt-get install -q -y --no-upgrade linux-image-generic-lts-raring | \
-    tee "$tmp"
-
-    NUM_INST=`awk '$2 == "upgraded," && $4 == "newly" { print $3 }' "$tmp"`
-    rm "$tmp"
-}
-
-SCRIPT
-
-
-$all_script = <<VBOX_SCRIPT + $script
-
-if [ ! -d /opt/VBoxGuestAdditions-4.3.6/ ]; then
-    # Update remote package metadata.  'apt-get update' is idempotent.
-    apt-get update -q
-
-    # Kernel Headers and dkms are required to build the vbox guest kernel
-    # modules.
-    apt-get install -q -y linux-headers-generic-lts-raring dkms
-    apt-get install -y build-essential linux-headers-`uname -r` dkms
-
-    echo 'Downloading VBox Guest Additions...'
-    wget -cq http://dlc.sun.com.edgesuite.net/virtualbox/4.3.6/VBoxGuestAdditions_4.3.6.iso
-    echo "95648fcdb5d028e64145a2fe2f2f28c946d219da366389295a61fed296ca79f0  VBoxGuestAdditions_4.3.6.iso" | sha256sum --check || exit 1
-
-    mount -o loop,ro /home/vagrant/VBoxGuestAdditions_4.3.6.iso /mnt
-    /mnt/VBoxLinuxAdditions.run --nox11
-    umount /mnt
-    fi
-VBOX_SCRIPT
-
-
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-
-  config.vm.box     = "presice64"
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
-
-end
-
-
-Vagrant::VERSION >= "1.1.0" and Vagrant.configure("2") do |config|
-
-    config.vm.synced_folder OPENI_REPO_PATH, "/home/vagrant/repos", :nfs => false, :nfs_version => 3
-
-    config.vm.network :private_network, ip: CLIENT_IP_ADDRESS
-
-    config.ssh.forward_agent     = true
-
-    config.ssh.forward_x11       = true
-
-    config.vm.provider :virtualbox do |vb, override|
-        override.vm.provision :shell, :inline => $all_script
-
-        # increase default VM RAM
-        vb.customize ["modifyvm", :id, "--memory", RAM_ALLOC]
-        vb.customize ["modifyvm", :id, "--cpus",   CPU_ALLOC   ]
-    end
-end
