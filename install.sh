@@ -217,44 +217,20 @@ mkdir /home/ubuntu/repos
 
 cd /home/ubuntu/repos
 
-
 git clone https://github.com/OPENi-ict/cloudlet-platform.git
-git clone https://github.com/OPENi-ict/cloudlet-api.git
-git clone https://github.com/OPENi-ict/swagger-def.git
-git clone https://github.com/OPENi-ict/object-api.git
-git clone https://github.com/OPENi-ict/type-api.git
-git clone https://github.com/OPENi-ict/m2nodehandler.git
-git clone https://github.com/OPENi-ict/dao.git
 git clone https://github.com/OPENi-ict/mongrel2.git
-git clone https://github.com/OPENi-ict/dbc.git
-git clone https://github.com/OPENi-ict/cloudlet-utils.git
 
 git clone https://github.com/OPENi-ict/openi-logger.git
 
 git clone https://github.com/OPENi-ict/cloudlet-store
 
 git clone https://github.com/OPENi-ict/api-builder.git
-
 git clone https://github.com/OPENi-ict/api-framework.git
-
 git clone https://github.com/OPENi-ict/openi_android_sdk
 
 
 cd /home/ubuntu/repos/cloudlet-platform; npm install --no-bin-links
-cd /home/ubuntu/repos/cloudlet-api;      npm install --no-bin-links
-cd /home/ubuntu/repos/swagger-def;       npm install --no-bin-links
-cd /home/ubuntu/repos/object-api;        npm install --no-bin-links
-cd /home/ubuntu/repos/type-api;          npm install --no-bin-links
-cd /home/ubuntu/repos/m2nodehandler;     npm install --no-bin-links
-cd /home/ubuntu/repos/dao;               npm install --no-bin-links
-cd /home/ubuntu/repos/mongrel2;          npm install --no-bin-links
-cd /home/ubuntu/repos/dbc;               npm install --no-bin-links
-cd /home/ubuntu/repos/cloudlet-utils;    npm install --no-bin-links
-cd /home/ubuntu/repos/openi-logger;      npm install --no-bin-links
-cd /home/ubuntu/repos/cloudlet-store;    npm install --no-bin-links
-
-
-cd /home/ubuntu/repos/openi_android_sdk;    bash setup.sh
+cd /home/ubuntu/repos/openi_android_sdk; bash setup.sh
 
 
 
@@ -333,3 +309,4 @@ cp openi-graph-api-android-sdk-1.0.0.jar /home/ubuntu/repos/mongrel2/static/andr
 cp openi-android-sdk-1.0.0.jar           /home/ubuntu/repos/mongrel2/static/android-sdk/
 
 DELIM
+
