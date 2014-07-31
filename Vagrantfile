@@ -291,6 +291,7 @@ echo object-api         && cd object-api        && git pull ; npm install --no-b
 echo type-api           && cd type-api          && git pull ; npm install --no-bin-links ; cd ../
 echo m2nodehandler      && cd m2nodehandler     && git pull ; npm install --no-bin-links ; cd ../
 echo dao                && cd dao               && git pull ; npm install --no-bin-links ; cd ../
+echo swagger-def        && cd swagger-def       && git pull ; npm install --no-bin-links ; cd ../
 echo mongrel2           && cd mongrel2          && git pull ; cd ../
 echo dbc                && cd dbc               && git pull ; npm install --no-bin-links ; cd ../
 echo cloudlet-utils     && cd cloudlet-utils    && git pull ; npm install --no-bin-links ; cd ../
