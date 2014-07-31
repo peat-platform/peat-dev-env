@@ -239,21 +239,16 @@ git clone https://github.com/OPENi-ict/dao.git
 git clone https://github.com/OPENi-ict/mongrel2.git
 git clone https://github.com/OPENi-ict/dbc.git
 git clone https://github.com/OPENi-ict/cloudlet-utils.git
-
 git clone https://github.com/OPENi-ict/openi-logger.git
-
 git clone https://github.com/OPENi-ict/cloudlet-store
-
 git clone https://github.com/OPENi-ict/api-builder.git
-
 git clone https://github.com/OPENi-ict/api-framework.git
-
 git clone https://github.com/OPENi-ict/openi_android_sdk
 
 
 cd /home/vagrant/repos/cloudlet-platform; npm install --no-bin-links
 cd /home/vagrant/repos/cloudlet-api;      npm install --no-bin-links
-cd /home/vagrant/repos/swagger-def;      npm install --no-bin-links
+cd /home/vagrant/repos/swagger-def;       npm install --no-bin-links
 cd /home/vagrant/repos/object-api;        npm install --no-bin-links
 cd /home/vagrant/repos/type-api;          npm install --no-bin-links
 cd /home/vagrant/repos/m2nodehandler;     npm install --no-bin-links
@@ -290,21 +285,21 @@ cat > /home/vagrant/pull_all.sh <<DELIM
 
 cd /home/vagrant/repos
 
-echo cloudlet-platform  && cd cloudlet-platform     && git pull && cd ../
-echo cloudlet-api       && cd cloudlet-api          && git pull && cd ../
-echo object-api         && cd object-api            && git pull && cd ../
-echo type-api           && cd type-api              && git pull && cd ../
-echo m2nodehandler      && cd m2nodehandler         && git pull && cd ../
-echo dao                && cd dao                   && git pull && cd ../
-echo mongrel2           && cd mongrel2              && git pull && cd ../
-echo dbc                && cd dbc                   && git pull && cd ../
-echo cloudlet-utils     && cd cloudlet-utils        && git pull && cd ../
-echo openi-logger       && cd openi-logger          && git pull && cd ../
-echo cloudlet-store     && cd cloudlet-store        && git pull && cd ../
-echo api-builder        && cd api-builder           && git pull && cd ../
-echo api-framework      && cd api-framework         && git pull && cd ../
-echo openi_android_sdk  && cd openi_android_sdk     && git pull && cd ../
-echo api-builder        && cd api-builder           && git pull && cd ../
+echo cloudlet-platform  && cd cloudlet-platform && git pull ; npm install --no-bin-links ; cd ../	
+echo cloudlet-api       && cd cloudlet-api      && git pull ; npm install --no-bin-links ; cd ../
+echo object-api         && cd object-api        && git pull ; npm install --no-bin-links ; cd ../
+echo type-api           && cd type-api          && git pull ; npm install --no-bin-links ; cd ../
+echo m2nodehandler      && cd m2nodehandler     && git pull ; npm install --no-bin-links ; cd ../
+echo dao                && cd dao               && git pull ; npm install --no-bin-links ; cd ../
+echo mongrel2           && cd mongrel2          && git pull ; cd ../
+echo dbc                && cd dbc               && git pull ; npm install --no-bin-links ; cd ../
+echo cloudlet-utils     && cd cloudlet-utils    && git pull ; npm install --no-bin-links ; cd ../
+echo openi-logger       && cd openi-logger      && git pull ; npm install --no-bin-links ; cd ../
+echo cloudlet-store     && cd cloudlet-store    && git pull ; npm install --no-bin-links ; cd ../
+echo api-builder        && cd api-builder       && git pull ; cd ../
+echo api-framework      && cd api-framework     && git pull ; cd ../
+echo openi_android_sdk  && cd openi_android_sdk && git pull ; cd ../
+echo api-builder        && cd api-builder       && git pull ; cd ../
 
 
 DELIM
