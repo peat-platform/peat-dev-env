@@ -4,9 +4,9 @@
 
 
 VAGRANTFILE_API_VERSION = "2"
-OPENI_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4"
-CPU_ALLOC               = 4
-RAM_ALLOC               = 4096
+OPENI_REPO_PATH         = ""     # Set to prefered data storage path, depending on HOST OS
+CPU_ALLOC               = 2      # Should probably be set to most reasonable defaults (hackaton VMs?)
+RAM_ALLOC               = 2048
 CLIENT_IP_ADDRESS       = "192.168.33.10"
 
 
@@ -14,6 +14,8 @@ CLIENT_IP_ADDRESS       = "192.168.33.10"
 $script = <<SCRIPT
 
 apt-get update -q
+
+sudo apt-get install -y software-properties-common
 
 apt-get install -y git tmux vim
 apt-get install -qy wget curl
@@ -45,11 +47,10 @@ sudo apt-get install sbt
 
 
 
-#INSTALL node.js
-cd /tmp ; wget http://www.nodejs.org/dist/v0.10.21/node-v0.10.21.tar.gz; tar -xzvf node-v0.10.21.tar.gz
-cd /tmp/node-v0.10.21/ ; ./configure ; make ; make install
-cd /tmp
-
+#INSTALL node.js (node version bumped to 10.30)
+sudo add-apt-repository -y ppa:chris-lea/node.js
+sudo apt-get update
+sudo apt-get install-y nodejs=0.10.30-1chl1~trusty1
 
 
 #INSTALL ZMQ
@@ -95,6 +96,7 @@ sudo /usr/share/elasticsearch/bin/plugin -install mobz/elasticsearch-head
 sudo mkdir /usr/share/elasticsearch/templates
 sudo wget https://raw2.github.com/couchbaselabs/elasticsearch-transport-couchbase/master/src/main/resources/couchbase_template.json -P /usr/share/elasticsearch/templates
 
+#TODO: Passwd should be a randomized default
 sudo bash -c "echo couchbase.password: password >> /etc/elasticsearch/elasticsearch.yml"
 sudo bash -c "echo couchbase.username: admin >> /etc/elasticsearch/elasticsearch.yml"
 sudo bash -c "echo couchbase.maxConcurrentRequests: 1024 >> /etc/elasticsearch/elasticsearch.yml"
@@ -122,6 +124,7 @@ sudo chown -R vagrant:vagrant /opt/openi/cloudlet_platform/
 #Install build tools
 sudo npm install -g grunt-cli
 
+#TODO: Remove?
 #Install CouchDB
 apt-get install couchdb -y
 
@@ -146,7 +149,7 @@ DELIM
 
 sudo service couchdb restart
 
-sudo apt-get install -y software-properties-common python-software-properties
+sudo apt-get install -y python-software-properties
 
 sudo add-apt-repository -y ppa:fkrull/deadsnakes
 sudo apt-get update  -y
