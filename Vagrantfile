@@ -47,10 +47,11 @@ sudo apt-get install sbt
 
 
 
-#INSTALL node.js (node version bumped to 10.30)
+#INSTALL node.js
 sudo add-apt-repository -y ppa:chris-lea/node.js
-sudo apt-get update
-sudo apt-get install -y nodejs=0.10.30-1chl1~precise1
+sudo apt-get update -y
+sudo apt-get install -y nodejs
+#=0.10.30-1chl1~precise1
 
 
 #INSTALL ZMQ
