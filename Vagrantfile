@@ -48,10 +48,12 @@ sudo apt-get install sbt
 
 
 #INSTALL node.js
-sudo add-apt-repository -y ppa:chris-lea/node.js
-sudo apt-get update -y
-sudo apt-get install -y nodejs
-#=0.10.30-1chl1~precise1
+su -l -c "\
+curl https://raw.githubusercontent.com/creationix/nvm/v0.13.1/install.sh | bash && \
+echo 'source ~/.nvm/nvm.sh' >> ~/.bashrc && \
+source ~/.bashrc" vagrant
+
+su -l -c "nvm install 0.10 && nvm alias default 0.10 && npm install -g grunt-cli" vagrant
 
 
 #INSTALL ZMQ
@@ -121,9 +123,6 @@ curl -v -X POST -u admin:password http://localhost:8091/controller/createReplica
 #
 sudo mkdir -p /opt/openi/cloudlet_platform/logs/
 sudo chown -R vagrant:vagrant /opt/openi/cloudlet_platform/
-
-#Install build tools
-sudo npm install -g grunt-cli
 
 #TODO: Remove?
 #Install CouchDB
