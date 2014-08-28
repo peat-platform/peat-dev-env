@@ -59,7 +59,7 @@ Once the VM has been built and provisioned execute the following commands to get
 
     bash provision_openi.sh
 
-    sh tmux_openi.sh
+    sh start_openi.sh
 
 Navigate to `http://dev.openi-ict.eu/api-docs/` on your host system and try out a few of the endpoints.
 

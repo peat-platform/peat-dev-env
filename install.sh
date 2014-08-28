@@ -1,5 +1,8 @@
-#!/bin/sh
+#!/bin/bash
+
 apt-get update -q
+
+sudo apt-get install -y software-properties-common
 
 apt-get install -y git tmux vim
 apt-get install -qy wget curl
@@ -8,6 +11,7 @@ apt-get install -y make
 apt-get install -y nmap
 apt-get install -y vim
 apt-get install -y libssl0.9.8
+
 
 
 #Install requirements for Android sdk generation
@@ -31,10 +35,12 @@ sudo apt-get install sbt
 
 
 #INSTALL node.js
-cd /tmp ; wget http://www.nodejs.org/dist/v0.10.21/node-v0.10.21.tar.gz; tar -xzvf node-v0.10.21.tar.gz
-cd /tmp/node-v0.10.21/ ; ./configure ; make ; make install
-cd /tmp
+su -l -c "\
+curl https://raw.githubusercontent.com/creationix/nvm/v0.13.1/install.sh | bash && \
+echo 'source ~/.nvm/nvm.sh' >> ~/.bashrc && \
+source ~/.bashrc" ubuntu
 
+su -l -c "nvm install 0.10 && nvm alias default 0.10 && npm install -g grunt-cli" ubuntu
 
 
 #INSTALL ZMQ
@@ -68,6 +74,7 @@ rm /tmp/couchbase-server-enterprise_2.5.1_x86_64.deb
 /bin/sleep 5
 /opt/couchbase/bin/couchbase-cli cluster-init -c 127.0.0.1:8091 --cluster-init-username=admin --cluster-init-password=password --cluster-init-ramsize=2372
 /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=openi --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
+/opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=attachments --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
 
 
 # Install Elasticsearch
@@ -80,6 +87,7 @@ sudo /usr/share/elasticsearch/bin/plugin -install mobz/elasticsearch-head
 sudo mkdir /usr/share/elasticsearch/templates
 sudo wget https://raw2.github.com/couchbaselabs/elasticsearch-transport-couchbase/master/src/main/resources/couchbase_template.json -P /usr/share/elasticsearch/templates
 
+#TODO: Passwd should be a randomized default
 sudo bash -c "echo couchbase.password: password >> /etc/elasticsearch/elasticsearch.yml"
 sudo bash -c "echo couchbase.username: admin >> /etc/elasticsearch/elasticsearch.yml"
 sudo bash -c "echo couchbase.maxConcurrentRequests: 1024 >> /etc/elasticsearch/elasticsearch.yml"
@@ -98,14 +106,13 @@ curl --retry 10 -XPUT http://localhost:9200/openi/ -d '{"index":{"analysis":{"an
 curl -v -u admin:password http://localhost:8091/pools/default/remoteClusters -d name=elasticsearch -d hostname=localhost:9091 -d username=admin -d password=password
 curl -v -X POST -u admin:password http://localhost:8091/controller/createReplication -d fromBucket=openi -d toCluster=elasticsearch -d toBucket=openi -d replicationType=continuous -d type=capi
 
+
 # usermod -a -G ubuntu ubuntu
 #
 sudo mkdir -p /opt/openi/cloudlet_platform/logs/
 sudo chown -R ubuntu:ubuntu /opt/openi/cloudlet_platform/
 
-#Install build tools
-sudo npm install -g grunt-cli
-
+#TODO: Remove?
 #Install CouchDB
 apt-get install couchdb -y
 
@@ -130,7 +137,7 @@ DELIM
 
 sudo service couchdb restart
 
-sudo apt-get install -y software-properties-common python-software-properties
+sudo apt-get install -y python-software-properties
 
 sudo add-apt-repository -y ppa:fkrull/deadsnakes
 sudo apt-get update  -y
@@ -206,30 +213,45 @@ DELIM
 
 
 /etc/init.d/apache2 restart
-
-sudo chown -R ubuntu:ubuntu /home/ubuntu/tmp
-
+service elasticsearch start
 
 cat > /home/ubuntu/provision_openi.sh <<DELIM
 #!/bin/bash
 
-mkdir /home/ubuntu/repos
-
 cd /home/ubuntu/repos
 
+
 git clone https://github.com/OPENi-ict/cloudlet-platform.git
+git clone https://github.com/OPENi-ict/cloudlet-api.git
+git clone https://github.com/OPENi-ict/swagger-def.git
+git clone https://github.com/OPENi-ict/object-api.git
+git clone https://github.com/OPENi-ict/type-api.git
+git clone https://github.com/OPENi-ict/m2nodehandler.git
+git clone https://github.com/OPENi-ict/dao.git
 git clone https://github.com/OPENi-ict/mongrel2.git
-
+git clone https://github.com/OPENi-ict/dbc.git
+git clone https://github.com/OPENi-ict/cloudlet-utils.git
 git clone https://github.com/OPENi-ict/openi-logger.git
-
 git clone https://github.com/OPENi-ict/cloudlet-store
-
 git clone https://github.com/OPENi-ict/api-builder.git
 git clone https://github.com/OPENi-ict/api-framework.git
 git clone https://github.com/OPENi-ict/openi_android_sdk
 
 
 cd /home/ubuntu/repos/cloudlet-platform; npm install --no-bin-links
+cd /home/ubuntu/repos/cloudlet-api;      npm install --no-bin-links
+cd /home/ubuntu/repos/swagger-def;       npm install --no-bin-links
+cd /home/ubuntu/repos/object-api;        npm install --no-bin-links
+cd /home/ubuntu/repos/type-api;          npm install --no-bin-links
+cd /home/ubuntu/repos/m2nodehandler;     npm install --no-bin-links
+cd /home/ubuntu/repos/dao;               npm install --no-bin-links
+cd /home/ubuntu/repos/mongrel2;          npm install --no-bin-links
+cd /home/ubuntu/repos/dbc;               npm install --no-bin-links
+cd /home/ubuntu/repos/cloudlet-utils;    npm install --no-bin-links
+cd /home/ubuntu/repos/openi-logger;      npm install --no-bin-links
+cd /home/ubuntu/repos/cloudlet-store;    npm install --no-bin-links
+
+
 cd /home/ubuntu/repos/openi_android_sdk; bash setup.sh
 
 
@@ -250,9 +272,34 @@ cd
 
 DELIM
 
+cat > /home/ubuntu/pull_all.sh <<DELIM
+#!/bin/bash
+
+cd /home/ubuntu/repos
+
+echo cloudlet-platform  && cd cloudlet-platform && git pull ; npm install --no-bin-links ; cd ../	
+echo cloudlet-api       && cd cloudlet-api      && git pull ; npm install --no-bin-links ; cd ../
+echo object-api         && cd object-api        && git pull ; npm install --no-bin-links ; cd ../
+echo type-api           && cd type-api          && git pull ; npm install --no-bin-links ; cd ../
+echo m2nodehandler      && cd m2nodehandler     && git pull ; npm install --no-bin-links ; cd ../
+echo dao                && cd dao               && git pull ; npm install --no-bin-links ; cd ../
+echo swagger-def        && cd swagger-def       && git pull ; npm install --no-bin-links ; cd ../
+echo mongrel2           && cd mongrel2          && git pull ; cd ../
+echo dbc                && cd dbc               && git pull ; npm install --no-bin-links ; cd ../
+echo cloudlet-utils     && cd cloudlet-utils    && git pull ; npm install --no-bin-links ; cd ../
+echo openi-logger       && cd openi-logger      && git pull ; npm install --no-bin-links ; cd ../
+echo cloudlet-store     && cd cloudlet-store    && git pull ; npm install --no-bin-links ; cd ../
+echo api-builder        && cd api-builder       && git pull ; cd ../
+echo api-framework      && cd api-framework     && git pull ; cd ../
+echo openi_android_sdk  && cd openi_android_sdk && git pull ; cd ../
+echo api-builder        && cd api-builder       && git pull ; cd ../
+
+
+DELIM
+
 
 cat > /home/ubuntu/start_openi.sh <<DELIM
-#!/bin/bash
+
 cd /home/ubuntu/repos/api-framework/OPENiapp/
 python manage.py runserver 0.0.0.0:8889 &
 cd /home/ubuntu/repos/mongrel2/
@@ -263,46 +310,48 @@ node lib/main.js &
 DELIM
 
 
+
 cat > /home/ubuntu/tmux_openi.sh <<DELIM
 
 SESSION="OPENi"
 
-tmux has-session -t \$SESSION
-if [ \$? -eq 0 ]; then
-    echo "Session \$SESSION already exists. Attaching."
+tmux has-session -t \\$SESSION
+if [ \\$? -eq 0 ]; then
+    echo "Session \\$SESSION already exists. Attaching."
     sleep 1
-    tmux attach -t \$SESSION
+    tmux attach -t \\$SESSION
     exit 0;
 fi
 
-tmux new-session -d -s \$SESSION
+tmux new-session -d -s \\$SESSION
 
-tmux rename-window -t \$SESSION:0        'Default'
-tmux new-window    -t \$SESSION -a -n    'Mongrel2'
-tmux new-window    -t \$SESSION -a -n    'Cloudlet Platform'
-tmux new-window    -t \$SESSION -a -n    'OPENi App'
-
-
-
-tmux send-keys -t \$SESSION:1 ' cd /home/ubuntu/repos/mongrel2/                 && sh start_mongrel2.sh'                        Enter
-tmux send-keys -t \$SESSION:2 ' cd /home/ubuntu/repos/cloudlet-platform/        && node lib/main.js'                            Enter
-tmux send-keys -t \$SESSION:3 ' cd /home/ubuntu/repos/api-framework/OPENiapp/   && python manage.py runserver 0.0.0.0:8889'     Enter
+tmux rename-window -t \\$SESSION:0        'Default'
+tmux new-window    -t \\$SESSION -a -n    'Mongrel2'
+tmux new-window    -t \\$SESSION -a -n    'Cloudlet Platform'
+tmux new-window    -t \\$SESSION -a -n    'OPENi App'
 
 
 
-tmux attach -t \$SESSION
+tmux send-keys -t \\$SESSION:1 ' cd /home/ubuntu/repos/mongrel2/                 && sh start_mongrel2.sh'                        Enter
+tmux send-keys -t \\$SESSION:2 ' cd /home/ubuntu/repos/cloudlet-platform/        && node lib/main.js'                            Enter
+tmux send-keys -t \\$SESSION:3 ' cd /home/ubuntu/repos/api-framework/OPENiapp/   && python manage.py runserver 0.0.0.0:8889'     Enter
+
+
+
+tmux attach -t \\$SESSION
 
 
 DELIM
+
 
 
 cat > /home/ubuntu/generate_api_clients.sh <<DELIM
 #!/bin/bash
 cd /home/ubuntu/repos/openi_android_sdk
 
-bash build-cloudlet-sdk.sh \$1
-bash build-graph-api-sdk.sh \$1
-bash build-android-sdk.sh \$1
+bash build-cloudlet-sdk.sh \\$1
+bash build-graph-api-sdk.sh \\$1
+bash build-android-sdk.sh \\$1
 
 cp openi-cloudlet-android-sdk-1.0.0.jar  /home/ubuntu/repos/mongrel2/static/android-sdk/
 cp openi-graph-api-android-sdk-1.0.0.jar /home/ubuntu/repos/mongrel2/static/android-sdk/
@@ -310,3 +359,32 @@ cp openi-android-sdk-1.0.0.jar           /home/ubuntu/repos/mongrel2/static/andr
 
 DELIM
 
+
+cat > /home/ubuntu/create_sym_links.sh <<DELIM
+
+rm -fr /home/ubuntu/repos/cloudlet-platform/node_modules/DAO/
+rm -fr /home/ubuntu/repos/cloudlet-platform/node_modules/cloudlet_api/
+rm -fr /home/ubuntu/repos/cloudlet-platform/node_modules/object_api
+rm -fr /home/ubuntu/repos/cloudlet-platform/node_modules/swagger-def
+rm -fr /home/ubuntu/repos/cloudlet-platform/node_modules/type_api
+
+ln -s /home/ubuntu/repos/dao/          /home/ubuntu/repos/cloudlet-platform/node_modules/DAO
+ln -s /home/ubuntu/repos/cloudlet-api/ /home/ubuntu/repos/cloudlet-platform/node_modules/cloudlet_api
+ln -s /home/ubuntu/repos/object-api/   /home/ubuntu/repos/cloudlet-platform/node_modules/object_api
+ln -s /home/ubuntu/repos/swagger-def/  /home/ubuntu/repos/cloudlet-platform/node_modules/swagger-def
+ln -s /home/ubuntu/repos/type-api/     /home/ubuntu/repos/cloudlet-platform/node_modules/type_api
+
+DELIM
+
+
+
+
+sudo sh /etc/init.d/networking restart
+
+tmp=`mktemp -q` && {
+    apt-get install -q -y --no-upgrade linux-image-generic-lts-raring | \
+    tee "$tmp"
+
+    NUM_INST=`awk '$2 == "upgraded," && $4 == "newly" { print $3 }' "$tmp"`
+    rm "$tmp"
+}

@@ -4,7 +4,7 @@
 
 
 VAGRANTFILE_API_VERSION = "2"
-OPENI_REPO_PATH         = ""     # Set to prefered data storage path, depending on HOST OS
+OPENI_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4"     # Set to prefered data storage path, depending on HOST OS
 CPU_ALLOC               = 2      # Should probably be set to most reasonable defaults (hackaton VMs?)
 RAM_ALLOC               = 2048
 CLIENT_IP_ADDRESS       = "192.168.33.10"
@@ -87,6 +87,7 @@ rm /tmp/couchbase-server-enterprise_2.5.1_x86_64.deb
 /bin/sleep 5
 /opt/couchbase/bin/couchbase-cli cluster-init -c 127.0.0.1:8091 --cluster-init-username=admin --cluster-init-password=password --cluster-init-ramsize=2372
 /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=openi --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
+/opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=attachments --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
 
 
 # Install Elasticsearch
@@ -225,6 +226,7 @@ DELIM
 
 
 /etc/init.d/apache2 restart
+service elasticsearch start
 
 cat > /home/vagrant/provision_openi.sh <<DELIM
 #!/bin/bash
