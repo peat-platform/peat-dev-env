@@ -1,16 +1,16 @@
 #!/bin/bash
 
-apt-get update -q
+sudo apt-get update -q
 
 sudo apt-get install -y software-properties-common
 
-apt-get install -y git tmux vim
-apt-get install -qy wget curl
-apt-get install -qy g++ curl libssl-dev apache2-utils
-apt-get install -y make
-apt-get install -y nmap
-apt-get install -y vim
-apt-get install -y libssl0.9.8
+sudo apt-get install -y git tmux vim
+sudo apt-get install -qy wget curl
+sudo apt-get install -qy g++ curl libssl-dev apache2-utils
+sudo apt-get install -y make
+sudo apt-get install -y nmap
+sudo apt-get install -y vim
+sudo apt-get install -y libssl0.9.8
 
 
 
@@ -19,10 +19,10 @@ sudo apt-get install -y openjdk-7-jdk
 sudo apt-get install -y maven=3.0.4-2
 sudo apt-get install -y libjansi-java
 
-sudo apt-get remove scala-library scala
+sudo apt-get remove -y  scala-library scala
 wget www.scala-lang.org/files/archive/scala-2.10.3.deb
 sudo dpkg -i scala-2.10.3.deb
-sudo apt-get update
+sudo apt-get update -y
 sudo apt-get install -y scala
 #sudo apt-get -f install
 #sudo apt-get install scala
@@ -35,17 +35,17 @@ sudo apt-get install sbt
 
 
 #INSTALL node.js
-su -l -c "\
-curl https://raw.githubusercontent.com/creationix/nvm/v0.13.1/install.sh | bash && \
-echo 'source ~/.nvm/nvm.sh' >> ~/.bashrc && \
-source ~/.bashrc" ubuntu
 
-su -l -c "nvm install 0.10 && nvm alias default 0.10 && npm install -g grunt-cli" ubuntu
+curl https://raw.githubusercontent.com/creationix/nvm/v0.13.1/install.sh | bash
+echo 'source ~/.nvm/nvm.sh' >> ~/.bashrc
+source ~/.bashrc
+
+nvm install 0.10 && nvm alias default 0.10 && npm install -g grunt-cli
 
 
 #INSTALL ZMQ
 
-apt-get install -y g++ uuid-dev binutils libtool autoconf automake
+sudo apt-get install -y g++ uuid-dev binutils libtool autoconf automake
 cd /tmp ; wget http://download.zeromq.org/zeromq-3.2.4.tar.gz ; tar -xzvf zeromq-3.2.4.tar.gz
 cd /tmp/zeromq-3.2.4/ ; ./configure ; make ; make install
 ldconfig
@@ -54,8 +54,8 @@ cd /home/ubuntu
 
 # INSTALL SQLite3
 
-apt-get install -y sqlite3
-apt-get install -y libsqlite3-dev
+sudo apt-get install -y sqlite3
+sudo apt-get install -y libsqlite3-dev
 
 # INSTALL Mongrel2
 
@@ -112,9 +112,6 @@ curl -v -X POST -u admin:password http://localhost:8091/controller/createReplica
 sudo mkdir -p /opt/openi/cloudlet_platform/logs/
 sudo chown -R ubuntu:ubuntu /opt/openi/cloudlet_platform/
 
-#TODO: Remove?
-#Install CouchDB
-apt-get install couchdb -y
 
 cat > /etc/hosts <<DELIM
 127.0.0.1	localhost
@@ -158,12 +155,12 @@ pip install virtualenv
 
 #install requirements for api builder
 
-apt-get install -y apache2
-apt-get install -y php5 libapache2-mod-php5
+sudo apt-get install -y apache2
+sudo apt-get install -y php5 libapache2-mod-php5
 
-rm /etc/apache2/sites-enabled/000-default
+sudo rm /etc/apache2/sites-enabled/000-default
 
-sed -i -e 's/80/8888/g' /etc/apache2/ports.conf
+sudo sed -i -e 's/80/8888/g' /etc/apache2/ports.conf
 
 cat > /etc/apache2/sites-enabled/builder_apache_conf <<DELIM
 
@@ -212,8 +209,9 @@ cat > /etc/apache2/sites-enabled/builder_apache_conf <<DELIM
 DELIM
 
 
-/etc/init.d/apache2 restart
-service elasticsearch start
+sudo /etc/init.d/apache2 restart
+sudo service elasticsearch start
+sudo service couchbase-server start
 
 cat > /home/ubuntu/provision_openi.sh <<DELIM
 #!/bin/bash
@@ -299,7 +297,7 @@ DELIM
 
 
 cat > /home/ubuntu/start_openi.sh <<DELIM
-
+sudo service elasticsearch start
 cd /home/ubuntu/repos/api-framework/OPENiapp/
 python manage.py runserver 0.0.0.0:8889 &
 cd /home/ubuntu/repos/mongrel2/
@@ -332,6 +330,7 @@ tmux new-window    -t \\$SESSION -a -n    'OPENi App'
 
 
 
+tmux send-keys -t \\$SESSION:1 ' sudo service elasticsearch start                && couchbase-server'                            Enter
 tmux send-keys -t \\$SESSION:1 ' cd /home/ubuntu/repos/mongrel2/                 && sh start_mongrel2.sh'                        Enter
 tmux send-keys -t \\$SESSION:2 ' cd /home/ubuntu/repos/cloudlet-platform/        && node lib/main.js'                            Enter
 tmux send-keys -t \\$SESSION:3 ' cd /home/ubuntu/repos/api-framework/OPENiapp/   && python manage.py runserver 0.0.0.0:8889'     Enter
@@ -349,13 +348,15 @@ cat > /home/ubuntu/generate_api_clients.sh <<DELIM
 #!/bin/bash
 cd /home/ubuntu/repos/openi_android_sdk
 
-bash build-cloudlet-sdk.sh \\$1
-bash build-graph-api-sdk.sh \\$1
-bash build-android-sdk.sh \\$1
+bash build-cloudlet-sdk.sh \$1
+bash build-graph-api-sdk.sh \$1
+bash build-android-sdk.sh \$1
+bash build-android-sdk.sh \$1
 
 cp openi-cloudlet-android-sdk-1.0.0.jar  /home/ubuntu/repos/mongrel2/static/android-sdk/
 cp openi-graph-api-android-sdk-1.0.0.jar /home/ubuntu/repos/mongrel2/static/android-sdk/
 cp openi-android-sdk-1.0.0.jar           /home/ubuntu/repos/mongrel2/static/android-sdk/
+cp openi-auth-android-sdk-1.0.0.jar      /home/vagrant/repos/mongrel2/static/android-sdk/
 
 DELIM
 
