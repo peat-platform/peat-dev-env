@@ -259,7 +259,6 @@ cd /home/vagrant/repos/object-api;        npm install --no-bin-links
 cd /home/vagrant/repos/type-api;          npm install --no-bin-links
 cd /home/vagrant/repos/m2nodehandler;     npm install --no-bin-links
 cd /home/vagrant/repos/dao;               npm install --no-bin-links
-cd /home/vagrant/repos/mongrel2;          npm install --no-bin-links
 cd /home/vagrant/repos/dbc;               npm install --no-bin-links
 cd /home/vagrant/repos/cloudlet-utils;    npm install --no-bin-links
 cd /home/vagrant/repos/openi-logger;      npm install --no-bin-links
