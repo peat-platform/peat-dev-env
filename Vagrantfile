@@ -451,8 +451,8 @@ $all_script = <<VBOX_SCRIPT + $script + $script_as_vagrant
 if [ ! -d /opt/VBoxGuestAdditions-4.3.6/ ]; then
   
     # Select fast local mirrors
-    sed -e 's#http://security.ubuntu.com/ubuntu#mirror://mirrors.ubuntu.com/mirrors.txt#g' /etc/apt/sources.list
-    sed -e 's#http://us.archive.ubuntu.com/ubuntu/#mirror://mirrors.ubuntu.com/mirrors.txt#g' /etc/apt/sources.list
+    sed -i -e 's#http://security.ubuntu.com/ubuntu#mirror://mirrors.ubuntu.com/mirrors.txt#g' /etc/apt/sources.list
+    sed -i -e 's#http://us.archive.ubuntu.com/ubuntu/#mirror://mirrors.ubuntu.com/mirrors.txt#g' /etc/apt/sources.list
 
 
     # Update remote package metadata.  'apt-get update' is idempotent.
