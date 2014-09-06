@@ -4,14 +4,16 @@
 
 
 VAGRANTFILE_API_VERSION = "2"
-OPENI_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4"     # Set to prefered data storage path, depending on HOST OS
-CPU_ALLOC               = 6      # Should probably be set to most reasonable defaults (hackaton VMs?)
+OPENI_REPO_PATH         = ""     # Set to prefered data storage path, depending on HOST OS
+CPU_ALLOC               = 2      # Should probably be set to most reasonable defaults (hackaton VMs?)
 RAM_ALLOC               = 2048
 CLIENT_IP_ADDRESS       = "192.168.33.10"
 
 
 
 $script = <<SCRIPT
+
+
 
 apt-get update -q
 
@@ -24,8 +26,6 @@ apt-get install -y make
 apt-get install -y nmap
 apt-get install -y vim
 apt-get install -y libssl0.9.8
-
-
 
 #Install requirements for Android sdk generation
 sudo apt-get install -y openjdk-7-jdk
@@ -45,14 +45,8 @@ sudo dpkg -i sbt.deb
 sudo apt-get update
 sudo apt-get install sbt
 
-
-
 #INSTALL node.js
-su -l -c "\
-curl https://raw.githubusercontent.com/creationix/nvm/v0.13.1/install.sh | bash && \
-echo 'source ~/.nvm/nvm.sh' >> ~/.bashrc && \
-source ~/.bashrc" vagrant
-
+su -l -c "curl https://raw.githubusercontent.com/creationix/nvm/v0.13.1/install.sh | bash && echo 'source ~/.nvm/nvm.sh' >> ~/.bashrc" vagrant
 su -l -c "nvm install 0.10 && nvm alias default 0.10 && npm install -g grunt-cli" vagrant
 
 
@@ -119,7 +113,6 @@ curl --retry 10 -XPUT http://localhost:9200/openi/ -d '{"index":{"analysis":{"an
 # Setup the replication from Couchbase to Elasticsearch
 curl -v -u admin:password http://localhost:8091/pools/default/remoteClusters -d name=elasticsearch -d hostname=localhost:9091 -d username=admin -d password=password
 curl -v -X POST -u admin:password http://localhost:8091/controller/createReplication -d fromBucket=openi -d toCluster=elasticsearch -d toBucket=openi -d replicationType=continuous -d type=capi
-
 
 # usermod -a -G vagrant vagrant
 #
@@ -250,6 +243,8 @@ git clone https://github.com/OPENi-ict/cloudlet-store
 git clone https://github.com/OPENi-ict/api-builder.git
 git clone https://github.com/OPENi-ict/api-framework.git
 git clone https://github.com/OPENi-ict/openi_android_sdk
+git clone https://github.com/OPENi-ict/cloudlet.git
+git clone https://github.com/OPENi-ict/uaa.git
 
 
 cd /home/vagrant/repos/cloudlet-platform; npm install --no-bin-links
@@ -263,10 +258,16 @@ cd /home/vagrant/repos/dbc;               npm install --no-bin-links
 cd /home/vagrant/repos/cloudlet-utils;    npm install --no-bin-links
 cd /home/vagrant/repos/openi-logger;      npm install --no-bin-links
 cd /home/vagrant/repos/cloudlet-store;    npm install --no-bin-links
+cd /home/vagrant/repos/cloudlet;  	  npm install --no-bin-links
+
+
+cd /home/vagrant/repos/cloudlet; bash patch.sh import --quit-no-color
+
+
+cd /home/vagrant/repos/uaa; bash setup.sh
 
 
 cd /home/vagrant/repos/openi_android_sdk; bash setup.sh
-
 
 
 cd /home/vagrant/repos/api-framework/OPENiapp/
@@ -306,6 +307,8 @@ echo api-builder        && cd api-builder       && git pull ; cd ../
 echo api-framework      && cd api-framework     && git pull ; cd ../
 echo openi_android_sdk  && cd openi_android_sdk && git pull ; cd ../
 echo api-builder        && cd api-builder       && git pull ; cd ../
+echo cloudlet           && cd cloudlet          && git pull ; npm install --no-bin-links ; cd ../
+echo uaa                && cd uaa               && git pull ; cd ../
 
 
 DELIM
@@ -406,10 +409,52 @@ tmp=`mktemp -q` && {
 
 SCRIPT
 
+$script_as_vagrant = <<SCRIPT
+cd ~
+mkdir .dep
+cd .dep
 
-$all_script = <<VBOX_SCRIPT + $script
+sec_dep_url="https://raw.githubusercontent.com/cloudfoundry/uaa/master"
+
+mkdir -p gradle/wrapper
+cd gradle/wrapper
+wget $sec_dep_url/gradle/wrapper/gradle-wrapper.jar
+wget $sec_dep_url/gradle/wrapper/gradle-wrapper.properties
+cd ../..
+wget $sec_dep_url/build.gradle
+wget $sec_dep_url/gradle.properties
+wget $sec_dep_url/settings.gradle
+wget $sec_dep_url/shared_versions.gradle
+wget $sec_dep_url/gradlew
+chmod 755 gradlew
+
+JAVA_HOME_=$JAVA_HOME
+JAVA_HOME="/usr/lib/jvm/java-7-openjdk-amd64"
+PATH_=$PATH
+PATH=$JAVA_HOME/bin:$PATH
+
+bash gradlew
+
+JAVA_HOME=$JAVA_HOME_
+PATH=$PATH_
+
+cd ..
+rm -R .dep
+
+SCRIPT
+
+$script_as_vagrant = "su -l -c $'" + $script_as_vagrant.gsub("\n\n", "\n").gsub("\n"," ; ") + "' vagrant"
+
+
+$all_script = <<VBOX_SCRIPT + $script + $script_as_vagrant
 
 if [ ! -d /opt/VBoxGuestAdditions-4.3.6/ ]; then
+  
+    # Select fast local mirrors
+    sed -e 's#http://security.ubuntu.com/ubuntu#mirror://mirrors.ubuntu.com/mirrors.txt#g' /etc/apt/sources.list
+    sed -e 's#http://us.archive.ubuntu.com/ubuntu/#mirror://mirrors.ubuntu.com/mirrors.txt#g' /etc/apt/sources.list
+
+
     # Update remote package metadata.  'apt-get update' is idempotent.
     apt-get update -q
 
