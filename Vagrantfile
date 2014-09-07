@@ -119,6 +119,14 @@ curl -v -X POST -u admin:password http://localhost:8091/controller/createReplica
 sudo mkdir -p /opt/openi/cloudlet_platform/logs/
 sudo chown -R vagrant:vagrant /opt/openi/cloudlet_platform/
 
+# Install Security req. (tomcat, posgres)
+
+sudo apt-get install -y openjdk-7-jre-headless
+sudo apt-get install -y tomcat7
+sudo /etc/init.d/tomcat7 stop
+sudo apt-get install -y postgresql
+su -l -c $'echo "CREATE DATABASE uaa; ALTER USER postgres WITH PASSWORD \'fb20c47bffebca63\';" | psql' postgres
+
 #TODO: Remove?
 #Install CouchDB
 apt-get install couchdb -y
