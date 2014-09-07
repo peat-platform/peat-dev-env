@@ -124,6 +124,10 @@ sudo chown -R vagrant:vagrant /opt/openi/cloudlet_platform/
 sudo apt-get install -y openjdk-7-jre-headless
 sudo apt-get install -y tomcat7
 sudo /etc/init.d/tomcat7 stop
+printf $'@@ -1,1 +1,1 @@\n-    <Connector port=\"8080\" protocol=\"HTTP/1.1\"\n+    <Connector port=\"8887\" protocol=\"HTTP/1.1\"\n@@ -1,1 +1,1 @@\n-               redirectPort="8443" />\n+               />\n\n' | patch /etc/tomcat7/server.xml
+sudo /etc/init.d/tomcat7 start
+rm /var/lib/tomcat7/webapps/ROOT/index.html
+touch /var/lib/tomcat7/webapps/ROOT/index.html
 sudo apt-get install -y postgresql
 su -l -c $'echo "CREATE DATABASE uaa; ALTER USER postgres WITH PASSWORD \'fb20c47bffebca63\';" | psql' postgres
 
