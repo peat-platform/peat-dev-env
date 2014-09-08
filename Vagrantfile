@@ -47,7 +47,7 @@ sudo apt-get install sbt
 
 #INSTALL node.js
 su -l -c "curl https://raw.githubusercontent.com/creationix/nvm/v0.13.1/install.sh | bash && echo 'source ~/.nvm/nvm.sh' >> ~/.bashrc" vagrant
-su -l -c "nvm install 0.10 && nvm alias default 0.10 && npm install -g grunt-cli" vagrant
+su -l -c "nvm install 0.10 && nvm alias default 0.10 && npm install -g grunt-cli && npm install supervisor -g" vagrant
 
 
 #INSTALL ZMQ
@@ -124,7 +124,7 @@ sudo chown -R vagrant:vagrant /opt/openi/cloudlet_platform/
 sudo apt-get install -y openjdk-7-jre-headless
 sudo apt-get install -y tomcat7
 sudo /etc/init.d/tomcat7 stop
-printf $'@@ -1,1 +1,1 @@\n-    <Connector port=\"8080\" protocol=\"HTTP/1.1\"\n+    <Connector port=\"8887\" protocol=\"HTTP/1.1\"\n@@ -1,1 +1,1 @@\n-               redirectPort="8443" />\n+               />\n\n' | patch /etc/tomcat7/server.xml
+printf $'@@ -1,1 +1,1 @@\n-    <Connector port=\"8080\" protocol=\"HTTP/1.1\"\n+    <Connector port=\"8877\" protocol=\"HTTP/1.1\"\n@@ -1,1 +1,1 @@\n-               redirectPort="8443" />\n+               />\n\n' | patch /etc/tomcat7/server.xml
 sudo /etc/init.d/tomcat7 start
 rm /var/lib/tomcat7/webapps/ROOT/index.html
 touch /var/lib/tomcat7/webapps/ROOT/index.html
@@ -426,7 +426,7 @@ cd ~
 mkdir .dep
 cd .dep
 
-sec_dep_url="https://raw.githubusercontent.com/cloudfoundry/uaa/master"
+sec_dep_url="https://raw.githubusercontent.com/OPENi-ict/uaa/master"
 
 mkdir -p gradle/wrapper
 cd gradle/wrapper
