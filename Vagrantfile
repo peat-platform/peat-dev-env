@@ -334,6 +334,8 @@ cd /home/vagrant/repos/mongrel2/
 sh start_mongrel2.sh
 cd /home/vagrant/repos/cloudlet-platform/
 node lib/main.js &
+cd /home/vagrant/repos/uaa/proxy
+supervisor proxy.js &
 
 DELIM
 
