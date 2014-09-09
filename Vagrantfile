@@ -126,12 +126,14 @@ sudo apt-get install -y tomcat7
 sudo /etc/init.d/tomcat7 stop
 printf $'@@ -1,1 +1,1 @@\n-    <Connector port=\"8080\" protocol=\"HTTP/1.1\"\n+    <Connector port=\"8877\" protocol=\"HTTP/1.1\"\n@@ -1,1 +1,1 @@\n-               redirectPort="8443" />\n+               />\n\n' | sudo patch /etc/tomcat7/server.xml
 printf $'@@ -1,1 +1,1 @@\n-    <Connector port=\"8887\" protocol=\"HTTP/1.1\"\n+    <Connector port=\"8877\" protocol=\"HTTP/1.1\"\n\n' | sudo patch /etc/tomcat7/server.xml
-sudo /etc/init.d/tomcat7 start
 rm /var/lib/tomcat7/webapps/ROOT/index.html
 touch /var/lib/tomcat7/webapps/ROOT/index.html
 sudo apt-get install -y postgresql
 sudo su -l -c $'echo "CREATE DATABASE uaa; ALTER USER postgres PASSWORD \'fb20c47bffebca63\';" | psql' postgres
 printf $'@@ -1,1 +1,1 @@\n-local   all             postgres                                peer\n+local   all             postgres                                md5\n\n' | sudo patch /etc/postgresql/9.1/main/pg_hba.conf
+sudo /etc/init.d/postgresql restart
+sudo /etc/init.d/tomcat7 start
+
 #TODO: Remove?
 #Install CouchDB
 apt-get install couchdb -y
