@@ -129,6 +129,8 @@ printf $'@@ -1,1 +1,1 @@\n-    <Connector port=\"8887\" protocol=\"HTTP/1.1\"\n+
 rm /var/lib/tomcat7/webapps/ROOT/index.html
 touch /var/lib/tomcat7/webapps/ROOT/index.html
 sudo apt-get install -y postgresql
+sudo su -l -c $'echo "CREATE DATABASE uaa; ALTER USER postgres PASSWORD \'fb20c47bffebca63\';" | psql' postgres
+printf $'@@ -1,1 +1,1 @@\n-local   all             postgres                                peer\n+#local   all             postgres                                peer\n\n' | sudo patch /etc/postgresql/9.1/main/pg_hba.conf -N  
 printf $'@@ -1,1 +1,1 @@\n-local   all             all                                     peer\n+local   all             all                                     trust\n\n' | sudo patch /etc/postgresql/9.1/main/pg_hba.conf -N
 sudo /etc/init.d/postgresql restart
 sudo /etc/init.d/tomcat7 start
