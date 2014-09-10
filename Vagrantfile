@@ -133,10 +133,6 @@ printf $'@@ -1,1 +1,1 @@\n-local   all             all                          
 sudo /etc/init.d/postgresql restart
 sudo /etc/init.d/tomcat7 start
 
-#TODO: Remove?
-#Install CouchDB
-apt-get install couchdb -y
-
 cat > /etc/hosts <<DELIM
 127.0.0.1	localhost
 127.0.1.1	precise64 dev.openi-ict.eu
@@ -149,14 +145,10 @@ ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 DELIM
 
-sed -i -e 's/bind_address = 127.0.0.1/bind_address = 0.0.0.0/g' /etc/couchdb/default.ini
-
 cat > /home/vagrant/.ssh/config <<DELIM
 Host github.com
 StrictHostKeyChecking no
 DELIM
-
-sudo service couchdb restart
 
 sudo apt-get install -y python-software-properties
 
@@ -305,7 +297,7 @@ cat > /home/vagrant/pull_all.sh <<DELIM
 
 cd /home/vagrant/repos
 
-echo cloudlet-platform  && cd cloudlet-platform && git pull ; npm install --no-bin-links ; cd ../	
+echo cloudlet-platform  && cd cloudlet-platform && git pull ; npm install --no-bin-links ; cd ../
 echo cloudlet-api       && cd cloudlet-api      && git pull ; npm install --no-bin-links ; cd ../
 echo object-api         && cd object-api        && git pull ; npm install --no-bin-links ; cd ../
 echo type-api           && cd type-api          && git pull ; npm install --no-bin-links ; cd ../

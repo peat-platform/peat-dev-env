@@ -113,6 +113,18 @@ sudo mkdir -p /opt/openi/cloudlet_platform/logs/
 sudo chown -R ubuntu:ubuntu /opt/openi/cloudlet_platform/
 
 
+sudo apt-get install -y openjdk-7-jre-headless
+sudo apt-get install -y tomcat7
+sudo /etc/init.d/tomcat7 stop
+printf $'@@ -1,1 +1,1 @@\n-    <Connector port=\"8887\" protocol=\"HTTP/1.1\"\n+    <Connector port=\"8877\" protocol=\"HTTP/1.1\"\n\n' | sudo patch /etc/tomcat7/server.xml -N
+sudo rm /var/lib/tomcat7/webapps/ROOT/index.html
+sudo touch /var/lib/tomcat7/webapps/ROOT/index.html
+sudo apt-get install -y postgresql
+printf $'@@ -1,1 +1,1 @@\n-local   all             all                                     peer\n+local   all             all                                     trust\n\n' | sudo patch /etc/postgresql/9.1/main/pg_hba.conf -N
+sudo /etc/init.d/postgresql restart
+sudo /etc/init.d/tomcat7 start
+
+
 cat > /etc/hosts <<DELIM
 127.0.0.1	localhost
 127.0.1.1	precise64 dev.openi-ict.eu
@@ -125,14 +137,11 @@ ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 DELIM
 
-sed -i -e 's/bind_address = 127.0.0.1/bind_address = 0.0.0.0/g' /etc/couchdb/default.ini
-
 cat > /home/ubuntu/.ssh/config <<DELIM
 Host github.com
 StrictHostKeyChecking no
 DELIM
 
-sudo service couchdb restart
 
 sudo apt-get install -y python-software-properties
 
@@ -220,37 +229,16 @@ cd /home/ubuntu/repos
 
 
 git clone https://github.com/OPENi-ict/cloudlet-platform.git
-git clone https://github.com/OPENi-ict/cloudlet-api.git
-git clone https://github.com/OPENi-ict/swagger-def.git
-git clone https://github.com/OPENi-ict/object-api.git
-git clone https://github.com/OPENi-ict/type-api.git
-git clone https://github.com/OPENi-ict/m2nodehandler.git
-git clone https://github.com/OPENi-ict/dao.git
 git clone https://github.com/OPENi-ict/mongrel2.git
-git clone https://github.com/OPENi-ict/dbc.git
-git clone https://github.com/OPENi-ict/cloudlet-utils.git
-git clone https://github.com/OPENi-ict/openi-logger.git
-git clone https://github.com/OPENi-ict/cloudlet-store
-git clone https://github.com/OPENi-ict/api-builder.git
-git clone https://github.com/OPENi-ict/api-framework.git
 git clone https://github.com/OPENi-ict/openi_android_sdk
+git clone https://github.com/OPENi-ict/uaa.git
 
 
-cd /home/ubuntu/repos/cloudlet-platform; npm install --no-bin-links
-cd /home/ubuntu/repos/cloudlet-api;      npm install --no-bin-links
-cd /home/ubuntu/repos/swagger-def;       npm install --no-bin-links
-cd /home/ubuntu/repos/object-api;        npm install --no-bin-links
-cd /home/ubuntu/repos/type-api;          npm install --no-bin-links
-cd /home/ubuntu/repos/m2nodehandler;     npm install --no-bin-links
-cd /home/ubuntu/repos/dao;               npm install --no-bin-links
-cd /home/ubuntu/repos/mongrel2;          npm install --no-bin-links
-cd /home/ubuntu/repos/dbc;               npm install --no-bin-links
-cd /home/ubuntu/repos/cloudlet-utils;    npm install --no-bin-links
-cd /home/ubuntu/repos/openi-logger;      npm install --no-bin-links
-cd /home/ubuntu/repos/cloudlet-store;    npm install --no-bin-links
-
+cd /home/ubuntu/repos/cloudlet-platform; npm install --no-bin-links --production
+cd /home/ubuntu/repos/mongrel2;          npm install --no-bin-links --production
 
 cd /home/ubuntu/repos/openi_android_sdk; bash setup.sh
+cd /home/ubuntu/repos/uaa; bash setup.sh
 
 
 
@@ -377,7 +365,36 @@ ln -s /home/ubuntu/repos/type-api/     /home/ubuntu/repos/cloudlet-platform/node
 
 DELIM
 
+cd ~
+mkdir .dep
+cd .dep
 
+sec_dep_url="https://raw.githubusercontent.com/OPENi-ict/uaa/master"
+
+mkdir -p gradle/wrapper
+cd gradle/wrapper
+wget $sec_dep_url/gradle/wrapper/gradle-wrapper.jar
+wget $sec_dep_url/gradle/wrapper/gradle-wrapper.properties
+cd ../..
+wget $sec_dep_url/build.gradle
+wget $sec_dep_url/gradle.properties
+wget $sec_dep_url/settings.gradle
+wget $sec_dep_url/shared_versions.gradle
+wget $sec_dep_url/gradlew
+chmod 755 gradlew
+
+JAVA_HOME_=$JAVA_HOME
+JAVA_HOME="/usr/lib/jvm/java-7-openjdk-amd64"
+PATH_=$PATH
+PATH=$JAVA_HOME/bin:$PATH
+
+bash gradlew
+
+JAVA_HOME=$JAVA_HOME_
+PATH=$PATH_
+
+cd ..
+rm -R .dep
 
 
 sudo sh /etc/init.d/networking restart
