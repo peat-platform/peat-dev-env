@@ -138,7 +138,7 @@ python ez_setup.py
 cd tmp; wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py;
 sudo python get-pip.py
 
-pip install virtualenv
+sudo pip install virtualenv
 
 #install requirements for api builder
 
@@ -149,7 +149,7 @@ sudo rm /etc/apache2/sites-enabled/000-default
 
 sudo sed -i -e 's/80/8888/g' /etc/apache2/ports.conf
 
-sudo cat > /etc/apache2/sites-enabled/builder_apache_conf <<DELIM
+sudo sudo cat > /etc/apache2/sites-enabled/builder_apache_conf <<DELIM
 
 <VirtualHost *:8888>
 	ServerAdmin webmaster@localhost
@@ -343,6 +343,9 @@ ln -s /home/ubuntu/repos/swagger-def/  /home/ubuntu/repos/cloudlet-platform/node
 ln -s /home/ubuntu/repos/type-api/     /home/ubuntu/repos/cloudlet-platform/node_modules/type_api
 
 DELIM
+
+
+
 
 sudo /etc/init.d/tomcat7 stop
 printf $'@@ -1,1 +1,1 @@\n-    <Connector port=\"8080\" protocol=\"HTTP/1.1\"\n+    <Connector port=\"8877\" protocol=\"HTTP/1.1\"\n@@ -1,1 +1,1 @@\n-               redirectPort="8443" />\n+               />\n\n' | sudo patch /etc/tomcat7/server.xml -N
