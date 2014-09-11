@@ -35,20 +35,25 @@ sudo apt-get install sbt
 
 
 #INSTALL node.js
-
-curl https://raw.githubusercontent.com/creationix/nvm/v0.13.1/install.sh | bash
+cd /tmp/
+rm install.sh
+wget https://raw.githubusercontent.com/creationix/nvm/v0.13.1/install.sh
+sh install.sh
 echo 'source ~/.nvm/nvm.sh' >> ~/.bashrc
 source ~/.bashrc
 
-nvm install 0.10 && nvm alias default 0.10 && npm install -g grunt-cli
+nvm install 0.10 && nvm alias default 0.10 && sudo npm install -g grunt-cli
 
+rm install.sh
 
 #INSTALL ZMQ
-
 sudo apt-get install -y g++ uuid-dev binutils libtool autoconf automake
 cd /tmp ; wget http://download.zeromq.org/zeromq-3.2.4.tar.gz ; tar -xzvf zeromq-3.2.4.tar.gz
-cd /tmp/zeromq-3.2.4/ ; ./configure ; make ; make install
-ldconfig
+cd /tmp/zeromq-3.2.4/ ;
+./configure ;
+make ;
+sudo make install
+sudo ldconfig
 
 cd /home/ubuntu
 
