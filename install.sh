@@ -124,18 +124,6 @@ sudo apt-get install -y postgresql
 sudo /etc/init.d/tomcat7 stop
 
 
-cat > /etc/hosts <<DELIM
-127.0.0.1	localhost
-127.0.1.1	precise64 dev.openi-ict.eu
-
-# The following lines are desirable for IPv6 capable hosts
-::1     ip6-localhost ip6-loopback
-fe00::0 ip6-localnet
-ff00::0 ip6-mcastprefix
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
-DELIM
-
 cat > /home/ubuntu/.ssh/config <<DELIM
 Host github.com
 StrictHostKeyChecking no
@@ -170,7 +158,7 @@ sudo rm /etc/apache2/sites-enabled/000-default
 
 sudo sed -i -e 's/80/8888/g' /etc/apache2/ports.conf
 
-cat > /etc/apache2/sites-enabled/builder_apache_conf <<DELIM
+sudo cat > /etc/apache2/sites-enabled/builder_apache_conf <<DELIM
 
 <VirtualHost *:8888>
 	ServerAdmin webmaster@localhost
@@ -310,18 +298,19 @@ fi
 
 tmux new-session -d -s \$SESSION
 
+
 tmux rename-window -t \$SESSION:0        'Default'
 tmux new-window    -t \$SESSION -a -n    'Mongrel2'
-tmux new-window    -t \$SESSION -a -n    'Cloudlet Platform'
-tmux new-window    -t \$SESSION -a -n    'OPENi App'
+tmux new-window    -t \$SESSION -a -n    'Cloudlet framework'
+tmux new-window    -t \$SESSION -a -n    'API framework'
+tmux new-window    -t \$SESSION -a -n    'Auth framework'
 
 
 
-tmux send-keys -t \$SESSION:1 ' sudo service elasticsearch start                && couchbase-server'                            Enter
 tmux send-keys -t \$SESSION:1 ' cd /home/ubuntu/repos/mongrel2/                 && sh start_mongrel2.sh'                        Enter
 tmux send-keys -t \$SESSION:2 ' cd /home/ubuntu/repos/cloudlet-platform/        && node lib/main.js'                            Enter
 tmux send-keys -t \$SESSION:3 ' cd /home/ubuntu/repos/api-framework/OPENiapp/   && python manage.py runserver 0.0.0.0:8889'     Enter
-
+tmux send-keys -t \$SESSION:4 ' cd /home/ubuntu/repos/uaa/proxy                 && supervisor proxy.js '                        Enter
 
 
 tmux attach -t \$SESSION
@@ -404,6 +393,7 @@ PATH=$PATH_
 cd ..
 rm -R .dep
 
+mkdir repos
 
 sudo sh /etc/init.d/networking restart
 

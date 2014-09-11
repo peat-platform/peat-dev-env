@@ -4,9 +4,9 @@
 
 
 VAGRANTFILE_API_VERSION = "2"
-OPENI_REPO_PATH         = ""     # Set to prefered data storage path, depending on HOST OS
-CPU_ALLOC               = 2      # Should probably be set to most reasonable defaults (hackaton VMs?)
-RAM_ALLOC               = 2048
+OPENI_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4"     # Set to prefered data storage path, depending on HOST OS
+CPU_ALLOC               = 4      # Should probably be set to most reasonable defaults (hackaton VMs?)
+RAM_ALLOC               = 4096
 CLIENT_IP_ADDRESS       = "192.168.33.10"
 
 
@@ -353,14 +353,16 @@ tmux new-session -d -s \\$SESSION
 
 tmux rename-window -t \\$SESSION:0        'Default'
 tmux new-window    -t \\$SESSION -a -n    'Mongrel2'
-tmux new-window    -t \\$SESSION -a -n    'Cloudlet Platform'
-tmux new-window    -t \\$SESSION -a -n    'OPENi App'
+tmux new-window    -t \\$SESSION -a -n    'Cloudlet framework'
+tmux new-window    -t \\$SESSION -a -n    'API framework'
+tmux new-window    -t \\$SESSION -a -n    'Auth framework'
 
 
 
 tmux send-keys -t \\$SESSION:1 ' cd /home/vagrant/repos/mongrel2/                 && sh start_mongrel2.sh'                        Enter
 tmux send-keys -t \\$SESSION:2 ' cd /home/vagrant/repos/cloudlet-platform/        && node lib/main.js'                            Enter
 tmux send-keys -t \\$SESSION:3 ' cd /home/vagrant/repos/api-framework/OPENiapp/   && python manage.py runserver 0.0.0.0:8889'     Enter
+tmux send-keys -t \\$SESSION:4 ' cd /home/vagrant/repos/uaa/proxy                 && supervisor proxy.js '                        Enter
 
 
 
@@ -370,6 +372,39 @@ tmux attach -t \\$SESSION
 DELIM
 
 
+cat > /home/vagrant/tmux_openi.sh <<DELIM
+
+SESSION="OPENi"
+
+tmux has-session -t \$SESSION
+if [ \$? -eq 0 ]; then
+    echo "Session \$SESSION already exists. Attaching."
+    sleep 1
+    tmux attach -t \$SESSION
+    exit 0;
+fi
+
+tmux new-session -d -s \$SESSION
+
+tmux rename-window -t \$SESSION:0        'Default'
+tmux new-window    -t \$SESSION -a -n    'Mongrel2'
+tmux new-window    -t \$SESSION -a -n    'Cloudlet framework'
+tmux new-window    -t \$SESSION -a -n    'API framework'
+tmux new-window    -t \$SESSION -a -n    'Auth framework'
+
+
+
+tmux send-keys -t \$SESSION:1 ' cd /home/vagrant/repos/mongrel2/                 && sh start_mongrel2.sh'                        Enter
+tmux send-keys -t \$SESSION:2 ' cd /home/vagrant/repos/cloudlet-platform/        && node lib/main.js'                            Enter
+tmux send-keys -t \$SESSION:3 ' cd /home/vagrant/repos/api-framework/OPENiapp/   && python manage.py runserver 0.0.0.0:8889'     Enter
+tmux send-keys -t \$SESSION:4 ' cd /home/vagrant/repos/uaa/proxy                 && supervisor proxy.js '                        Enter
+
+
+
+tmux attach -t \$SESSION
+
+
+DELIM
 
 cat > /home/vagrant/generate_api_clients.sh <<DELIM
 #!/bin/bash
