@@ -139,13 +139,14 @@ sudo apt-get install python2.7  -y
 #Install requirements for API platform
 
 cd /tmp; wget https://www.djangoproject.com/download/1.6/tarball/; tar -xzvf index.html
-cd /tmp/Django-1.6; sudo python setup.py install
+cd /tmp/Django-1.6;
+sudo python setup.py install
 
 cd tmp; wget https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py
 python ez_setup.py
 
 cd tmp; wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py;
-python get-pip.py
+sudo python get-pip.py
 
 pip install virtualenv
 
@@ -206,8 +207,8 @@ DELIM
 
 
 sudo /etc/init.d/apache2 restart
-sudo service elasticsearch start
-sudo service couchbase-server start
+sudo service elasticsearch restart
+sudo service couchbase-server restart
 
 cat > /home/ubuntu/provision_openi.sh <<DELIM
 #!/bin/bash
@@ -222,8 +223,7 @@ git clone https://github.com/OPENi-ict/uaa.git
 
 
 cd /home/ubuntu/repos/cloudlet-platform; npm install --no-bin-links --production
-cd /home/ubuntu/repos/mongrel2;          npm install --no-bin-links --production
-
+cd /home/ubuntu/repos/mongrel2;          
 cd /home/ubuntu/repos/openi_android_sdk; bash setup.sh
 cd /home/ubuntu/repos/uaa; bash setup.sh
 
@@ -332,7 +332,7 @@ bash build-auth-sdk.sh \$1
 cp openi-cloudlet-android-sdk-1.0.0.jar  /home/ubuntu/repos/mongrel2/static/android-sdk/
 cp openi-graph-api-android-sdk-1.0.0.jar /home/ubuntu/repos/mongrel2/static/android-sdk/
 cp openi-android-sdk-1.0.0.jar           /home/ubuntu/repos/mongrel2/static/android-sdk/
-cp openi-auth-android-sdk-1.0.0.jar      /home/vagrant/repos/mongrel2/static/android-sdk/
+cp openi-auth-android-sdk-1.0.0.jar      /home/ubuntu/repos/mongrel2/static/android-sdk/
 
 DELIM
 
@@ -353,8 +353,10 @@ ln -s /home/ubuntu/repos/type-api/     /home/ubuntu/repos/cloudlet-platform/node
 
 DELIM
 
+sudo /etc/init.d/tomcat7 stop
+printf $'@@ -1,1 +1,1 @@\n-    <Connector port=\"8080\" protocol=\"HTTP/1.1\"\n+    <Connector port=\"8877\" protocol=\"HTTP/1.1\"\n@@ -1,1 +1,1 @@\n-               redirectPort="8443" />\n+               />\n\n' | sudo patch /etc/tomcat7/server.xml -N
 printf $'@@ -1,1 +1,1 @@\n-    <Connector port=\"8887\" protocol=\"HTTP/1.1\"\n+    <Connector port=\"8877\" protocol=\"HTTP/1.1\"\n\n' | sudo patch /etc/tomcat7/server.xml -N
-sudo rm /var/lib/tomcat7/webapps/ROOT/index.html
+sudo rm -fr /var/lib/tomcat7/webapps/ROOT/index.html
 sudo touch /var/lib/tomcat7/webapps/ROOT/index.html
 sudo su -l -c $'echo "CREATE DATABASE uaa; ALTER USER postgres PASSWORD \'fb20c47bffebca63\';" | psql' postgres
 printf $'@@ -1,1 +1,1 @@\n-local   all             postgres                                peer\n+#local   all             postgres                                peer\n\n' | sudo patch /etc/postgresql/9.1/main/pg_hba.conf -N
