@@ -46,9 +46,9 @@ sudo apt-get update
 sudo apt-get install sbt
 
 #INSTALL node.js
-su -l -c "curl https://raw.githubusercontent.com/creationix/nvm/v0.13.1/install.sh | bash && echo 'source ~/.nvm/nvm.sh' >> ~/.bashrc" vagrant
-su -l -c "nvm install 0.10 && nvm alias default 0.10 && npm install -g grunt-cli && npm install supervisor -g" vagrant
-
+cd /tmp ; wget http://www.nodejs.org/dist/v0.10.21/node-v0.10.21.tar.gz; tar -xzvf node-v0.10.21.tar.gz
+cd /tmp/node-v0.10.21/ ; ./configure ; make ; make install
+cd /tmp
 
 #INSTALL ZMQ
 

@@ -32,19 +32,9 @@ sudo dpkg -i sbt.deb
 sudo apt-get update
 sudo apt-get install sbt
 
-
-
-#INSTALL node.js
-cd /tmp/
-rm install.sh
-wget https://raw.githubusercontent.com/creationix/nvm/v0.13.1/install.sh
-sh install.sh
-echo 'source ~/.nvm/nvm.sh' >> ~/.bashrc
-source ~/.bashrc
-
-nvm install 0.10 && nvm alias default 0.10 && sudo npm install -g grunt-cli
-
-rm install.sh
+cd /tmp ; wget http://www.nodejs.org/dist/v0.10.21/node-v0.10.21.tar.gz; tar -xzvf node-v0.10.21.tar.gz
+cd /tmp/node-v0.10.21/ ; ./configure ; make ; sudo make install
+cd /tmp
 
 #INSTALL ZMQ
 sudo apt-get install -y g++ uuid-dev binutils libtool autoconf automake
@@ -220,10 +210,11 @@ git clone https://github.com/OPENi-ict/cloudlet-platform.git
 git clone https://github.com/OPENi-ict/mongrel2.git
 git clone https://github.com/OPENi-ict/openi_android_sdk
 git clone https://github.com/OPENi-ict/uaa.git
+git clone https://github.com/OPENi-ict/api-framework.git
 
 
-cd /home/ubuntu/repos/cloudlet-platform; npm install --no-bin-links --production
-cd /home/ubuntu/repos/mongrel2;          
+cd /home/ubuntu/repos/cloudlet-platform; virtualenv install --no-bin-links --production
+cd /home/ubuntu/repos/mongrel2;
 cd /home/ubuntu/repos/openi_android_sdk; bash setup.sh
 cd /home/ubuntu/repos/uaa; bash setup.sh
 
