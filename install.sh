@@ -120,16 +120,8 @@ sudo chown -R ubuntu:ubuntu /opt/openi/cloudlet_platform/
 
 sudo apt-get install -y openjdk-7-jre-headless
 sudo apt-get install -y tomcat7
-sudo /etc/init.d/tomcat7 stop
-printf $'@@ -1,1 +1,1 @@\n-    <Connector port=\"8887\" protocol=\"HTTP/1.1\"\n+    <Connector port=\"8877\" protocol=\"HTTP/1.1\"\n\n' | sudo patch /etc/tomcat7/server.xml -N
-sudo rm /var/lib/tomcat7/webapps/ROOT/index.html
-sudo touch /var/lib/tomcat7/webapps/ROOT/index.html
 sudo apt-get install -y postgresql
-sudo su -l -c $'echo "CREATE DATABASE uaa; ALTER USER postgres PASSWORD \'fb20c47bffebca63\';" | psql' postgres
-printf $'@@ -1,1 +1,1 @@\n-local   all             postgres                                peer\n+#local   all             postgres                                peer\n\n' | sudo patch /etc/postgresql/9.1/main/pg_hba.conf -N
-printf $'@@ -1,1 +1,1 @@\n-local   all             all                                     peer\n+local   all             all                                     trust\n\n' | sudo patch /etc/postgresql/9.1/main/pg_hba.conf -N
-sudo /etc/init.d/postgresql restart
-sudo /etc/init.d/tomcat7 start
+sudo /etc/init.d/tomcat7 stop
 
 
 cat > /etc/hosts <<DELIM
@@ -372,6 +364,15 @@ ln -s /home/ubuntu/repos/type-api/     /home/ubuntu/repos/cloudlet-platform/node
 
 DELIM
 
+printf $'@@ -1,1 +1,1 @@\n-    <Connector port=\"8887\" protocol=\"HTTP/1.1\"\n+    <Connector port=\"8877\" protocol=\"HTTP/1.1\"\n\n' | sudo patch /etc/tomcat7/server.xml -N
+sudo rm /var/lib/tomcat7/webapps/ROOT/index.html
+sudo touch /var/lib/tomcat7/webapps/ROOT/index.html
+sudo su -l -c $'echo "CREATE DATABASE uaa; ALTER USER postgres PASSWORD \'fb20c47bffebca63\';" | psql' postgres
+printf $'@@ -1,1 +1,1 @@\n-local   all             postgres                                peer\n+#local   all             postgres                                peer\n\n' | sudo patch /etc/postgresql/9.1/main/pg_hba.conf -N
+printf $'@@ -1,1 +1,1 @@\n-local   all             all                                     peer\n+local   all             all                                     trust\n\n' | sudo patch /etc/postgresql/9.1/main/pg_hba.conf -N
+sudo /etc/init.d/postgresql restart
+sudo /etc/init.d/tomcat7 start
+
 cd ~
 mkdir .dep
 cd .dep
@@ -406,10 +407,3 @@ rm -R .dep
 
 sudo sh /etc/init.d/networking restart
 
-tmp=`mktemp -q` && {
-    apt-get install -q -y --no-upgrade linux-image-generic-lts-raring | \
-    tee "$tmp"
-
-    NUM_INST=`awk '$2 == "upgraded," && $4 == "newly" { print $3 }' "$tmp"`
-    rm "$tmp"
-}
