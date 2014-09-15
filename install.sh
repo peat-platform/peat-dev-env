@@ -112,7 +112,7 @@ sudo apt-get install -y openjdk-7-jre-headless
 sudo apt-get install -y tomcat7
 sudo apt-get install -y postgresql
 sudo /etc/init.d/tomcat7 stop
-
+sudo npm install -g supervisor
 
 cat > /home/ubuntu/.ssh/config <<DELIM
 Host github.com
@@ -270,6 +270,8 @@ cd /home/ubuntu/repos/mongrel2/
 sh start_mongrel2.sh
 cd /home/ubuntu/repos/cloudlet-platform/
 node lib/main.js &
+cd /home/vagrant/repos/uaa/proxy
+supervisor proxy.js &
 
 DELIM
 
