@@ -29,9 +29,16 @@ sudo apt-get update
 sudo apt-get install sbt
 
 # Install node.js
-cd /tmp ; wget http://www.nodejs.org/dist/v0.10.21/node-v0.10.21.tar.gz; tar -xzvf node-v0.10.21.tar.gz
-cd /tmp/node-v0.10.21/ ; ./configure ; make ; make install
-cd /tmp
+#cd /tmp ; wget http://www.nodejs.org/dist/v0.10.21/node-v0.10.21.tar.gz; tar -xzvf node-v0.10.21.tar.gz
+#cd /tmp/node-v0.10.21/ ; ./configure ; make ; make install
+#cd /tmp
+curl https://raw.githubusercontent.com/creationix/nvm/v0.11.1/install.sh | bash
+source ~/.profile
+nvm install 0.10.21
+# Copy 0.10.21 from development env in home folder to global.
+n=$(which node);n=${n%/bin/node}; chmod -R 755 $n/bin/*; sudo cp -r $n/{bin,lib,share} /usr/local
+
+
 
 # Install ZMQ
 apt-get install -y g++ uuid-dev binutils libtool autoconf automake
