@@ -4,8 +4,8 @@
 
 
 VAGRANTFILE_API_VERSION = "2"
-OPENI_REPO_PATH         = "/Users/Philip/Desktop/vagrantTest"
-CPU_ALLOC               = 4      # Should probably be set to most reasonable defaults (hackaton VMs?)
+OPENI_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4"
+CPU_ALLOC               = 4
 RAM_ALLOC               = 4096
 CLIENT_IP_ADDRESS       = "192.168.33.10"
 

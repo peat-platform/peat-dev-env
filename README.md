@@ -57,11 +57,11 @@ Once the VM has been built and provisioned execute the following commands to get
 
     vagrant ssh
 
-    bash provision_openi.sh
+    bash /vagrant/provision.sh
 
-    sh tmux_openi.sh
+    sh /vagrant/utils/tmux_openi.sh
 
-    sh generate_api_clients.sh dev.openi-ict.eu
+    sh /vagrant/utils/generate_api_clients.sh dev.openi-ict.eu
 
 Navigate to `http://dev.openi-ict.eu/api-docs/` on your host system and try out a few of the endpoints.
 
