@@ -22,7 +22,7 @@ end
 Vagrant::VERSION >= "1.1.0" and Vagrant.configure("2") do |config|
 
     # Windows users shouldn't need to change this, since Vagrant will ignore the request for NFS synced folders on Windows
-    config.vm.synced_folder OPENI_REPO_PATH, "/home/vagrant/repos", type: "nfs"
+    config.vm.synced_folder OPENI_REPO_PATH, "/home/vagrant/repos", :nfs => false, :nfs_version => 3
 
     config.vm.network :private_network, ip: CLIENT_IP_ADDRESS
 
