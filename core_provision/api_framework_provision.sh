@@ -10,7 +10,7 @@ virtualenv venv
 
 source ~/repos/api-framework/OPENiapp/venv/bin/activate
 cd ~/repos/api-framework/OPENiapp/
-sudo pip install -r requirements.txt
-sudo python manage.py syncdb
+pip install -r requirements.txt
+python manage.py syncdb
 
 cd
