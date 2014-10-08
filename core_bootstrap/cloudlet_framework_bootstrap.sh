@@ -40,27 +40,28 @@ sudo make install
 
 # Install Couchbase
 cd /tmp ;
-wget --quiet http://packages.couchbase.com/releases/2.5.1/couchbase-server-enterprise_2.5.1_x86_64.deb
-sudo dpkg -i /tmp/couchbase-server-enterprise_2.5.1_x86_64.deb
-rm /tmp/couchbase-server-enterprise_2.5.1_x86_64.deb
-/bin/sleep 5
-/opt/couchbase/bin/couchbase-cli cluster-init -c 127.0.0.1:8091 --cluster-init-username=admin --cluster-init-password=password --cluster-init-ramsize=2372
-/opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=openi --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
-/opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=attachments --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
-/opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=permissions --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
+wget --quiet http://packages.couchbase.com/releases/3.0.0/couchbase-server-enterprise_3.0.0-ubuntu12.04_amd64.deb
+sudo dpkg -i couchbase-server-enterprise_3.0.0-ubuntu12.04_amd64.deb
+rm /tmp/couchbase-server-enterprise_3.0.0-ubuntu12.04_amd64.deb
+/bin/sleep 10
+sudo /opt/couchbase/bin/couchbase-cli cluster-init --cluster=127.0.0.1:8091 --user=admin --password=password --cluster-ramsize=2372
+sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=openi --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
+sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=attachments --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
+sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=permissions --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
 
 
 # Install Elasticsearch
-wget --quiet https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.0.1.deb
-sudo dpkg -i elasticsearch-1.0.1.deb
+wget --quiet https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.0.deb
+sudo dpkg -i elasticsearch-1.3.0.deb
 
 # Install and Configure the Couchbase/Elasticsearch Plugin
-sudo /usr/share/elasticsearch/bin/plugin -install transport-couchbase -url http://packages.couchbase.com.s3.amazonaws.com/releases/elastic-search-adapter/1.3.0/elasticsearch-transport-couchbase-1.3.0.zip
+sudo /usr/share/elasticsearch/bin/plugin -install transport-couchbase -url http://packages.couchbase.com.s3.amazonaws.com/releases/elastic-search-adapter/2.0.0/elasticsearch-transport-couchbase-2.0.0.zip
 sudo /usr/share/elasticsearch/bin/plugin -install mobz/elasticsearch-head
+sudo /usr/share/elasticsearch/bin/plugin -install lmenezes/elasticsearch-kopf/master
 sudo mkdir /usr/share/elasticsearch/templates
 sudo wget –-quiet https://raw2.github.com/couchbaselabs/elasticsearch-transport-couchbase/master/src/main/resources/couchbase_template.json -P /usr/share/elasticsearch/templates
 
-#TODO: Passwd should be a randomized default
+#TODO: Passwd should be a randomized default - not randomised since we will need to know it!
 sudo bash -c "echo couchbase.password: password >> /etc/elasticsearch/elasticsearch.yml"
 sudo bash -c "echo couchbase.username: admin >> /etc/elasticsearch/elasticsearch.yml"
 sudo bash -c "echo couchbase.maxConcurrentRequests: 1024 >> /etc/elasticsearch/elasticsearch.yml"
