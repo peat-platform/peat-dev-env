@@ -80,6 +80,14 @@ curl --retry 10 -XPUT http://localhost:9200/openi/ -d '{"index":{"analysis":{"an
 curl -v -u admin:password http://localhost:8091/pools/default/remoteClusters -d name=elasticsearch -d hostname=localhost:9091 -d username=admin -d password=password
 curl -v -X POST -u admin:password http://localhost:8091/controller/createReplication -d fromBucket=openi -d toCluster=elasticsearch -d toBucket=openi -d replicationType=continuous -d type=capi
 
+# Install Logstash
+cd /tmp ;
+wget --quiet https://download.elasticsearch.org/logstash/logstash/logstash-1.4.2.tar.gz;
+tar zxvf logstash-1.4.2.tar.gz
+
+wget --quiet https://download.elasticsearch.org/kibana/kibana/kibana-3.1.1.tar.gz;
+tar zxvf kibana-3.1.1.tar.gz
+
 # usermod -a -G vagrant vagrant
 sudo mkdir -p /opt/openi/cloudlet_platform/logs/
 sudo chown -R vagrant:vagrant /opt/openi/cloudlet_platform/
