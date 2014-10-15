@@ -6,13 +6,13 @@ sudo apt-get install -y maven=3.0.4-2
 sudo apt-get install -y libjansi-java
 
 sudo apt-get remove scala-library scala
-wget –-quiet www.scala-lang.org/files/archive/scala-2.10.3.deb
+wget --quiet www.scala-lang.org/files/archive/scala-2.10.3.deb
 sudo dpkg -i scala-2.10.3.deb
 sudo apt-get update
 sudo apt-get install -y scala
 rm scala-2.10.3.deb
 
-wget –-quiet http://scalasbt.artifactoryonline.com/scalasbt/sbt-native-packages/org/scala-sbt/sbt//0.12.3/sbt.deb
+wget --quiet http://scalasbt.artifactoryonline.com/scalasbt/sbt-native-packages/org/scala-sbt/sbt//0.12.3/sbt.deb
 sudo dpkg -i sbt.deb
 sudo apt-get update
 sudo apt-get install sbt
@@ -32,7 +32,7 @@ apt-get install -y libsqlite3-dev
 
 # Install Mongrel2
 cd /tmp ;
-wget –-quiet --no-check-certificate https://github.com/zedshaw/mongrel2/releases/download/v1.9.1/mongrel2-v1.9.1.tar.gz ;
+wget --quiet --no-check-certificate https://github.com/zedshaw/mongrel2/releases/download/v1.9.1/mongrel2-v1.9.1.tar.gz ;
 tar -xzvf mongrel2-v1.9.1.tar.gz
 cd /tmp/mongrel2-v1.9.1/ ;
 make clean all
@@ -59,7 +59,7 @@ sudo /usr/share/elasticsearch/bin/plugin -install transport-couchbase -url http:
 sudo /usr/share/elasticsearch/bin/plugin -install mobz/elasticsearch-head
 sudo /usr/share/elasticsearch/bin/plugin -install lmenezes/elasticsearch-kopf/master
 sudo mkdir /usr/share/elasticsearch/templates
-sudo wget –-quiet https://raw2.github.com/couchbaselabs/elasticsearch-transport-couchbase/master/src/main/resources/couchbase_template.json -P /usr/share/elasticsearch/templates
+sudo wget --quiet https://raw2.github.com/couchbaselabs/elasticsearch-transport-couchbase/master/src/main/resources/couchbase_template.json -P /usr/share/elasticsearch/templates
 
 #TODO: Passwd should be a randomized default - not randomised since we will need to know it!
 sudo bash -c "echo couchbase.password: password >> /etc/elasticsearch/elasticsearch.yml"
