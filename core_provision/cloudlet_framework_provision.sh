@@ -17,6 +17,7 @@ git clone https://github.com/OPENi-ict/openi-logger.git
 git clone https://github.com/OPENi-ict/cloudlet.git
 
 
+
 sudo mv /tmp/kibana-3.1.1 /home/vagrant/repos/mongrel2/kibana
 
 cd ~/repos/cloudlet; npm install --no-bin-links
