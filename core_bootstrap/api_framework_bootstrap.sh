@@ -3,6 +3,7 @@ sudo apt-get install -y python-software-properties
 sudo add-apt-repository -y ppa:fkrull/deadsnakes
 sudo apt-get update  -y
 sudo apt-get install python2.7  -y
+sudo apt-get install build-essential python-dev
 
 cd tmp; wget https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py
 sudo python ez_setup.py
