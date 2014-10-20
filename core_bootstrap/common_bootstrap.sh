@@ -34,7 +34,6 @@ Host github.com
 StrictHostKeyChecking no
 DELIM
 
-
 tmp=`mktemp -q` && {
     apt-get install -q -y --no-upgrade linux-image-generic-lts-raring | \
     tee "$tmp"
@@ -43,7 +42,7 @@ tmp=`mktemp -q` && {
     rm "$tmp"
 }
 
-if [ ! -d /opt/VBoxGuestAdditions-4.3.16/ ]; then
+#if [ ! -d /opt/VBoxGuestAdditions-4.3.18/ ]; then
 
     # Select fast local mirrors
     sed -i -e 's#http://security.ubuntu.com/ubuntu#mirror://mirrors.ubuntu.com/mirrors.txt#g' /etc/apt/sources.list
@@ -57,11 +56,11 @@ if [ ! -d /opt/VBoxGuestAdditions-4.3.16/ ]; then
     apt-get install -y build-essential linux-headers-`uname -r` dkms
 
     echo 'Downloading VBox Guest Additions...'
-    wget –-quiet -cq http://dlc.sun.com.edgesuite.net/virtualbox/4.3.16/VBoxGuestAdditions_4.3.16.iso
-    echo "d58f678613bd37f5f94bcf324708af63572fc8582833a2558574090231fd080f  VBoxGuestAdditions_4.3.16.iso" | sha256sum --check || exit 1
+    wget --quiet -cq http://dlc.sun.com.edgesuite.net/virtualbox/4.3.18/VBoxGuestAdditions_4.3.18.iso
+    echo "e5b425ec4f6a62523855c3cbd3975d17f962f27df093d403eab27c0e7f71464a  VBoxGuestAdditions_4.3.18.iso" | sha256sum --check || exit 1
 
-    mount -o loop,ro /home/vagrant/VBoxGuestAdditions_4.3.16.iso /mnt
-    /mnt/VBoxLinuxAdditions.run --nox11
+    mount -o loop,ro /home/vagrant/VBoxGuestAdditions_4.3.18.iso /mnt
+    yes | /mnt/VBoxLinuxAdditions.run --nox11
     umount /mnt
-    rm ~/VBoxGuestAdditions_4.3.16.iso
-fi
+    rm /home/vagrant/VBoxGuestAdditions_4.3.18.iso
+#fi
