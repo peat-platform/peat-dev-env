@@ -48,6 +48,8 @@ Once you are happy with your parameters you execute the following commands to do
 
     vagrant halt
 
+    vagrant plugin install vagrant-vbguest
+
     vagrant up
 
 
