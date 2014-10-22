@@ -21,6 +21,6 @@ git clone https://github.com/OPENi-ict/notifications.git
 
 sudo mv /tmp/kibana-3.1.1 /home/vagrant/repos/mongrel2/kibana
 
-cd ~/repos/cloudlet-platform; npm install --no-bin-links
-
-
+#cd ~/repos/cloudlet-platform; npm install --no-bin-links
+cd ~/repos/cloudlet; npm install --no-bin-links
+cd ~/repos/cloudlet; bash patch.sh import --quiet-no-color
