@@ -41,26 +41,3 @@ tmp=`mktemp -q` && {
     NUM_INST=`awk '$2 == "upgraded," && $4 == "newly" { print $3 }' "$tmp"`
     rm "$tmp"
 }
-
-#if [ ! -d /opt/VBoxGuestAdditions-4.3.18/ ]; then
-
-    # Select fast local mirrors
-    sed -i -e 's#http://security.ubuntu.com/ubuntu#mirror://mirrors.ubuntu.com/mirrors.txt#g' /etc/apt/sources.list
-    sed -i -e 's#http://us.archive.ubuntu.com/ubuntu/#mirror://mirrors.ubuntu.com/mirrors.txt#g' /etc/apt/sources.list
-
-    apt-get update -q
-
-    # Kernel Headers and dkms are required to build the vbox guest kernel
-    # modules.
-    apt-get install -q -y linux-headers-generic-lts-raring dkms
-    apt-get install -y build-essential linux-headers-`uname -r` dkms
-
-    echo 'Downloading VBox Guest Additions...'
-    wget --quiet -cq http://dlc.sun.com.edgesuite.net/virtualbox/4.3.18/VBoxGuestAdditions_4.3.18.iso
-    echo "e5b425ec4f6a62523855c3cbd3975d17f962f27df093d403eab27c0e7f71464a  VBoxGuestAdditions_4.3.18.iso" | sha256sum --check || exit 1
-
-    mount -o loop,ro /home/vagrant/VBoxGuestAdditions_4.3.18.iso /mnt
-    yes | /mnt/VBoxLinuxAdditions.run --nox11
-    umount /mnt
-    rm /home/vagrant/VBoxGuestAdditions_4.3.18.iso
-#fi
