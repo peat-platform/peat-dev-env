@@ -28,3 +28,9 @@ echo "##Installing security framework components##"
 echo "################################"
 cd $SCRIPT_ROOT_DIR
 . /vagrant/core_bootstrap/security_framework_bootstrap.sh
+
+echo "################################"
+echo "##Installing client lib components##"
+echo "################################"
+cd $SCRIPT_ROOT_DIR
+. /vagrant/core_bootstrap/client_lib_bootstrap.sh
