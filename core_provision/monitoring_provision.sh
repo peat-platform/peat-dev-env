@@ -1,4 +1,8 @@
+sudo chmod -R 777  /var/lib/ganglia/rrds/
 cd ~/repos/openi_rrd/misc && npm install && node rrd_setup.js
+sudo chown -R nobody:nogroup /var/lib/ganglia/rrds
+sudo chmod -R 777  /var/lib/ganglia/rrds/
+
 sudo cp ~/repos/openi_rrd/graph.d/* /usr/share/ganglia-webfrontend/graph.d/
 sudo cp ~/repos/openi_rrd/conf/*    /var/lib/ganglia-web/conf/
 

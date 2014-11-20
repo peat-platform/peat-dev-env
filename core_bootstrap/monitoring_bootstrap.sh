@@ -34,13 +34,16 @@ require user OPENiAdmin' | sudo tee /usr/share/ganglia-webfrontend/.htaccess
 
 echo 'OPENiAdmin:$apr1$USh.zn.E$7YQCqaUbGrdV1ac7Nlf13/' | sudo tee /usr/share/ganglia-webfrontend/.htpasswd
 
-sudo sed -i -e 's/data_source "my cluster" localhost/data_source "OPENi Cluster" 60 localhost/g' /etc/ganglia/gmetad.conf
+sudo sed -i -e 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
+
+sudo sed -i -e 's/data_source "my cluster".*localhost/data_source "OPENi Cluster" 60 localhost/g' /etc/ganglia/gmetad.conf
 
 sudo sed -i -e 's/"my cluster"/"OPENi Cluster"/g' /etc/ganglia/gmond.conf
 
 sudo sed -i -e 's/name = "unspecified"/name = "OPENi Cluster"/g' /etc/ganglia/gmond.conf
 
-sudo sed -i -e 's/mcast_join = 239\.2\.11\.71.*$/#mcast_join = 239\.2\.11\.71\n  host = localhost/mg' /etc/ganglia/gmond.conf
+sudo perl -0777 -pe 's/mcast_join = 239\.2\.11\.71/#mcast_join = 239\.2\.11\.71\n  host = localhost/' gmond.conf | sudo tee gmond.conf
+sudo perl -0777 -pe 's/[^#]mcast_join = 239\.2\.11\.71/#mcast_join = 239\.2\.11\.71/' tmp_gmond.conf  | sudo tee gmond.conf 
 
 sudo sed -i -e 's/\(NameVirtualHost \*:8888\)/\1\nNameVirtualHost *:9696/g' /etc/apache2/ports.conf
 

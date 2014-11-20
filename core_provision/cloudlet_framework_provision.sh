@@ -15,8 +15,7 @@ git clone https://github.com/OPENi-ict/dbc.git
 git clone https://github.com/OPENi-ict/cloudlet-utils.git
 git clone https://github.com/OPENi-ict/openi-logger.git
 git clone https://github.com/OPENi-ict/notifications.git
-
-
+git clone https://github.com/OPENi-ict/openi_rrd.git
 
 sudo mv /tmp/kibana-3.1.1 /home/vagrant/repos/mongrel2/kibana
 
