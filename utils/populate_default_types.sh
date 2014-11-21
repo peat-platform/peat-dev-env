@@ -73,3 +73,16 @@ curl --cacert $SSL_CERT -X POST \
   "@reference": "https://openi-ict.eu/audio"
 }' \
   https://dev.openi-ict.eu:443/api/v1/types
+
+curl --insecure -X POST \
+  -H "Accept:application/json" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "@openi_type": "t_f3bfd0b665a3e32b1d3c9fe1927717d6-511",
+  "@data": {
+    "username" : "bob",
+   "slogan" : ["When you got it, flaunt it.", "What."],
+    "avatar" : "a0e34cdf-6424-480d-b8cc-8350a9ce4eb8"
+  }
+}' \
+https://dev.openi-ict.eu:443/api/v1/objects/c_897b0ef002da79321dcb0d681cb473d0

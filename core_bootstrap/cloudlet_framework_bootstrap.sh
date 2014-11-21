@@ -48,6 +48,7 @@ sudo /opt/couchbase/bin/couchbase-cli cluster-init --cluster=127.0.0.1:8091 --us
 sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=openi --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
 sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=attachments --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
 
+sudo /opt/couchbase/bin/couchbase-cli bucket-delete -c 127.0.0.1:8091 --bucket=permissions --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
 
 
 # Install Elasticsearch
@@ -96,6 +97,7 @@ cd /etc/logstash/conf.d && wget --quiet https://gist.githubusercontent.com/phili
 sudo service logstash restart
 # usermod -a -G vagrant vagrant
 sudo mkdir -p /opt/openi/cloudlet_platform/logs/
+sudo mkdir -p /opt/openi/cloudlet_platform/uploads/
 sudo chown -R vagrant:vagrant /opt/openi/cloudlet_platform/
 
 

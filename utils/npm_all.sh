@@ -17,5 +17,4 @@ echo api-builder        && cd api-builder       && cd ../
 echo api-framework      && cd api-framework     && cd ../
 echo openi_android_sdk  && cd openi_android_sdk && cd ../
 echo api-builder        && cd api-builder       && cd ../
-echo cloudlet           && cd cloudlet          && npm install --no-bin-links ; cd ../
 echo uaa                && cd uaa               && cd ../
