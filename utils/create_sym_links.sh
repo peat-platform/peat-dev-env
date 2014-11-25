@@ -4,7 +4,7 @@ rm -fr ~/repos/cloudlet-platform/node_modules/cloudlet_api/
 rm -fr ~/repos/cloudlet-platform/node_modules/object_api
 rm -fr ~/repos/cloudlet-platform/node_modules/swagger-def
 rm -fr ~/repos/cloudlet-platform/node_modules/type_api
-rm -fr ~/repos/cloudlet-platform/node_modules/notification
+rm -fr ~/repos/cloudlet-platform/node_modules/notifications
 
 ln -s ~/repos/dao/           ~/repos/cloudlet-platform/node_modules/DAO
 ln -s ~/repos/cloudlet-api/  ~/repos/cloudlet-platform/node_modules/cloudlet_api
