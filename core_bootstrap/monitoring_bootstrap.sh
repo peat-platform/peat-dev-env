@@ -3,8 +3,8 @@ useradd ganglia --password OPENiganglia
 echo 'ganglia  ALL=(ALL:ALL) ALL' | sudo tee /etc/sudoers.d/ganglia
 
 sudo apt-get update && sudo apt-get -y upgrade
-
-sudo apt-get install -y ganglia-monitor rrdtool gmetad librrd-dev
+sudo apt-get install -y rrdtool librrd-dev
+sudo apt-get install -y ganglia-monitor gmetad 
 
 sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y install ganglia-webfrontend 
 
