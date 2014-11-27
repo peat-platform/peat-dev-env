@@ -39,5 +39,5 @@ echo "################################"
 echo "##Installing System Monitoring##"
 echo "################################"
 cd $SCRIPT_ROOT_DIR
-. /vagrant/core_bootstrap/monitoring_provision.sh
+. /vagrant/core_bootstrap/monitoring_bootstrap.sh
 
