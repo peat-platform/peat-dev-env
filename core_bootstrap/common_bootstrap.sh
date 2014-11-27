@@ -11,6 +11,7 @@ apt-get install -y nmap
 apt-get install -y vim
 apt-get install -y libssl0.9.8
 apt-get install -y g++ uuid-dev binutils libtool autoconf automake maven
+apt-get install -y linux-headers-3.13.0-40-generic
 
 su -l -c "curl https://raw.githubusercontent.com/creationix/nvm/v0.13.1/install.sh | bash && echo 'source ~/.nvm/nvm.sh' >> ~/.bashrc" vagrant
 su -l -c "nvm install 0.10 && nvm alias default 0.10 && npm install npm -g && npm install -g grunt-cli && npm install supervisor -g" vagrant
