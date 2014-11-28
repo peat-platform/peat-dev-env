@@ -6,7 +6,8 @@
 sudo dpkg --add-architecture i386
 sudo apt-get -y update
 sudo apt-get install -y libncurses5:i386 libstdc++6:i386 zlib1g:i386
-apt-get install -y sun-java6-jdk
+
+sudo apt-get install -y default-jdk
 
 cd /tmp
 
@@ -14,9 +15,9 @@ wget http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz
 
 tar -xvf android-sdk_r23.0.2-linux.tgz
 
-mkdir /opt
+mkdir -p /opt
 
-mv android-sdk-linux /opt/android-sdk-linux
+sudo mv android-sdk-linux /opt/android-sdk-linux
 
 /opt/android-sdk-linux/tools/android list sdk --all
 
