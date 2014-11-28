@@ -34,3 +34,10 @@ echo "##Installing client lib components##"
 echo "################################"
 cd $SCRIPT_ROOT_DIR
 . /vagrant/core_bootstrap/client_lib_bootstrap.sh
+
+echo "################################"
+echo "##Installing System Monitoring##"
+echo "################################"
+cd $SCRIPT_ROOT_DIR
+. /vagrant/core_bootstrap/monitoring_bootstrap.sh
+

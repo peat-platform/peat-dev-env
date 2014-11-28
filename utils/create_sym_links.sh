@@ -1,6 +1,6 @@
 #!/bin/bash
-rm -fr ~/repos/cloudlet-platform/node_modules/DAO/
-rm -fr ~/repos/cloudlet-platform/node_modules/cloudlet_api/
+rm -fr ~/repos/cloudlet-platform/node_modules/DAO
+rm -fr ~/repos/cloudlet-platform/node_modules/cloudlet_api
 rm -fr ~/repos/cloudlet-platform/node_modules/object_api
 rm -fr ~/repos/cloudlet-platform/node_modules/search_api
 rm -fr ~/repos/cloudlet-platform/node_modules/swagger-def
