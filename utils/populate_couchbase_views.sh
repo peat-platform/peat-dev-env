@@ -8,14 +8,21 @@ curl --cacert $SSL_CERT -X PUT \
   -d '{
       "views": {
          "object_by_cloudlet_id": {
-            "map": "function(doc, meta) {\n  var parts = meta.id.split(\"+\");\n  if(parts.length > 1) {\n    emit(parts[0], doc[\"@id\"]);\n  }\n}"
+            "map": "function (doc, meta) {\n   \n  emit( [doc[\"@cloudlet\"], doc[\"@cloudlet\"]], doc[\"@id\"] );\n  \n  for ( i in doc._permissions){\n    \n    if ( doc._permissions[i][\"read\"] ){\n  \temit( [i, doc[\"@cloudlet\"]], doc[\"@id\"] );\n    }\n  }\n}",
+             "reduce":"_count"
          },
-         "object_by_type": {
-            "map": "function(doc, meta) {\n  var parts = meta.id.split(\"+\");\n  if( parts.length > 1 ) {\n    emit( parts[0] + \"+\" + doc[\"@openi_type\"], doc[\"@id\"] );\n  }\n}"
+         "object_by_type" : {
+            "map" : "function (doc, meta) {\n   \n  emit( [doc[\"@cloudlet\"], doc[\"@openi_type\"], doc[\"@cloudlet\"]], [doc[\"@cloudlet\"], doc[\"@id\"]] );\n  \n  for ( i in doc._permissions){\n    \n    if ( doc._permissions[i][\"read\"] ){\n  \temit( [i, doc[\"@openi_type\"], doc[\"@cloudlet\"]], [doc[\"@cloudlet\"], doc[\"@id\"]] );\n    }\n    \n  }\n}",
+            "reduce" : "_count"
+         },
+         "type_usage" : {
+            "map" : "function (doc, meta) {\n  emit(doc[\"@openi_type\"], 1);\n}",
+            "reduce" : "_count"
          }
       }
    }' \
-  http://admin:password@dev.openi-ict.eu:8092/openi/_design/objects_views
+  http://admin:password@dev.openi-ict.eu:8092/objects/_design/objects_views
+
 
 curl --cacert $SSL_CERT -X PUT \
   -H "Accept:application/json" \
@@ -23,11 +30,12 @@ curl --cacert $SSL_CERT -X PUT \
   -d '{
       "views": {
          "cloudlet_list": {
-            "map": "function(doc, meta) {\n  var parts = meta.id.split(\"+\");\n  if(1 === parts.length) {\n    if(0 === parts[0].indexOf(\"c_\")) {\n      emit(parts[0], doc[\"@id\"]);\n    }\n  }\n}"
+            "map": "function (doc, meta) {\n\temit(doc[\"@cloudlet\"], 1);\n}",
+            "reduce":"_count"
          }
       }
    }' \
-  http://admin:password@dev.openi-ict.eu:8092/openi/_design/cloudlets_views
+  http://admin:password@dev.openi-ict.eu:8092/objects/_design/cloudlets_views
 
 curl --cacert $SSL_CERT -X PUT \
   -H "Accept:application/json" \
@@ -35,15 +43,13 @@ curl --cacert $SSL_CERT -X PUT \
   -d '{
       "views": {
          "types_list": {
-            "map": "function(doc, meta) {\n  var parts = meta.id.split(\"+\");\n  if (1 === parts.length) {\n    if (0 === parts[0].indexOf(\"t_\")) {\n      emit(parts[0], doc[\"@id\"]);\n    }\n  }\n}"
-         },
-         "types_usage": {
-            "map": "function(doc, meta) {\n  var parts = meta.id.split(\"+\");\n  if (parts.length > 1) {\n    emit(doc[\"@openi_type\"], 1);\n  }\n}",
-            "reduce": "_count"
+            "map": "function (doc, meta) {\n  emit(doc[\"@id\"], 1);\n}",
+            "reduce":"_count"
          }
       }
-    }' \
-  http://admin:password@dev.openi-ict.eu:8092/openi/_design/type_views
+   }' \
+  http://admin:password@dev.openi-ict.eu:8092/types/_design/type_views
+
 
   curl --cacert $SSL_CERT -X PUT \
   -H "Accept:application/json" \
