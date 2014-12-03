@@ -1,6 +1,7 @@
 useradd ganglia --password OPENiganglia
 
 echo 'ganglia  ALL=(ALL:ALL) ALL' | sudo tee /etc/sudoers.d/ganglia
+sudo chmod 0440 /etc/sudoers.d/ganglia
 
 sudo apt-get update && sudo apt-get -y upgrade
 sudo apt-get install -y rrdtool librrd-dev
