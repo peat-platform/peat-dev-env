@@ -6,7 +6,7 @@ sudo apt-get install -y tomcat7
 
 sudo rm /var/lib/tomcat7/webapps/ROOT/index.html
 sudo touch /var/lib/tomcat7/webapps/ROOT/index.html
-sudo apt-get install -y postgresql
+sudo apt-get install -y postgresql postgresql-client-common
 
 sudo cp -Rf /vagrant/core_bootstrap/static/etc/tomcat7/* /etc/tomcat7
 sudo cp -Rf /vagrant/core_bootstrap/static/etc/postgresql/* /etc/postgresql
