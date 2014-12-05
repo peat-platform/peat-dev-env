@@ -1,5 +1,5 @@
 #!/bin/bash
-rm -fr ~/repos/cloudlet-platform/node_modules/DAO
+rm -fr ~/repos/cloudlet-platform/node_modules/dao
 rm -fr ~/repos/cloudlet-platform/node_modules/cloudlet_api
 rm -fr ~/repos/cloudlet-platform/node_modules/object_api
 rm -fr ~/repos/cloudlet-platform/node_modules/search_api
@@ -8,7 +8,7 @@ rm -fr ~/repos/cloudlet-platform/node_modules/type_api
 rm -fr ~/repos/cloudlet-platform/node_modules/notifications
 rm -fr ~/repos/cloudlet-platform/node_modules/permissions_api
 
-ln -s ~/repos/dao/             ~/repos/cloudlet-platform/node_modules/DAO
+ln -s ~/repos/dao/             ~/repos/cloudlet-platform/node_modules/dao
 ln -s ~/repos/cloudlet-api/    ~/repos/cloudlet-platform/node_modules/cloudlet_api
 ln -s ~/repos/object-api/      ~/repos/cloudlet-platform/node_modules/object_api
 ln -s ~/repos/search-api/      ~/repos/cloudlet-platform/node_modules/search_api

@@ -1,4 +1,7 @@
+sudo apt-get install -y librrd-dev
+
 sudo chmod -R 777  /var/lib/ganglia/rrds/
+mkdir -p "/var/lib/ganglia/rrds/OPENi Cluster/localhost/"
 cd ~/repos/openi_rrd/misc && npm install && node rrd_setup.js
 sudo chown -R nobody:nogroup /var/lib/ganglia/rrds
 sudo chmod -R 777  /var/lib/ganglia/rrds/

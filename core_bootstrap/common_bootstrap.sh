@@ -8,6 +8,7 @@ apt-get install -qy wget curl
 apt-get install -qy g++ curl libssl-dev apache2-utils
 apt-get install -y make
 apt-get install -y nmap
+apt-get install -y apache2
 apt-get install -y vim
 apt-get install -y libssl0.9.8
 apt-get install -y g++ uuid-dev binutils libtool autoconf automake maven

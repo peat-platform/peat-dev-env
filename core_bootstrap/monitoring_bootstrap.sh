@@ -1,6 +1,7 @@
 useradd ganglia --password OPENiganglia
 
 echo 'ganglia  ALL=(ALL:ALL) ALL' | sudo tee /etc/sudoers.d/ganglia
+sudo chmod 0440 /etc/sudoers.d/ganglia
 
 sudo apt-get update && sudo apt-get -y upgrade
 sudo apt-get install -y rrdtool librrd-dev
@@ -43,7 +44,7 @@ sudo sed -i -e 's/"my cluster"/"OPENi Cluster"/g' /etc/ganglia/gmond.conf
 sudo sed -i -e 's/name = "unspecified"/name = "OPENi Cluster"/g' /etc/ganglia/gmond.conf
 
 sudo perl -0777 -pe 's/mcast_join = 239\.2\.11\.71/#mcast_join = 239\.2\.11\.71\n  host = localhost/' gmond.conf | sudo tee gmond.conf
-sudo perl -0777 -pe 's/[^#]mcast_join = 239\.2\.11\.71/#mcast_join = 239\.2\.11\.71/' tmp_gmond.conf  | sudo tee gmond.conf 
+sudo perl -0777 -pe 's/[^#]mcast_join = 239\.2\.11\.71/#mcast_join = 239\.2\.11\.71/' gmond.conf  | sudo tee gmond.conf 
 
 sudo sed -i -e 's/\(NameVirtualHost \*:8888\)/\1\nNameVirtualHost *:9696/g' /etc/apache2/ports.conf
 
