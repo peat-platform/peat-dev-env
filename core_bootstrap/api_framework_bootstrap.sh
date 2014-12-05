@@ -17,7 +17,7 @@ sudo pip install virtualenv
 sudo apt-get install -y apache2
 sudo apt-get install -y php5 libapache2-mod-php5
 
-sudo rm /etc/apache2/sites-enabled/000-default
+sudo rm /etc/apache2/sites-enabled/000-default*
 
 sudo sed -i -e 's/80/8888/g' /etc/apache2/ports.conf
 
