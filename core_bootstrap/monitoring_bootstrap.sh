@@ -43,8 +43,8 @@ sudo sed -i -e 's/"my cluster"/"OPENi Cluster"/g' /etc/ganglia/gmond.conf
 
 sudo sed -i -e 's/name = "unspecified"/name = "OPENi Cluster"/g' /etc/ganglia/gmond.conf
 
-sudo perl -0777 -pe 's/mcast_join = 239\.2\.11\.71/#mcast_join = 239\.2\.11\.71\n  host = localhost/' /etc/ganglia/gmond.conf | sudo tee /etc/ganglia/gmond.conf
-sudo perl -0777 -pe 's/[^#]mcast_join = 239\.2\.11\.71/#mcast_join = 239\.2\.11\.71/' /etc/ganglia/gmond.conf  | sudo tee /etc/ganglia/gmond.conf
+sudo perl -0777 -pe 's/mcast_join = 239\.2\.11\.71/#mcast_join = 239\.2\.11\.71\n  host = localhost/' /etc/ganglia/gmond.conf | sudo tee /etc/ganglia/tmp_gmond.conf
+sudo perl -0777 -pe 's/[^#]mcast_join = 239\.2\.11\.71/#mcast_join = 239\.2\.11\.71/' /etc/ganglia/tmp_gmond.conf  | sudo tee /etc/ganglia/gmond.conf
 
 sudo sed -i -e 's/\(NameVirtualHost \*:8888\)/\1\nNameVirtualHost *:9696/g' /etc/apache2/ports.conf
 
