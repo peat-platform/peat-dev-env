@@ -7,7 +7,7 @@ sudo dpkg --add-architecture i386
 sudo apt-get -y update
 sudo apt-get install -y libncurses5:i386 libstdc++6:i386 zlib1g:i386
 
-sudo apt-get install -y default-jdk
+#sudo apt-get install -y default-jdk
 
 cd /tmp
 
