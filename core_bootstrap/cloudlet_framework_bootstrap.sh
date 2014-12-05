@@ -95,6 +95,10 @@ sudo apt-get update
 sudo apt-get install logstash
 cd /etc/logstash/conf.d && wget --quiet https://gist.githubusercontent.com/philipobrien/c030717feeab0a74b1db/raw/cf859ec4063048868c9384e7cc23ee0d10a4994b/logstash-cloudlet.conf
 sudo service logstash restart
+
+sudo service logstash-web stop
+sudo update-rc.d logstash-web disable
+
 # usermod -a -G vagrant vagrant
 sudo mkdir -p /opt/openi/cloudlet_platform/logs/
 sudo mkdir -p /opt/openi/cloudlet_platform/uploads/
