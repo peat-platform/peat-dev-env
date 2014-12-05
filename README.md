@@ -65,6 +65,8 @@ Once the VM has been built and provisioned execute the following commands to get
 
     sh /vagrant/utils/populate_default_types.sh
 
+    sh /vagrant/utils/populate_couchbase_views.sh
+
     sh /vagrant/utils/generate_api_clients.sh dev.openi-ict.eu
 
 Navigate to `http://dev.openi-ict.eu/api-docs/` on your host system and try out a few of the endpoints.
