@@ -8,6 +8,8 @@ git clone https://github.com/OPENi-ict/swagger-def.git
 git clone https://github.com/OPENi-ict/cloudlet-api.git
 git clone https://github.com/OPENi-ict/object-api.git
 git clone https://github.com/OPENi-ict/type-api.git
+git clone https://github.com/OPENi-ict/search_api.git
+git clone https://github.com/OPENi-ict/permissions_api.git
 git clone https://github.com/OPENi-ict/m2nodehandler.git
 git clone https://github.com/OPENi-ict/dao.git
 git clone https://github.com/OPENi-ict/mongrel2.git
