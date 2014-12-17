@@ -98,6 +98,8 @@ sudo service logstash restart
 
 sudo service logstash-web stop
 sudo update-rc.d logstash-web disable
+echo manual | sudo tee /etc/init/logstash-web.override
+
 
 # usermod -a -G vagrant vagrant
 sudo mkdir -p /opt/openi/cloudlet_platform/logs/
