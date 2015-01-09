@@ -8,6 +8,8 @@ sudo apt-get install -y rrdtool librrd-dev
 sudo apt-get install -y ganglia-monitor gmetad 
 
 sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y install ganglia-webfrontend 
+sudo chmod u+w,a+w /usr/share/ganglia-webfrontend/graph.d
+sudo chmod u+w,a+w /var/lib/ganglia-web/conf
 
 echo "<VirtualHost *:9696>
   ServerName localhost
