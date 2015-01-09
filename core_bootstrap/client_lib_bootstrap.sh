@@ -21,7 +21,7 @@ sudo mv android-sdk-linux /opt/android-sdk-linux
 
 /opt/android-sdk-linux/tools/android list sdk --all
 
-echo yes | /opt/android-sdk-linux/tools/android update sdk -u -t tools,platform-tools,build-tools-21.1.1,extra-android-support,extra-android-m2repository,android-19
+echo yes | /opt/android-sdk-linux/tools/android update sdk -a -u -t tools,platform-tools,build-tools-21.1.1,extra-android-support,extra-android-m2repository,android-19
 
 echo JAVA_HOME=/usr/lib/jvm/default-java/ >> /etc/environment
 

@@ -44,6 +44,7 @@ tmp=`mktemp -q` && {
     rm "$tmp"
 }
 
+ssh-keygen -A
 
 apt-get install ufw
 ufw disable
@@ -53,9 +54,12 @@ ufw allow 22/tcp
 ufw allow 80/tcp
 ufw allow 443/tcp
 
+ufw allow out to any port 25
 ufw allow out to any port 53
 ufw allow out to any port 80
 ufw allow out to any port 443
 
 ufw allow out to any port 9418
-ufw enable
+
+
+apt-get install -y fail2ban
