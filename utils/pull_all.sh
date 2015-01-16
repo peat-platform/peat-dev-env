@@ -17,4 +17,6 @@ echo openi-logger       && cd openi-logger      && git pull ; cd ../
 echo openi_android_sdk  && cd openi_android_sdk && git pull ; cd ../
 echo swagger-def        && cd swagger-def       && git pull ; cd ../
 echo type-api           && cd type-api          && git pull ; cd ../
+echo auth-api           && cd auth-api          && git pull ; cd ../
+echo crud-api           && cd crud-api          && git pull ; cd ../
 echo uaa                && cd uaa               && git pull ; cd ../
