@@ -22,6 +22,16 @@ git clone https://github.com/OPENi-ict/openi_rrd.git
 
 
 cd ~/repos/cloudlet-platform; npm install --no-bin-links
+cd ~/repos/swagger-def; npm install --no-bin-links
+cd ~/repos/cloudlet-api; npm install --no-bin-links
+cd ~/repos/object-api; npm install --no-bin-links
+cd ~/repos/attachment-api; npm install --no-bin-links
+cd ~/repos/type-api; npm install --no-bin-links
+cd ~/repos/search_api; npm install --no-bin-links
+cd ~/repos/permissions_api; npm install --no-bin-links
+cd ~/repos/dao; npm install --no-bin-links
+cd ~/repos/notifications; npm install --no-bin-links
+cd ~/repos/openi_rrd; npm install --no-bin-links
 
 
 ln -s /home/vagrant/repos/mongrel2/uploads/ /opt/openi/cloudlet_platform/uploads
