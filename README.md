@@ -77,6 +77,7 @@ All the Cloudlet Platforms modules are downloaded to a shared folder `/home/vagr
 ## Piwik Setup
 
 Details can be found [here in the wiki](https://github.com/OPENi-ict/openi-dev-env/wiki/Piwik-Setup)
+
 ## Links
 http://earlyandoften.wordpress.com/2012/09/06/vagrant-cheatsheat/
 
