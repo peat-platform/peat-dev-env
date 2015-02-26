@@ -17,13 +17,16 @@ tmux new-window    -t $SESSION -a -n    'Mongrel2'
 tmux new-window    -t $SESSION -a -n    'Cloudlet framework'
 tmux new-window    -t $SESSION -a -n    'API framework'
 tmux new-window    -t $SESSION -a -n    'N1ql'
+tmux new-window    -t $SESSION -a -n    'Auth Dialogs'
+tmux new-window    -t $SESSION -a -n    'Admin Dashboard'
 
 
 
 tmux send-keys -t $SESSION:1 ' cd ~/repos/mongrel2/ && sh start_mongrel2.sh'  Enter
 tmux send-keys -t $SESSION:2 ' cd ~/repos/cloudlet-platform/ && node lib/main.js'  Enter
 tmux send-keys -t $SESSION:3 ' cd ~/repos/api-framework/OPENiapp/ && venv/bin/python manage.py runserver 0.0.0.0:8889' Enter
-tmux send-keys -t $SESSION:4 '/opt/n1ql/cbq-engine -couchbase http://localhost:8091/' Enter
+tmux send-keys -t $SESSION:4 ' cd ~/repos/openi-auth-dialogs/ && node bin/www'  Enter
+tmux send-keys -t $SESSION:4 ' cd ~/repos/admin-dashboard/    && node bin/www'  Enter
 
 tmux select-window -t :0
 

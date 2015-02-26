@@ -62,3 +62,17 @@ curl --cacert $SSL_CERT -X PUT \
       }
     }' \
   http://admin:password@dev.openi-ict.eu:8092/objects/_design/subscription_views
+
+
+curl --cacert $SSL_CERT -X PUT \
+  -H "Accept:application/json" \
+  -H "Content-Type: application/json" \
+  -d '{
+      "views": {
+         "clients_by_cloudlet_id": {
+            "map": "function (doc, meta) {\n  emit(doc.cloudlet, doc); \n}",
+             "reduce":"_count"
+         }
+      }
+   }' \
+  http://admin:password@localhost:8092/clients/_design/clients_views

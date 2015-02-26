@@ -19,8 +19,9 @@ git clone https://github.com/OPENi-ict/cloudlet-utils.git
 git clone https://github.com/OPENi-ict/openi-logger.git
 git clone https://github.com/OPENi-ict/notifications.git
 git clone https://github.com/OPENi-ict/openi_rrd.git
+git clone https://github.com/OPENi-ict/admin-dashboard.git
 
-
+cd ~/repos/admin-dashboard; npm install --no-bin-links
 cd ~/repos/cloudlet-platform; npm install --no-bin-links
 cd ~/repos/swagger-def; npm install --no-bin-links
 cd ~/repos/cloudlet-api; npm install --no-bin-links
