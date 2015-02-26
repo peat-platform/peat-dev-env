@@ -56,8 +56,8 @@ curl --cacert $SSL_CERT -X PUT \
   -H "Content-Type: application/json" \
   -d '{
       "views": {
-         "subs_by_objectId": {
-            "map": "function (doc, meta) {\n  if (meta.id.indexOf(\"+s_\") !== -1) {\n    //var cloudlet = meta.id.split(\"+\")[0]\n    emit(doc.objectid, doc);\n  }\n}"
+         "subs": {
+            "map": "function (doc, meta) {\n  if (meta.id.indexOf(\"+s_\") !== -1) {\n    var cloudlet = meta.id.split(\"+\")[0]\n    if(doc.objectid !== undefined || doc.objectid !== null) {\n      emit([cloudlet, doc.objectid],doc)\n    }\n    else {\n      emit([cloudlet, null], doc);\n    }\n  }\n}"
         }
       }
     }' \
@@ -76,3 +76,4 @@ curl --cacert $SSL_CERT -X PUT \
       }
    }' \
   http://admin:password@localhost:8092/clients/_design/clients_views
+
