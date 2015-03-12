@@ -55,7 +55,7 @@ sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=a
 # Install Elasticsearch & Logstash
 sudo wget -qO - https://packages.elasticsearch.org/GPG-KEY-elasticsearch | sudo apt-key add -
 sudo add-apt-repository "deb http://packages.elasticsearch.org/elasticsearch/1.3/debian stable main"
-sudo add-apt-repository "deb http://packages.elasticsearch.org/logstash/1.4/debian stable main"
+sudo add-apt-repository "deb http://packages.elasticsearch.org/logstash/1.5/debian stable main"
 sudo apt-get update && sudo apt-get install elasticsearch && sudo apt-get install -y logstash
 cd /etc/logstash/conf.d && sudo wget --quiet https://gist.githubusercontent.com/philipobrien/c030717feeab0a74b1db/raw/cf859ec4063048868c9384e7cc23ee0d10a4994b/logstash-cloudlet.conf
 sudo sed -i 's/start on virtual-filesystems/start on never/g' /etc/init/logstash-web.conf
@@ -99,6 +99,7 @@ sudo chown -R vagrant:vagrant /opt/openi/cloudlet_platform/
 # TODO: Sort out proper passwords
 sudo wget https://debian.piwik.org/repository.gpg -qO piwik-repository.gpg
 sudo cat piwik-repository.gpg | sudo apt-key add -
+sudo rm -rf piwik-repository.gpg
 sudo sh -c 'echo "deb http://debian.piwik.org/ piwik main\ndeb-src http://debian.piwik.org/ piwik main" >> /etc/apt/sources.list.d/piwik.list'
 sudo apt-get update
 sudo apt-get install piwik -y
