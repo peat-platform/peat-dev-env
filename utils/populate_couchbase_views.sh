@@ -18,6 +18,9 @@ curl --cacert $SSL_CERT -X PUT \
          "type_usage" : {
             "map" : "function (doc, meta) {\n  emit(doc[\"@openi_type\"], 1);\n}",
             "reduce" : "_count"
+         },
+         "object_data" : {
+            "map" : "function (doc, meta) {\n emit(doc[\"@id\"], doc[\"@data\"]);\n}"
          }
       }
    }' \
@@ -89,4 +92,16 @@ curl --cacert $SSL_CERT -X PUT \
         }
      }' \
     http://admin:password@localhost:8092/app_permissions/_design/permission_views
+
+curl --cacert $SSL_CERT -X PUT \
+    -H "Accept:application/json" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "views": {
+           "get_name": {
+              "map": "function (doc, meta) {\n emit(doc.cloudlet, doc.username);\n}"
+           }
+        }
+     }' \
+    http://admin:password@localhost:8092/users/_design/user_views
 
