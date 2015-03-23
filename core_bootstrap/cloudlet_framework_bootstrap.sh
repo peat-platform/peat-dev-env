@@ -32,9 +32,10 @@ apt-get install -y libsqlite3-dev
 
 # Install Mongrel2
 cd /tmp ;
-wget --quiet --no-check-certificate https://github.com/zedshaw/mongrel2/releases/download/v1.9.1/mongrel2-v1.9.1.tar.gz ;
-tar -xzvf mongrel2-v1.9.1.tar.gz
-cd /tmp/mongrel2-v1.9.1/ ;
+git clone https://www.github.com/aidenkeating/mongrel2.git
+#wget --quiet --no-check-certificate https://github.com/zedshaw/mongrel2/releases/download/v1.9.1/mongrel2-v1.9.1.tar.gz ;
+#tar -xzvf mongrel2-v1.9.1.tar.gz
+cd /tmp/mongrel2/ ;
 make clean all
 sudo make install
 
