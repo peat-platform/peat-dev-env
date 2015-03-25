@@ -20,7 +20,7 @@ curl --cacert $SSL_CERT -X PUT \
             "reduce" : "_count"
          },
          "object_data" : {
-            "map" : "function (doc, meta) {\n emit(doc[\"@id\"], doc[\"@data\"]);\n}"
+            "map" : "function (doc, meta) {\n emit(doc[\"@id\"], doc[\"@openi_type\"]);\n}"
          }
       }
    }' \
@@ -48,6 +48,9 @@ curl --cacert $SSL_CERT -X PUT \
          "types_list": {
             "map": "function (doc, meta) {\n  emit(doc[\"@id\"], 1);\n}",
             "reduce":"_count"
+         },
+         "get_ref": {
+            "map": "function (doc, meta) {\n\temit(doc[\"@id\"], doc[\"@reference\"]);\n}"
          }
       }
    }' \
