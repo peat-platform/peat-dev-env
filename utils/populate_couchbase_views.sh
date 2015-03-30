@@ -64,6 +64,9 @@ curl --cacert $SSL_CERT -X PUT \
       "views": {
          "subs": {
             "map": "function (doc, meta) {\n  if (meta.id.indexOf(\"+s_\") !== -1) {\n    var cloudlet = meta.id.split(\"+\")[0]\n    if(doc.objectid !== undefined || doc.objectid !== null) {\n      emit([cloudlet, doc.objectid],doc)\n    }\n    else {\n      emit([cloudlet, null], doc);\n    }\n  }\n}"
+        },
+        "subscribers": {
+            "map": "function (doc, meta) {\n  if (meta.id.indexOf(\"+s_\") !== -1) {\n    var cloudlet = doc.cloudletid;\n    if(doc.objectid !== undefined || doc.objectid !== null) {\n      emit([cloudlet, doc.objectid],doc)\n    }\n    else {\n      emit([cloudlet, null], doc);\n    }\n  }\n}"
         }
       }
     }' \
@@ -83,7 +86,7 @@ curl --cacert $SSL_CERT -X PUT \
    }' \
   http://admin:password@localhost:8092/clients/_design/clients_views
 
-    curl --cacert $SSL_CERT -X PUT \
+  curl --cacert $SSL_CERT -X PUT \
     -H "Accept:application/json" \
     -H "Content-Type: application/json" \
     -d '{
