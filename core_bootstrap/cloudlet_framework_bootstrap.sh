@@ -32,9 +32,12 @@ apt-get install -y libsqlite3-dev
 
 # Install Mongrel2
 cd /tmp ;
-wget --quiet --no-check-certificate https://github.com/zedshaw/mongrel2/releases/download/v1.9.1/mongrel2-v1.9.1.tar.gz ;
-tar -xzvf mongrel2-v1.9.1.tar.gz
-cd /tmp/mongrel2-v1.9.1/ ;
+git clone https://github.com/zedshaw/mongrel2.git
+#git clone https://www.github.com/aidenkeating/mongrel2.git
+#wget --quiet --no-check-certificate https://github.com/zedshaw/mongrel2/releases/download/v1.9.1/mongrel2-v1.9.1.tar.gz ;
+#tar -xzvf mongrel2-v1.9.1.tar.gz
+cd /tmp/mongrel2/ ;
+git checkout develop
 make clean all
 sudo make install
 
@@ -50,6 +53,15 @@ sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=t
 sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=attachments --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
 sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=permissions --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
 sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=app_permissions --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
+
+# Install N1QL DP4
+cd /tmp;
+wget --quiet http://packages.couchbase.com/releases/couchbase-query/dp4/couchbase-query_dev_preview4_x86_64_linux.tar.gz
+tar -xf couchbase-query_dev_preview4_x86_64_linux.tar.gz
+sudo mv cbq-dp4 /opt/n1ql
+curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX ON objects;'
+curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX ON types;'
+
 
 
 # Install Elasticsearch & Logstash
@@ -117,4 +129,3 @@ mysql -u root -ppassword -e "CREATE DATABASE piwik"
 mysql -u root -ppassword -e "CREATE USER 'piwik'@'localhost' IDENTIFIED BY 'password'"
 mysql -u root -ppassword -e "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON piwik.* TO 'piwik'@'localhost'"
 sudo /etc/init.d/apache2 restart
-

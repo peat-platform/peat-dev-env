@@ -18,6 +18,9 @@ curl --cacert $SSL_CERT -X PUT \
          "type_usage" : {
             "map" : "function (doc, meta) {\n  emit(doc[\"@openi_type\"], 1);\n}",
             "reduce" : "_count"
+         },
+         "object_data" : {
+            "map" : "function (doc, meta) {\n emit(doc[\"@id\"], doc[\"@openi_type\"]);\n}"
          }
       }
    }' \
@@ -45,6 +48,9 @@ curl --cacert $SSL_CERT -X PUT \
          "types_list": {
             "map": "function (doc, meta) {\n  emit(doc[\"@id\"], 1);\n}",
             "reduce":"_count"
+         },
+         "get_ref": {
+            "map": "function (doc, meta) {\n\temit(doc[\"@id\"], doc[\"@reference\"]);\n}"
          }
       }
    }' \
@@ -58,6 +64,9 @@ curl --cacert $SSL_CERT -X PUT \
       "views": {
          "subs": {
             "map": "function (doc, meta) {\n  if (meta.id.indexOf(\"+s_\") !== -1) {\n    var cloudlet = meta.id.split(\"+\")[0]\n    if(doc.objectid !== undefined || doc.objectid !== null) {\n      emit([cloudlet, doc.objectid],doc)\n    }\n    else {\n      emit([cloudlet, null], doc);\n    }\n  }\n}"
+        },
+        "subscribers": {
+            "map": "function (doc, meta) {\n  if (meta.id.indexOf(\"+s_\") !== -1) {\n    var cloudlet = doc.cloudletid;\n    if(doc.objectid !== undefined || doc.objectid !== null) {\n      emit([cloudlet, doc.objectid],doc)\n    }\n    else {\n      emit([cloudlet, null], doc);\n    }\n  }\n}"
         }
       }
     }' \
@@ -77,7 +86,7 @@ curl --cacert $SSL_CERT -X PUT \
    }' \
   http://admin:password@localhost:8092/clients/_design/clients_views
 
-    curl --cacert $SSL_CERT -X PUT \
+  curl --cacert $SSL_CERT -X PUT \
     -H "Accept:application/json" \
     -H "Content-Type: application/json" \
     -d '{
@@ -89,4 +98,16 @@ curl --cacert $SSL_CERT -X PUT \
         }
      }' \
     http://admin:password@localhost:8092/app_permissions/_design/permission_views
+
+curl --cacert $SSL_CERT -X PUT \
+    -H "Accept:application/json" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "views": {
+           "get_name": {
+              "map": "function (doc, meta) {\n emit(doc.cloudlet, doc.username);\n}"
+           }
+        }
+     }' \
+    http://admin:password@localhost:8092/users/_design/user_views
 
