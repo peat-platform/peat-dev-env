@@ -10,6 +10,7 @@ rm -fr ~/repos/cloudlet-platform/node_modules/notifications
 rm -fr ~/repos/cloudlet-platform/node_modules/permissions_api
 rm -fr ~/repos/cloudlet-platform/node_modules/auth_api
 rm -fr ~/repos/cloudlet-platform/node_modules/crud_api
+rm -fr ~/repos/cloudlet-platform/node_modules/openi_aggregator
 
 ln -s ~/repos/dao/             ~/repos/cloudlet-platform/node_modules/dao
 ln -s ~/repos/cloudlet-api/    ~/repos/cloudlet-platform/node_modules/cloudlet_api
@@ -22,3 +23,4 @@ ln -s ~/repos/notifications/   ~/repos/cloudlet-platform/node_modules/notificati
 ln -s ~/repos/permissions_api/ ~/repos/cloudlet-platform/node_modules/permissions_api
 ln -s ~/repos/auth-api/        ~/repos/cloudlet-platform/node_modules/auth_api
 ln -s ~/repos/crud-api/        ~/repos/cloudlet-platform/node_modules/crud_api
+ln -s ~/repos/openi_aggregator/        ~/repos/cloudlet-platform/node_modules/openi_aggregator
