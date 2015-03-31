@@ -19,6 +19,7 @@ tmux new-window    -t $SESSION -a -n    'API framework'
 tmux new-window    -t $SESSION -a -n    'N1ql'
 tmux new-window    -t $SESSION -a -n    'Auth Dialogs'
 tmux new-window    -t $SESSION -a -n    'Admin Dashboard'
+tmux new-window    -t $SESSION -a -n    'User Dashboard'
 
 
 
@@ -28,6 +29,7 @@ tmux send-keys -t $SESSION:3 ' cd ~/repos/api-framework/OPENiapp/ && venv/bin/py
 tmux send-keys -t $SESSION:4 ' /opt/n1ql/cbq-engine -datastore=http://localhost:8091/'  Enter
 tmux send-keys -t $SESSION:5 ' cd ~/repos/openi-auth-dialogs/ && node bin/www'  Enter
 tmux send-keys -t $SESSION:6 ' cd ~/repos/admin-dashboard/    && node bin/www'  Enter
+tmux send-keys -t $SESSION:7 ' cd ~/repos/user-dashboard/     && node bin/www'  Enter
 
 tmux select-window -t :0
 
