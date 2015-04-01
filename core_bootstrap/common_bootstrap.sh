@@ -53,6 +53,8 @@ ufw default deny outgoing
 ufw allow 22/tcp
 ufw allow 80/tcp
 ufw allow 443/tcp
+ufw allow 3306/tcp
+ufw allow 8888/tcp
 
 ufw allow out to any port 25
 ufw allow out to any port 53
