@@ -2,29 +2,29 @@
 
 SSL_CERT=~/repos/mongrel2/certs/5dc1fbe7-d9db-4602-8d19-80c7ef2b1b11.crt
 
-curl --cacert $SSL_CERT -X PUT \
+curl  -X PUT \
   -H "Accept:application/json" \
   -H "Content-Type: application/json" \
   -d '{
       "views": {
          "object_by_cloudlet_id": {
-            "map": "function (doc, meta) {\n   \n  emit( [doc[\"@cloudlet\"], doc[\"@cloudlet\"]], doc[\"@id\"] );\n  \n  for ( i in doc._permissions){\n    \n    if ( doc._permissions[i][\"read\"] ){\n  \temit( [i, doc[\"@cloudlet\"]], doc[\"@id\"] );\n    }\n  }\n}",
-             "reduce":"_count"
+            "map": "function (doc, meta) {\n\n  if (undefined === doc[\"@openi_type\"]){    return   }\n\n  var ts = new Date(doc[\"_date_modified\"]).getTime()\n\n  emit( [doc[\"@cloudlet\"], doc[\"@cloudlet\"], ts], doc[\"@id\"] );\n\n  for ( i in doc._permissions){\n\n    if ( doc._permissions[i][\"read\"] ){\n  	emit( [i, doc[\"@cloudlet\"], ts], doc[\"@id\"] );\n    }\n  }\n}",
+            "reduce":"_count"
          },
          "object_by_type" : {
-            "map" : "function (doc, meta) {\n   \n  emit( [doc[\"@cloudlet\"], doc[\"@openi_type\"], doc[\"@cloudlet\"]], [doc[\"@cloudlet\"], doc[\"@id\"]] );\n  \n  for ( i in doc._permissions){\n    \n    if ( doc._permissions[i][\"read\"] ){\n  \temit( [i, doc[\"@openi_type\"], doc[\"@cloudlet\"]], [doc[\"@cloudlet\"], doc[\"@id\"]] );\n    }\n    \n  }\n}",
+            "map" : "function (doc, meta) {\n if (undefined === doc[\"@openi_type\"]){\n return \n }\n var ts = new Date(doc[\"_date_modified\"]).getTime() \n emit( [doc[\"@cloudlet\"], doc[\"@openi_type\"], ts, doc[\"@cloudlet\"]], [doc[\"@cloudlet\"], doc[\"@id\"]] ); \n for ( i in doc._permissions){ \n if ( doc._permissions[i][\"read\"] ){ \n emit( [i, doc[\"@openi_type\"], ts, doc[\"@cloudlet\"]], [doc[\"@cloudlet\"], doc[\"@id\"]] );\n }\n}\n}",
             "reduce" : "_count"
          },
          "type_usage" : {
-            "map" : "function (doc, meta) {\n  emit(doc[\"@openi_type\"], 1);\n}",
+            "map" : "function (doc, meta) {\n if (undefined === doc[\"@openi_type\"]){\n    return \n  }\n emit(doc[\"@openi_type\"], 1);\n}",
             "reduce" : "_count"
          },
          "object_data" : {
-            "map" : "function (doc, meta) {\n emit(doc[\"@id\"], doc[\"@openi_type\"]);\n}"
+            "map" : "function (doc, meta) {\n if (undefined === doc[\"@openi_type\"]){\n    return \n  }\n emit(doc[\"@id\"], doc[\"@openi_type\"]);\n}"
          }
       }
    }' \
-  http://admin:password@dev.openi-ict.eu:8092/objects/_design/objects_views
+  http://admin:password@localhost:8092/objects/_design/objects_views
 
 
 curl --cacert $SSL_CERT -X PUT \
