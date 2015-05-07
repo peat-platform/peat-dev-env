@@ -4,7 +4,7 @@
 
 
 VAGRANTFILE_API_VERSION = "2"
-OPENI_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4"
+PEAT_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4"
 CPU_ALLOC               = 4
 RAM_ALLOC               = 4096
 CLIENT_IP_ADDRESS       = "192.168.33.10"
@@ -22,7 +22,7 @@ end
 Vagrant::VERSION >= "1.1.0" and Vagrant.configure("2") do |config|
 
     # Windows users shouldn't need to change this, since Vagrant will ignore the request for NFS synced folders on Windows
-    config.vm.synced_folder OPENI_REPO_PATH, "/home/vagrant/repos", :nfs => false, :nfs_version => 3
+    config.vm.synced_folder PEAT_REPO_PATH, "/home/vagrant/repos", :nfs => false, :nfs_version => 3
 
     config.vm.network :private_network, ip: CLIENT_IP_ADDRESS
 

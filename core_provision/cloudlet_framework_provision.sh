@@ -3,24 +3,24 @@
 cd ~/repos
 
 
-git clone https://github.com/OPENi-ict/cloudlet-platform.git
-git clone https://github.com/OPENi-ict/swagger-def.git
-git clone https://github.com/OPENi-ict/cloudlet-api.git
-git clone https://github.com/OPENi-ict/object-api.git
-git clone https://github.com/OPENi-ict/attachment-api.git
-git clone https://github.com/OPENi-ict/type-api.git
-git clone https://github.com/OPENi-ict/search_api.git
-git clone https://github.com/OPENi-ict/permissions_api.git
-git clone https://github.com/OPENi-ict/m2nodehandler.git
-git clone https://github.com/OPENi-ict/dao.git
-git clone https://github.com/OPENi-ict/mongrel2.git
-git clone https://github.com/OPENi-ict/dbc.git
-git clone https://github.com/OPENi-ict/cloudlet-utils.git
-git clone https://github.com/OPENi-ict/openi-logger.git
-git clone https://github.com/OPENi-ict/notifications.git
-git clone https://github.com/OPENi-ict/openi_rrd.git
-git clone https://github.com/OPENi-ict/admin-dashboard.git
-git clone https://github.com/OPENi-ict/user-dashboard.git
+git clone https://github.com/peat-platform/cloudlet-platform.git
+git clone https://github.com/peat-platform/swagger-def.git
+git clone https://github.com/peat-platform/cloudlet-api.git
+git clone https://github.com/peat-platform/object-api.git
+git clone https://github.com/peat-platform/attachment-api.git
+git clone https://github.com/peat-platform/type-api.git
+git clone https://github.com/peat-platform/search_api.git
+git clone https://github.com/peat-platform/permissions_api.git
+git clone https://github.com/peat-platform/m2nodehandler.git
+git clone https://github.com/peat-platform/dao.git
+git clone https://github.com/peat-platform/mongrel2.git
+git clone https://github.com/peat-platform/dbc.git
+git clone https://github.com/peat-platform/cloudlet-utils.git
+git clone https://github.com/peat-platform/openi-logger.git
+git clone https://github.com/peat-platform/notifications.git
+git clone https://github.com/peat-platform/openi_rrd.git
+git clone https://github.com/peat-platform/admin-dashboard.git
+git clone https://github.com/peat-platform/user-dashboard.git
 
 cd ~/repos/admin-dashboard; npm install --no-bin-links
 cd ~/repos/user-dashboard; npm install --no-bin-links

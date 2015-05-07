@@ -116,10 +116,10 @@ sudo sh -c 'echo "deb http://debian.piwik.org/ piwik main\ndeb-src http://debian
 sudo apt-get update
 sudo apt-get install piwik -y
 cd /usr/share/piwik/plugins
-sudo git clone https://github.com/OPENi-ict/openi-app-tracker.git OpeniAppTracker
-sudo git clone https://github.com/OPENi-ict/openi-company-tracker.git OpeniCompanyTracker
-sudo git clone https://github.com/OPENi-ict/openi-location-tracker.git OpeniLocationTracker
-sudo git clone https://github.com/OPENi-ict/openi-object-tracker.git OpeniObjectTracker
+sudo git clone https://github.com/peat-platform/openi-app-tracker.git OpeniAppTracker
+sudo git clone https://github.com/peat-platform/openi-company-tracker.git OpeniCompanyTracker
+sudo git clone https://github.com/peat-platform/openi-location-tracker.git OpeniLocationTracker
+sudo git clone https://github.com/peat-platform/openi-object-tracker.git OpeniObjectTracker
 sudo apt-get install unzip php5-gd -y
 sudo sh -c 'echo "Alias /piwik /usr/share/piwik \n<Directory /usr/share/piwik>\n  Order allow,deny\n  Allow from all\n  AllowOverride None\n  Options Indexes FollowSymLinks\n</Directory>" >> /etc/apache2/apache2.conf'
 sudo debconf-set-selections <<< 'mysql-server-5.6 mysql-server/root_password password password'

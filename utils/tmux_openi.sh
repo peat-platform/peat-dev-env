@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SESSION="OPENi"
+SESSION="PEAT"
 
 tmux has-session -t $SESSION
 if [ $? -eq 0 ]; then

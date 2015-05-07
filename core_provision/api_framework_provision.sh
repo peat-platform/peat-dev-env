@@ -2,8 +2,8 @@
 
 cd ~/repos
 
-git clone https://github.com/OPENi-ict/api-builder.git
-git clone https://github.com/OPENi-ict/api-framework.git
+git clone https://github.com/peat-platform/api-builder.git
+git clone https://github.com/peat-platform/api-framework.git
 
 cd ~/repos/api-framework/OPENiapp/
 virtualenv venv

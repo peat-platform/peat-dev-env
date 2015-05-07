@@ -21,7 +21,7 @@ su -l -c "nvm install 0.10 && nvm alias default 0.10 && npm install npm -g && np
 
 cat > /etc/hosts <<DELIM
 127.0.0.1 localhost
-127.0.1.1 trusty64 dev.openi-ict.eu
+127.0.1.1 trusty64 dev.peat-platform.org
 
 # The following lines are desirable for IPv6 capable hosts
 ::1     ip6-localhost ip6-loopback
