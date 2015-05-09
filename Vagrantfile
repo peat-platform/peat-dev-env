@@ -30,6 +30,8 @@ Vagrant::VERSION >= "1.1.0" and Vagrant.configure("2") do |config|
 
     config.ssh.forward_x11       = true
 
+    config.vbguest.auto_update   = false
+
     config.vm.provider :virtualbox do |vb, override|
         override.vm.provision :shell, :path => "bootstrap.sh"
 

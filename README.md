@@ -48,6 +48,8 @@ Once you are happy with your parameters you execute the following commands to do
 
     vagrant halt
 
+    vagrant box update
+
     vagrant plugin install vagrant-vbguest
 
     vagrant up

@@ -23,7 +23,7 @@ rm sbt.deb
 cd /tmp ; wget --quiet http://download.zeromq.org/zeromq-3.2.4.tar.gz ; tar -xzvf zeromq-3.2.4.tar.gz
 cd /tmp/zeromq-3.2.4/ ; ./configure ; make ; make install
 ldconfig
-
+sudo chown -R vagrant:vagrant /tmp
 cd ~
 
 # Install SQLite3
@@ -32,20 +32,22 @@ apt-get install -y libsqlite3-dev
 
 # Install Mongrel2
 cd /tmp ;
-git clone https://github.com/zedshaw/mongrel2.git
+git clone https://github.com/peat-platform/mongrel2-server
 #git clone https://www.github.com/aidenkeating/mongrel2.git
 #wget --quiet --no-check-certificate https://github.com/zedshaw/mongrel2/releases/download/v1.9.1/mongrel2-v1.9.1.tar.gz ;
 #tar -xzvf mongrel2-v1.9.1.tar.gz
-cd /tmp/mongrel2/ ;
-git checkout develop
+cd /tmp/mongrel2-server/;
+
 make clean all
 sudo make install
-
+sudo chown -R vagrant:vagrant /tmp
 # Install Couchbase
 cd /tmp ;
+
 wget --quiet http://packages.couchbase.com/releases/3.0.0/couchbase-server-enterprise_3.0.0-ubuntu12.04_amd64.deb
 sudo dpkg -i couchbase-server-enterprise_3.0.0-ubuntu12.04_amd64.deb
 rm /tmp/couchbase-server-enterprise_3.0.0-ubuntu12.04_amd64.deb
+
 /bin/sleep 10
 sudo /opt/couchbase/bin/couchbase-cli cluster-init --cluster=127.0.0.1:8091 --user=admin --password=password --cluster-ramsize=2372
 sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=objects     --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
@@ -54,6 +56,7 @@ sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=a
 sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=permissions --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
 sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=app_permissions --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
 
+sudo chown -R vagrant:vagrant /tmp
 # Install N1QL DP4
 cd /tmp;
 wget --quiet http://packages.couchbase.com/releases/couchbase-query/dp4/couchbase-query_dev_preview4_x86_64_linux.tar.gz
@@ -62,7 +65,7 @@ sudo mv cbq-dp4 /opt/n1ql
 curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX ON objects;'
 curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX ON types;'
 
-
+sudo chown -R vagrant:vagrant /tmp
 
 # Install Elasticsearch & Logstash
 sudo wget -qO - https://packages.elasticsearch.org/GPG-KEY-elasticsearch | sudo apt-key add -
@@ -107,25 +110,33 @@ sudo mkdir -p /opt/openi/cloudlet_platform/uploads/
 sudo chown -R vagrant:vagrant /opt/openi/cloudlet_platform/
 
 
+sudo chown -R vagrant:vagrant /tmp
+
+
 # Install Piwik
 # TODO: Sort out proper passwords
-sudo wget https://debian.piwik.org/repository.gpg -qO piwik-repository.gpg
-sudo cat piwik-repository.gpg | sudo apt-key add -
-sudo rm -rf piwik-repository.gpg
-sudo sh -c 'echo "deb http://debian.piwik.org/ piwik main\ndeb-src http://debian.piwik.org/ piwik main" >> /etc/apt/sources.list.d/piwik.list'
-sudo apt-get update
-sudo apt-get install piwik -y
+apt-get -y install mysql-server-5.6
+
+wget https://debian.piwik.org/repository.gpg -qO piwik-repository.gpg
+cat piwik-repository.gpg | apt-key add -
+rm -rf piwik-repository.gpg
+sh -c 'echo "deb http://debian.piwik.org/ piwik main\ndeb-src http://debian.piwik.org/ piwik main" >> /etc/apt/sources.list.d/piwik.list'
+apt-get update
+apt-get install piwik -y
 cd /usr/share/piwik/plugins
-sudo git clone https://github.com/peat-platform/openi-app-tracker.git OpeniAppTracker
-sudo git clone https://github.com/peat-platform/openi-company-tracker.git OpeniCompanyTracker
-sudo git clone https://github.com/peat-platform/openi-location-tracker.git OpeniLocationTracker
-sudo git clone https://github.com/peat-platform/openi-object-tracker.git OpeniObjectTracker
-sudo apt-get install unzip php5-gd -y
-sudo sh -c 'echo "Alias /piwik /usr/share/piwik \n<Directory /usr/share/piwik>\n  Order allow,deny\n  Allow from all\n  AllowOverride None\n  Options Indexes FollowSymLinks\n</Directory>" >> /etc/apache2/apache2.conf'
-sudo debconf-set-selections <<< 'mysql-server-5.6 mysql-server/root_password password password'
-sudo debconf-set-selections <<< 'mysql-server-5.6 mysql-server/root_password_again password password'
-sudo apt-get -y install mysql-server-5.6
+git clone https://github.com/peat-platform/openi-app-tracker.git OpeniAppTracker
+git clone https://github.com/peat-platform/openi-company-tracker.git OpeniCompanyTracker
+git clone https://github.com/peat-platform/openi-location-tracker.git OpeniLocationTracker
+git clone https://github.com/peat-platform/openi-object-tracker.git OpeniObjectTracker
+apt-get install unzip php5-gd -y
+sh -c 'echo "Alias /piwik /usr/share/piwik \n<Directory /usr/share/piwik>\n  Order allow,deny\n  Allow from all\n  AllowOverride None\n  Options Indexes FollowSymLinks\n</Directory>" >> /etc/apache2/apache2.conf'
+debconf-set-selections <<< 'mysql-server-5.6 mysql-server/root_password password password'
+debconf-set-selections <<< 'mysql-server-5.6 mysql-server/root_password_again password password'
+
 mysql -u root -ppassword -e "CREATE DATABASE piwik"
 mysql -u root -ppassword -e "CREATE USER 'piwik'@'localhost' IDENTIFIED BY 'password'"
 mysql -u root -ppassword -e "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON piwik.* TO 'piwik'@'localhost'"
-sudo /etc/init.d/apache2 restart
+/etc/init.d/apache2 restart
+
+
+sudo chown -R vagrant:vagrant /tmp
