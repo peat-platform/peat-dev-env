@@ -2,14 +2,14 @@
 
 SSL_CERT=~/repos/mongrel2/certs/5dc1fbe7-d9db-4602-8d19-80c7ef2b1b11.crt
 
-curl --cacert $SSL_CERT -X POST \
+curl --insecure -X POST \
   -H "Accept:application/json" \
   -H "Content-Type: application/json" \
   -d '{
   "@context": [
     {
       "@property_name": "images",
-      "@type": "attachment",
+      "@data_type": "attachment",
       "@required": false,
       "@multiple": true,
       "@context": "https://peat-platform.org/images/ids"
@@ -20,14 +20,14 @@ curl --cacert $SSL_CERT -X POST \
   https://localhost:443/api/v1/types
 
 
-curl --cacert $SSL_CERT -X POST \
+curl --insecure -X POST \
   -H "Accept:application/json" \
   -H "Content-Type: application/json" \
   -d '{
   "@context": [
     {
       "@property_name": "videos",
-      "@type": "attachment",
+      "@data_type": "attachment",
       "@required": false,
       "@multiple": true,
       "@context": "https://peat-platform.org/videos/ids"
@@ -38,14 +38,14 @@ curl --cacert $SSL_CERT -X POST \
   https://localhost:443/api/v1/types
 
 
-curl --cacert $SSL_CERT -X POST \
+curl --insecure -X POST \
   -H "Accept:application/json" \
   -H "Content-Type: application/json" \
   -d '{
   "@context": [
     {
       "@property_name": "pdfs",
-      "@type": "attachment",
+      "@data_type": "attachment",
       "@required": false,
       "@multiple": true,
       "@context": "https://peat-platform.org/pdfs/ids"
@@ -57,14 +57,14 @@ curl --cacert $SSL_CERT -X POST \
 
 
 
-curl --cacert $SSL_CERT -X POST \
+curl --insecure  -X POST \
   -H "Accept:application/json" \
   -H "Content-Type: application/json" \
   -d '{
   "@context": [
     {
       "@property_name": "audio",
-      "@type": "attachment",
+      "@data_type": "attachment",
       "@required": false,
       "@multiple": true,
       "@context": "https://peat-platform.org/audio/ids"
