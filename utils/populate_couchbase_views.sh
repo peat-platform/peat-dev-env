@@ -1,6 +1,5 @@
 #!/bin/bash
 
-SSL_CERT=~/repos/mongrel2/certs/5dc1fbe7-d9db-4602-8d19-80c7ef2b1b11.crt
 
 curl  -X PUT \
   -H "Accept:application/json" \
@@ -8,7 +7,7 @@ curl  -X PUT \
   -d '{
       "views": {
          "object_by_cloudlet_id": {
-            "map": "function (doc, meta) {\n\n  if (undefined === doc[\"@type\"]){    return   }\n\n  var ts = new Date(doc[\"_date_modified\"]).getTime()\n\n  emit( [doc[\"@cloudlet\"], doc[\"@cloudlet\"], ts], doc[\"@id\"] );\n\n  for ( i in doc._permissions){\n\n    if ( doc._permissions[i][\"read\"] ){\n  	emit( [i, doc[\"@cloudlet\"], ts], doc[\"@id\"] );\n    }\n  }\n}",
+            "map": "function (doc, meta) {\n\n  if (undefined === doc[\"@type\"]){    return   }\n\n  var ts = new Date(doc[\"_date_modified\"]).getTime()\n\n  emit( [doc[\"@cloudlet\"], doc[\"@cloudlet\"], ts], doc[\"@id\"] );\n\n  for ( i in doc._permissions){\n\n    if ( doc._permissions[i][\"read\"] ){\n emit( [i, doc[\"@cloudlet\"], ts], doc[\"@id\"] );\n    }\n  }\n}",
             "reduce":"_count"
          },
          "object_by_type" : {
@@ -23,11 +22,11 @@ curl  -X PUT \
             "map" : "function (doc, meta) {\n if (undefined === doc[\"@type\"]){\n    return \n  }\n emit(doc[\"@id\"], doc[\"@type\"]);\n}"
          }
       }
-   }' \
+}' \
   http://admin:password@localhost:8092/objects/_design/objects_views
 
 
-curl --cacert $SSL_CERT -X PUT \
+curl -X PUT \
   -H "Accept:application/json" \
   -H "Content-Type: application/json" \
   -d '{
@@ -40,7 +39,7 @@ curl --cacert $SSL_CERT -X PUT \
    }' \
   http://admin:password@localhost:8092/objects/_design/cloudlets_views
 
-curl --cacert $SSL_CERT -X PUT \
+curl  -X PUT \
   -H "Accept:application/json" \
   -H "Content-Type: application/json" \
   -d '{
@@ -57,23 +56,20 @@ curl --cacert $SSL_CERT -X PUT \
   http://admin:password@localhost:8092/types/_design/type_views
 
 
-  curl --cacert $SSL_CERT -X PUT \
+  curl  -X PUT \
   -H "Accept:application/json" \
   -H "Content-Type: application/json" \
   -d '{
       "views": {
-         "subs": {
-            "map": "function (doc, meta) {\n  if (meta.id.indexOf(\"+s_\") !== -1) {\n    var cloudlet = meta.id.split(\"+\")[0]\n    if(doc.objectid !== undefined || doc.objectid !== null) {\n      emit([cloudlet, doc.objectid],doc)\n    }\n    else {\n      emit([cloudlet, null], doc);\n    }\n  }\n}"
-        },
-        "subscribers": {
-            "map": "function (doc, meta) {\n  if (meta.id.indexOf(\"+s_\") !== -1) {\n    var cloudlet = doc.cloudletid;\n    if(doc.objectid !== undefined || doc.objectid !== null) {\n      emit([cloudlet, doc.objectid],doc)\n    }\n    else {\n      emit([cloudlet, null], doc);\n    }\n  }\n}"
+         "subs_by_objectId": {
+            "map": "function (doc, meta) {\n  if (meta.id.indexOf(\"+s_\") !== -1) {\n    //var cloudlet = meta.id.split(\"+\")[0]\n    emit(doc.objectid, doc);\n  }\n}"
         }
       }
     }' \
   http://admin:password@localhost:8092/objects/_design/subscription_views
 
 
-curl --cacert $SSL_CERT -X PUT \
+curl -X PUT \
   -H "Accept:application/json" \
   -H "Content-Type: application/json" \
   -d '{
@@ -86,7 +82,7 @@ curl --cacert $SSL_CERT -X PUT \
    }' \
   http://admin:password@localhost:8092/clients/_design/clients_views
 
-  curl --cacert $SSL_CERT -X PUT \
+    curl  -X PUT \
     -H "Accept:application/json" \
     -H "Content-Type: application/json" \
     -d '{
@@ -99,7 +95,7 @@ curl --cacert $SSL_CERT -X PUT \
      }' \
     http://admin:password@localhost:8092/app_permissions/_design/permission_views
 
-curl --cacert $SSL_CERT -X PUT \
+  curl -X PUT \
     -H "Accept:application/json" \
     -H "Content-Type: application/json" \
     -d '{
@@ -110,18 +106,3 @@ curl --cacert $SSL_CERT -X PUT \
         }
      }' \
     http://admin:password@localhost:8092/users/_design/user_views
-
-
-
-  curl  -X PUT \
-    -H "Accept:application/json" \
-    -H "Content-Type: application/json" \
-    -d '{
-        "views": {
-           "app_permissions": {
-              "map": "function (doc, meta) {\n splitId = meta.id.split(\"_\")\n emit([splitId[0], splitId[1]], doc)\n}",
-              "reduce":"_count"
-           }
-        }
-     }' \
-    http://admin:password@localhost:8092/app_permissions/_design/permission_views
