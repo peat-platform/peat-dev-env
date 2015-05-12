@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 cd /vagrant/utils/
 
-#git clone https://github.com/peat-platform/swagger-to-peat-types
+git clone https://github.com/peat-platform/swagger-to-peat-types
 
 cd swagger-to-peat-types
 
-#npm install
+npm install
 
 node main.js -s http://127.0.0.1/api-spec/v1/api_framework -o 127.0.0.1 -f pass1.json -c 'Graph API' --models '["From", "Context", "Time", "Person", "Duration", "PersonModel", "Location", "BaseTags", "BaseFile", "Address"]'
 
