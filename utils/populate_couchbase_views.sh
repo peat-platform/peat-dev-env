@@ -73,13 +73,17 @@ curl -X PUT \
   -H "Accept:application/json" \
   -H "Content-Type: application/json" \
   -d '{
-      "views": {
-         "clients_by_cloudlet_id": {
+    "views": {
+        "clients_by_cloudlet_id": {
             "map": "function (doc, meta) {\n  emit(doc.cloudlet, doc); \n}",
-             "reduce":"_count"
-         }
-      }
-   }' \
+            "reduce": "_count"
+        },
+        "list_service_enablers": {
+            "map": "function (doc, meta) {\n if (undefined !== doc.isSE || true === doc.isSE ){\n emit(meta.id, doc);\n }\n}",
+            "reduce": "_count"
+        }
+    }
+}' \
   http://admin:password@localhost:8092/clients/_design/clients_views
 
     curl  -X PUT \

@@ -70,6 +70,8 @@ Once the VM has been built and provisioned execute the following commands to get
     sh /vagrant/utils/populate_couchbase_views.sh
 
     sh /vagrant/utils/generate_api_clients.sh dev.peat-platform.org
+    
+    sh /vagrant/utils/populate_graph_api_types.sh
 
 Navigate to `http://dev.peat-platform/api-docs/` on your host system and try out a few of the endpoints.
 
