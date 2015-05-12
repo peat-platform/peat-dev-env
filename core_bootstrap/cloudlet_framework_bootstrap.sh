@@ -58,12 +58,14 @@ sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=a
 
 sudo chown -R vagrant:vagrant /tmp
 # Install N1QL DP4
-cd /tmp;
-wget --quiet http://packages.couchbase.com/releases/couchbase-query/dp4/couchbase-query_dev_preview4_x86_64_linux.tar.gz
-tar -xf couchbase-query_dev_preview4_x86_64_linux.tar.gz
-sudo mv cbq-dp4 /opt/n1ql
-curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX ON objects;'
-curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX ON types;'
+#sudo mkdir /opt/n1ql
+#sudo chown -R $USER:$GROUP /opt/n1ql
+#cd /opt/n1ql
+#wget --quiet http://packages.couchbase.com/releases/couchbase-query/dp4/couchbase-query_dev_preview4_x86_64_linux.tar.gz
+#tar -xf couchbase-query_dev_preview4_x86_64_linux.tar.gz
+#sudo chown -R $USER:$GROUP /opt/n1ql
+#curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX ON objects;'
+#curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX ON types;'
 
 sudo chown -R vagrant:vagrant /tmp
 
