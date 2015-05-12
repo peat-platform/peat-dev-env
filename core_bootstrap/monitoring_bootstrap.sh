@@ -1,4 +1,4 @@
-useradd ganglia --password OPENiganglia
+useradd ganglia --password PEATganglia
 
 echo 'ganglia  ALL=(ALL:ALL) ALL' | sudo tee /etc/sudoers.d/ganglia
 sudo chmod 0440 /etc/sudoers.d/ganglia
@@ -33,17 +33,17 @@ echo "<VirtualHost *:9696>
 echo 'AuthUserFile /usr/share/ganglia-webfrontend/.htpasswd
 AuthName "Authorization Required"
 AuthType Basic
-require user OPENiAdmin' | sudo tee /usr/share/ganglia-webfrontend/.htaccess
+require user PEATAdmin' | sudo tee /usr/share/ganglia-webfrontend/.htaccess
 
-echo 'OPENiAdmin:$apr1$USh.zn.E$7YQCqaUbGrdV1ac7Nlf13/' | sudo tee /usr/share/ganglia-webfrontend/.htpasswd
+echo 'PEATAdmin:$apr1$D5smQEg6$QKfD80aUSHzLNGdFg7tBF/' | sudo tee /usr/share/ganglia-webfrontend/.htpasswd
 
 sudo sed -i -e 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
 
-sudo sed -i -e 's/data_source "my cluster".*localhost/data_source "OPENi_Cluster" 60 localhost/g' /etc/ganglia/gmetad.conf
+sudo sed -i -e 's/data_source "my cluster".*localhost/data_source "PEAT_Cluster" 60 localhost/g' /etc/ganglia/gmetad.conf
 
-sudo sed -i -e 's/"my cluster"/"OPENi_Cluster"/g' /etc/ganglia/gmond.conf
+sudo sed -i -e 's/"my cluster"/"PEAT_Cluster"/g' /etc/ganglia/gmond.conf
 
-sudo sed -i -e 's/name = "unspecified"/name = "OPENi_Cluster"/g' /etc/ganglia/gmond.conf
+sudo sed -i -e 's/name = "unspecified"/name = "PEAT_Cluster"/g' /etc/ganglia/gmond.conf
 
 sudo perl -0777 -pe 's/mcast_join = 239\.2\.11\.71/#mcast_join = 239\.2\.11\.71\n  host = localhost/' /etc/ganglia/gmond.conf | sudo tee /etc/ganglia/tmp_gmond.conf
 sudo perl -0777 -pe 's/[^#]mcast_join = 239\.2\.11\.71/#mcast_join = 239\.2\.11\.71/' /etc/ganglia/tmp_gmond.conf  | sudo tee /etc/ganglia/gmond.conf
