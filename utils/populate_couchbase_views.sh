@@ -20,6 +20,10 @@ curl  -X PUT \
          },
          "object_data" : {
             "map" : "function (doc, meta) {\n if (undefined === doc[\"@type\"]){\n    return \n  }\n emit(doc[\"@id\"], doc[\"@type\"]);\n}"
+         },
+         "object_by_third_party_type" : {
+            "map" : "function (doc, meta) {if (undefined === doc[\"@type\"]){ return }\n \n emit( [doc[\"@cloudlet\"], doc[\"@cloudlet\"], doc[\"@type\"]], doc[\"@type\"] );\n \n for ( i in doc._permissions){\n \n if ( doc._permissions[i][\"read\"] ){\n emit( [i, doc[\"@cloudlet\"], doc[\"@type\"]], doc[\"@type\"] );\n }\n }\n }",
+            "reduce" : "_count"
          }
       }
 }' \
