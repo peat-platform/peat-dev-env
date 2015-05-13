@@ -59,11 +59,11 @@ sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=a
 sudo chown -R vagrant:vagrant /tmp
 # Install N1QL DP4
 #sudo mkdir /opt/n1ql
-#sudo chown -R $USER:$GROUP /opt/n1ql
+#sudo chown -R vagrant:vagrant /opt/n1ql
 #cd /opt/n1ql
 #wget --quiet http://packages.couchbase.com/releases/couchbase-query/dp4/couchbase-query_dev_preview4_x86_64_linux.tar.gz
 #tar -xf couchbase-query_dev_preview4_x86_64_linux.tar.gz
-#sudo chown -R $USER:$GROUP /opt/n1ql
+#sudo chown -R vagrant:vagrant /opt/n1ql
 #curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX ON objects;'
 #curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX ON types;'
 
@@ -117,28 +117,46 @@ sudo chown -R vagrant:vagrant /tmp
 
 # Install Piwik
 # TODO: Sort out proper passwords
-apt-get -y install mysql-server-5.6
+sudo apt-get update
+# sudo mkdir /usr/share/piwik
+sudo apt-get -y install unzip php5 php5-mysql php5-gd
+cd /usr/share
+sudo wget http://builds.piwik.org/latest.zip
+y | sudo unzip latest.zip
+sudo chmod a+w /usr/share/piwik/tmp
+sudo chmod a+w /usr/share/piwik/config
+sudo chown -R vagrant:vagrant /usr/share/piwik
 
-wget https://debian.piwik.org/repository.gpg -qO piwik-repository.gpg
-cat piwik-repository.gpg | apt-key add -
-rm -rf piwik-repository.gpg
-sh -c 'echo "deb http://debian.piwik.org/ piwik main\ndeb-src http://debian.piwik.org/ piwik main" >> /etc/apt/sources.list.d/piwik.list'
-apt-get update
-apt-get install piwik -y
+
 cd /usr/share/piwik/plugins
-git clone https://github.com/peat-platform/openi-app-tracker.git OpeniAppTracker
-git clone https://github.com/peat-platform/openi-company-tracker.git OpeniCompanyTracker
-git clone https://github.com/peat-platform/openi-location-tracker.git OpeniLocationTracker
-git clone https://github.com/peat-platform/openi-object-tracker.git OpeniObjectTracker
-apt-get install unzip php5-gd -y
-sh -c 'echo "Alias /piwik /usr/share/piwik \n<Directory /usr/share/piwik>\n  Order allow,deny\n  Allow from all\n  AllowOverride None\n  Options Indexes FollowSymLinks\n</Directory>" >> /etc/apache2/apache2.conf'
-debconf-set-selections <<< 'mysql-server-5.6 mysql-server/root_password password password'
-debconf-set-selections <<< 'mysql-server-5.6 mysql-server/root_password_again password password'
+sudo git clone https://github.com/peat-platform/openi-app-tracker.git OpeniAppTracker
+sudo git clone https://github.com/peat-platform/openi-company-tracker.git OpeniCompanyTracker
+sudo git clone https://github.com/peat-platform/openi-location-tracker.git OpeniLocationTracker
+sudo git clone https://github.com/peat-platform/openi-object-tracker.git OpeniObjectTracker
+sudo chown -R vagrant:vagrant /tmp
 
-mysql -u root -ppassword -e "CREATE DATABASE piwik"
-mysql -u root -ppassword -e "CREATE USER 'piwik'@'localhost' IDENTIFIED BY 'password'"
-mysql -u root -ppassword -e "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON piwik.* TO 'piwik'@'localhost'"
-/etc/init.d/apache2 restart
+sudo sh -c 'echo "Alias /piwik /usr/share/piwik \n<Directory /usr/share/piwik>\n  Order allow,deny\n  Allow from all\n  AllowOverride None\n  Options Indexes FollowSymLinks\n</Directory>" >> /etc/apache2/apache2.conf'
+sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password password password'
+sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password_again password password'
+sudo apt-get update
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server-5.5
+if [ ! -f /var/log/databasesetup ];
+then
+	echo "CREATE USER 'piwik'@'localhost' IDENTIFIED BY 'password'" | mysql -uroot -ppassword
+    echo "CREATE DATABASE piwik" | mysql -uroot -ppassword
+    echo "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON piwik.* TO 'piwik'@'localhost'" | mysql -uroot -ppassword
+    echo "flush privileges" | mysql -uroot -ppassword
 
+    touch /var/log/databasesetup
 
+    if [ -f /vagrant/data/initial.sql ];
+    then
+        mysql -uroot -ppassword piwik < /vagrant/data/initial.sql
+    fi
+fi
+
+# mysql -u root -ppassword -e "CREATE DATABASE piwik"
+# mysql -u root -ppassword -e "CREATE USER 'piwik'@'localhost' IDENTIFIED BY 'password'"
+# mysql -u root -ppassword -e "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON piwik.* TO 'piwik'@'localhost'"
+sudo /etc/init.d/apache2 restart
 sudo chown -R vagrant:vagrant /tmp
