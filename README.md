@@ -43,14 +43,14 @@ Modify the parameters at the top of the Vagrant file to suit your system.
 Once you are happy with your parameters you execute the following commands to download and provision the vm. Note: the first time that you run vagrant up it provisions the system by downloading and installing a number of applications. This can take up to an hour to execute.
 
     cd peat_dev_env
+    
+    vagrant plugin install vagrant-vbguest
 
     vagrant up
 
     vagrant halt
 
     vagrant box update
-
-    vagrant plugin install vagrant-vbguest
 
     vagrant up
 
