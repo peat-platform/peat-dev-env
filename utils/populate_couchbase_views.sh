@@ -99,6 +99,21 @@ curl -X PUT \
      }' \
     http://admin:password@localhost:8092/app_permissions/_design/permission_views
 
+
+
+    curl  -X PUT \
+    -H "Accept:application/json" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "views": {
+           "list_permissions_for_cloudlet": {
+              "map": "function (doc, meta) {\n var userCid = meta.id.split(\"+\")[1]\n var appCid = meta.id.split(\"+\")[0]\n emit([userCid, appCid], {\"third_party\" : appCid, \"perms\" : doc})\n}",
+              "reduce":"_count"
+           }
+        }
+     }' \
+    http://admin:password@localhost:8092/permissions/_design/permissions_views
+
   curl -X PUT \
     -H "Accept:application/json" \
     -H "Content-Type: application/json" \
