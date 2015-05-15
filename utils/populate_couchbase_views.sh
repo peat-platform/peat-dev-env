@@ -60,7 +60,7 @@ curl  -X PUT \
   http://admin:password@localhost:8092/types/_design/type_views
 
 
-  curl --cacert $SSL_CERT -X PUT \
+  curl -X PUT \
     -H "Accept:application/json" \
     -H "Content-Type: application/json" \
     -d '{
@@ -73,7 +73,7 @@ curl  -X PUT \
           }
         }
       }' \
-    http://admin:password@dev.openi-ict.eu:8092/objects/_design/subscription_views
+    http://admin:password@localhost:8092/objects/_design/subscription_views
 
 
 curl -X PUT \
