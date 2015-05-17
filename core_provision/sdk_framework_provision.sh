@@ -1,7 +1,11 @@
 #!/bin/bash
 
-cd ~/repos
+cd ~/
 
 git clone https://github.com/peat-platform/peat_android_sdk
 
-cd ~/repos/peat_android_sdk; bash setup.sh
+cd ~/peat_android_sdk; bash setup.sh
+
+mv peat_android_sdk ~/repos/
+
+cd ~/repos
