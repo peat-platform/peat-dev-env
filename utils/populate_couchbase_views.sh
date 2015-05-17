@@ -60,17 +60,20 @@ curl  -X PUT \
   http://admin:password@localhost:8092/types/_design/type_views
 
 
-  curl  -X PUT \
-  -H "Accept:application/json" \
-  -H "Content-Type: application/json" \
-  -d '{
-      "views": {
-         "subs_by_objectId": {
-            "map": "function (doc, meta) {\n  if (meta.id.indexOf(\"+s_\") !== -1) {\n    //var cloudlet = meta.id.split(\"+\")[0]\n    emit(doc.objectid, doc);\n  }\n}"
+  curl -X PUT \
+    -H "Accept:application/json" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "views": {
+           "subs": {
+              "map": "function (doc, meta) {\n  if (meta.id.indexOf(\"+s_\") !== -1) {\n    var cloudlet = meta.id.split(\"+\")[0]\n    if(doc.objectid !== undefined || doc.objectid !== null) {\n      emit([cloudlet, doc.objectid],doc)\n    }\n    else {\n      emit([cloudlet, null], doc);\n    }\n  }\n}"
+          },
+          "subscribers": {
+              "map": "function (doc, meta) {\n  if (meta.id.indexOf(\"+s_\") !== -1) {\n    var cloudlet = doc.cloudletid;\n    if(doc.objectid !== undefined || doc.objectid !== null) {\n      emit([cloudlet, doc.objectid],doc)\n    }\n    else {\n      emit([cloudlet, null], doc);\n    }\n  }\n}"
+          }
         }
-      }
-    }' \
-  http://admin:password@localhost:8092/objects/_design/subscription_views
+      }' \
+    http://admin:password@localhost:8092/objects/_design/subscription_views
 
 
 curl -X PUT \
