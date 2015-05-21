@@ -82,11 +82,11 @@ curl -X PUT \
   -d '{
     "views": {
         "clients_by_cloudlet_id": {
-            "map": "function (doc, meta) {\n  if (undefined === doc.isSE || false === doc.isSE ){ emit(doc.cloudlet, doc);\n} \n}",
+            "map": "function (doc, meta) {\n  if (undefined !== doc.isTest && true === doc.isTest ){ return }\n emit(doc.cloudlet, doc); \n}",
             "reduce": "_count"
         },
         "list_service_enablers": {
-            "map": "function (doc, meta) {\n if (undefined !== doc.isSE || true === doc.isSE ){\n emit(meta.id, doc);\n }\n}",
+            "map": "function (doc, meta) {\n if (undefined !== doc.isTest && true === doc.isTest ){ return }\n if (undefined !== doc.isSE && true === doc.isSE ){\n emit(meta.id, doc);\n }\n}",
             "reduce": "_count"
         }
     }
@@ -114,12 +114,26 @@ curl -X PUT \
     -d '{
         "views": {
            "list_permissions_for_cloudlet": {
-              "map": "function (doc, meta) {\n var userCid = meta.id.split(\"+\")[1]\n var appCid = meta.id.split(\"+\")[0]\n emit([userCid, appCid], {\"third_party\" : appCid, \"perms\" : doc})\n}",
+              "map": "function (doc, meta) {\n   var split = meta.id.split(\"+\")\n   var appCid  = split[0]\n   var userCid = split[1]\n   var appId   = split[2]\n     emit([userCid, appCid, appId], {\"third_party\" : appCid, \"app_key\" :appId, \"perms\" : doc[\"_current\"][\"perms\"]})\n}",
               "reduce":"_count"
            }
         }
      }' \
     http://admin:password@localhost:8092/permissions/_design/permissions_views
+
+
+  curl  -X PUT \
+    -H "Accept:application/json" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "views": {
+           "app_permissions": {
+              "map": "function (doc, meta) {\n splitId = meta.id.split(\"_\")\n emit([splitId[0], splitId[1]], doc)\n}",
+              "reduce":"_count"
+           }
+        }
+     }' \
+    http://admin:password@localhost:8092/app_permissions/_design/permission_views
 
   curl -X PUT \
     -H "Accept:application/json" \
