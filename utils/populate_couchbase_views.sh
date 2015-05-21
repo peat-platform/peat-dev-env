@@ -107,7 +107,6 @@ curl -X PUT \
     http://admin:password@localhost:8092/app_permissions/_design/permission_views
 
 
-
     curl  -X PUT \
     -H "Accept:application/json" \
     -H "Content-Type: application/json" \
