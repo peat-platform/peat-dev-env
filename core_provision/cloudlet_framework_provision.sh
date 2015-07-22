@@ -39,4 +39,4 @@ cd ~/repos/notifications; npm install --no-bin-links
 cd ~/repos/peat-rrd; npm install --no-bin-links
 
 
-ln -s /home/vagrant/repos/mongrel2/uploads/ /opt/openi/cloudlet_platform/uploads
+ln -s /home/vagrant/repos/mongrel2/uploads/ /opt/peat/cloudlet_platform/uploads

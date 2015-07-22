@@ -4,7 +4,7 @@
 
 
 VAGRANTFILE_API_VERSION = "2"
-PEAT_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4"
+PEAT_REPO_PATH         = "/Users/dmccarthy/work/peat/wp4"
 CPU_ALLOC               = 4
 RAM_ALLOC               = 4096
 CLIENT_IP_ADDRESS       = "192.168.33.10"
