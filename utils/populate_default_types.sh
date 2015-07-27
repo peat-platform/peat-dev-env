@@ -12,7 +12,7 @@ curl -k -X POST \
       "@type": "attachment",
       "@required": false,
       "@multiple": true,
-      "@context_id": "https://openi-ict.eu/images/ids"
+      "@description": "https://openi-ict.eu/images/ids"
     }
   ],
   "@reference": "https://openi-ict.eu/images"
@@ -30,7 +30,7 @@ curl -k -X POST \
       "@type": "attachment",
       "@required": false,
       "@multiple": true,
-      "@context_id": "https://peat-platform.org/videos/ids"
+      "@description": "https://peat-platform.org/videos/ids"
     }
   ],
   "@reference": "https://peat-platform.org/videos"
@@ -48,7 +48,7 @@ curl -k -X POST \
       "@type": "attachment",
       "@required": false,
       "@multiple": true,
-      "@context_id": "https://peat-platform.org/pdfs/ids"
+      "@description": "https://peat-platform.org/pdfs/ids"
     }
   ],
   "@reference": "https://peat-platform.org/pdfs"
@@ -67,7 +67,7 @@ curl -k -X POST \
       "@type": "attachment",
       "@required": false,
       "@multiple": true,
-      "@context_id": "https://peat-platform.org/audio/ids"
+      "@description": "https://peat-platform.org/audio/ids"
     }
   ],
   "@reference": "https://peat-platform.org/audio"
@@ -84,37 +84,37 @@ curl -k -X POST \
       "@type": "string",
       "@multiple": false,
       "@required": true,
-      "@context_id": "Unique identifier for Client"
+      "@description": "Unique identifier for Client"
     },
     {
       "@property_name": "peat_type",
       "@type": "string",
       "@multiple": false,
       "@required": true,
-      "@context_id": "OPENi Type Id"
+      "@description": "OPENi Type Id"
     },
     {
       "@property_name": "notification_type",
       "@type": "string",
       "@multiple": false,
       "@required": true,
-      "@context_id": "Type of notification (GCM, email, SMS, SSE)"
+      "@description": "Type of notification (GCM, email, SMS, SSE)"
     },
     {
       "@property_name": "data",
       "@type": "string",
       "@multiple": false,
       "@required": false,
-      "@context_id": "Data sent for email or SMS"
+      "@description": "Data sent for email or SMS"
     },
     {
       "@property_name": "endpoint",
       "@type": "string",
       "@multiple": false,
       "@required": false,
-      "@context_id": "Email address, Phone number or Android Device ID"
+      "@description": "Email address, Phone number or Android Device ID"
     }
   ],
-  "@reference": "OPENi Subscription"
+  "@reference": "PEAT Subscription"
 }' \
   https://dev.peat-platform.org:443/api/v1/types
