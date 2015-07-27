@@ -1,8 +1,8 @@
 #!/bin/bash
 
-SSL_CERT=~/repos/mongrel2/certs/5dc1fbe7-d9db-4602-8d19-80c7ef2b1b11.crt
+#SSL_CERT=~/repos/mongrel2/certs/5dc1fbe7-d9db-4602-8d19-80c7ef2b1b11.crt
 
-curl --cacert $SSL_CERT -X POST \
+curl -k -X POST \
   -H "Accept:application/json" \
   -H "Content-Type: application/json" \
   -d '{
@@ -20,7 +20,7 @@ curl --cacert $SSL_CERT -X POST \
   https://dev.peat-platform.org:443/api/v1/types
 
 
-curl --cacert $SSL_CERT -X POST \
+curl -k -X POST \
   -H "Accept:application/json" \
   -H "Content-Type: application/json" \
   -d '{
@@ -38,7 +38,7 @@ curl --cacert $SSL_CERT -X POST \
   https://dev.peat-platform.org:443/api/v1/types
 
 
-curl --cacert $SSL_CERT -X POST \
+curl -k -X POST \
   -H "Accept:application/json" \
   -H "Content-Type: application/json" \
   -d '{
@@ -57,7 +57,7 @@ curl --cacert $SSL_CERT -X POST \
 
 
 
-curl --cacert $SSL_CERT -X POST \
+curl -k -X POST \
   -H "Accept:application/json" \
   -H "Content-Type: application/json" \
   -d '{
@@ -74,7 +74,7 @@ curl --cacert $SSL_CERT -X POST \
 }' \
   https://dev.peat-platform.org:443/api/v1/types
 
-curl --cacert $SSL_CERT -X POST \
+curl -k -X POST \
   -H "Accept:application/json" \
   -H "Content-Type: application/json" \
   -d '{
