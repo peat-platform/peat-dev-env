@@ -9,7 +9,7 @@ curl -k -X POST \
   "@context": [
     {
       "@property_name": "images",
-      "@type": "attachment",
+      "@data_type": "attachment",
       "@required": false,
       "@multiple": true,
       "@description": "https://openi-ict.eu/images/ids"
@@ -27,7 +27,7 @@ curl -k -X POST \
   "@context": [
     {
       "@property_name": "videos",
-      "@type": "attachment",
+      "@data_type": "attachment",
       "@required": false,
       "@multiple": true,
       "@description": "https://peat-platform.org/videos/ids"
@@ -45,7 +45,7 @@ curl -k -X POST \
   "@context": [
     {
       "@property_name": "pdfs",
-      "@type": "attachment",
+      "@data_type": "attachment",
       "@required": false,
       "@multiple": true,
       "@description": "https://peat-platform.org/pdfs/ids"
@@ -64,7 +64,7 @@ curl -k -X POST \
   "@context": [
     {
       "@property_name": "audio",
-      "@type": "attachment",
+      "@data_type": "attachment",
       "@required": false,
       "@multiple": true,
       "@description": "https://peat-platform.org/audio/ids"
@@ -81,35 +81,35 @@ curl -k -X POST \
   "@context": [
     {
       "@property_name": "client_id",
-      "@type": "string",
+      "@data_type": "string",
       "@multiple": false,
       "@required": true,
       "@description": "Unique identifier for Client"
     },
     {
       "@property_name": "peat_type",
-      "@type": "string",
+      "@data_type": "string",
       "@multiple": false,
       "@required": true,
       "@description": "OPENi Type Id"
     },
     {
       "@property_name": "notification_type",
-      "@type": "string",
+      "@data_type": "string",
       "@multiple": false,
       "@required": true,
       "@description": "Type of notification (GCM, email, SMS, SSE)"
     },
     {
       "@property_name": "data",
-      "@type": "string",
+      "@data_type": "string",
       "@multiple": false,
       "@required": false,
       "@description": "Data sent for email or SMS"
     },
     {
       "@property_name": "endpoint",
-      "@type": "string",
+      "@data_type": "string",
       "@multiple": false,
       "@required": false,
       "@description": "Email address, Phone number or Android Device ID"
