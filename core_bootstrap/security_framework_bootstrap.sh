@@ -5,6 +5,9 @@ sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=u
 sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=clients        --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
 sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=dbkeys         --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
 
+curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX `clients-index` ON `clients`;'
+curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX `users-index` ON `users`;'
+
 
 sudo apt-get install -y redis-server
 

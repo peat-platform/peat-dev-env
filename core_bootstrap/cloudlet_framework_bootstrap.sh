@@ -60,8 +60,6 @@ sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=a
 /bin/sleep 5
 curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX `objects-index` ON `objects`;'
 curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX `types-index` ON `types`;'
-curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX `clients-index` ON `clients`;'
-curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX `users-index` ON `users`;'
 
 sudo chown -R $USER:$GROUP /tmp
 
