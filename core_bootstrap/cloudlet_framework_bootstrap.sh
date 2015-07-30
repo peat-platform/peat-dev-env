@@ -32,24 +32,23 @@ apt-get install -y libsqlite3-dev
 
 # Install Mongrel2
 cd /tmp ;
-git clone https://github.com/peat-platform/mongrel2-server
-#git clone https://www.github.com/aidenkeating/mongrel2.git
-#wget --quiet --no-check-certificate https://github.com/zedshaw/mongrel2/releases/download/v1.9.1/mongrel2-v1.9.1.tar.gz ;
-#tar -xzvf mongrel2-v1.9.1.tar.gz
-cd /tmp/mongrel2-server/;
+git clone https://github.com/mongrel2/mongrel2
+cd /tmp/mongrel2
+git checkout release/1.9.2
 
 make clean all
 sudo make install
 sudo chown -R vagrant:vagrant /tmp
 # Install Couchbase
 cd /tmp ;
-
-wget --quiet http://packages.couchbase.com/releases/3.0.0/couchbase-server-enterprise_3.0.0-ubuntu12.04_amd64.deb
-sudo dpkg -i couchbase-server-enterprise_3.0.0-ubuntu12.04_amd64.deb
-rm /tmp/couchbase-server-enterprise_3.0.0-ubuntu12.04_amd64.deb
+#wget http://latestbuilds.hq.couchbase.com/couchbase-server/sherlock/3133/couchbase-server-enterprise_4.0.0-3133-ubuntu14.04_amd64.deb
+wget http://packages.couchbase.com/releases/4.0.0-beta/couchbase-server-enterprise_4.0.0-beta-ubuntu14.04_amd64.deb
+sudo dpkg -i couchbase-server-enterprise_4.0.0-beta-ubuntu14.04_amd64.deb
+rm /tmp/couchbase-server-enterprise_4.0.0-beta-ubuntu14.04_amd64.deb
+sudo chown -R $USER:$GROUP /tmp
 
 /bin/sleep 10
-sudo /opt/couchbase/bin/couchbase-cli cluster-init --cluster=127.0.0.1:8091 --user=admin --password=password --cluster-ramsize=2372
+sudo /opt/couchbase/bin/couchbase-cli cluster-init --cluster=127.0.0.1:8091 --user=admin --password=password --cluster-ramsize=2372 --services="data;index;query"
 sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=objects     --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
 sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=types       --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
 sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=attachments --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
@@ -107,9 +106,9 @@ curl -v -X POST -u admin:password http://localhost:8091/controller/createReplica
 
 
 # usermod -a -G vagrant vagrant
-sudo mkdir -p /opt/openi/cloudlet_platform/logs/
-sudo mkdir -p /opt/openi/cloudlet_platform/uploads/
-sudo chown -R vagrant:vagrant /opt/openi/cloudlet_platform/
+sudo mkdir -p /opt/peat/cloudlet_platform/logs/
+sudo mkdir -p /opt/peat/cloudlet_platform/uploads/
+sudo chown -R vagrant:vagrant /opt/peat/cloudlet_platform/
 
 
 sudo chown -R vagrant:vagrant /tmp
@@ -127,6 +126,15 @@ sudo chmod a+w /usr/share/piwik/tmp
 sudo chmod a+w /usr/share/piwik/config
 sudo chown -R vagrant:vagrant /usr/share/piwik
 
+
+sudo wget https://debian.piwik.org/repository.gpg -qO piwik-repository.gpg
+sudo cat piwik-repository.gpg | sudo apt-key add -
+sudo rm -rf piwik-repository.gpg
+sudo bash -c 'echo "deb http://debian.piwik.org/ piwik main\ndeb-src http://debian.piwik.org/ piwik main" >> /etc/apt/sources.list.d/piwik.list'
+sudo apt-get update
+sudo apt-get install unzip php5-gd -y
+sudo apt-get install piwik -y
+sudo chown -R vagrant:vagrant /tmp
 
 cd /usr/share/piwik/plugins
 sudo git clone https://github.com/peat-platform/openi-app-tracker.git OpeniAppTracker

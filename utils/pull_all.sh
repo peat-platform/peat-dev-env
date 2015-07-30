@@ -13,8 +13,8 @@ echo m2nodehandler      && cd m2nodehandler     && git pull ; cd ../
 echo mongrel2           && cd mongrel2          && git pull ; cd ../
 echo notifications      && cd notifications     && git pull ; cd ../
 echo object-api         && cd object-api        && git pull ; cd ../
-echo openi-logger       && cd openi-logger      && git pull ; cd ../
-echo openi_android_sdk  && cd openi_android_sdk && git pull ; cd ../
+echo peat-logger        && cd peat-logger       && git pull ; cd ../
+echo peat_android_sdk   && cd peat_android_sdk  && git pull ; cd ../
 echo swagger-def        && cd swagger-def       && git pull ; cd ../
 echo type-api           && cd type-api          && git pull ; cd ../
 echo auth-api           && cd auth-api          && git pull ; cd ../
