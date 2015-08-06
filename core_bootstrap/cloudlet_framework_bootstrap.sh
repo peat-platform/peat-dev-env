@@ -32,7 +32,7 @@ apt-get install -y libsqlite3-dev
 
 # Install Mongrel2
 cd /tmp ;
-git clone https://github.com/zedshaw/mongrel2.git
+git clone https://github.com/mongrel2/mongrel2.git
 cd /tmp/mongrel2
 git checkout release/1.9.2
 
@@ -56,10 +56,6 @@ sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=t
 sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=attachments --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
 sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=permissions --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
 sudo /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 --bucket=app_permissions --bucket-type=couchbase --bucket-ramsize=100 --bucket-replica=0 -u admin -p password
-
-/bin/sleep 5
-curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX `objects-index` ON `objects`;'
-curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX `types-index` ON `types`;'
 
 sudo chown -R $USER:$GROUP /tmp
 

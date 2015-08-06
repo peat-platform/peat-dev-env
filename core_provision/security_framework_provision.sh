@@ -6,7 +6,7 @@ git clone https://github.com/peat-platform/auth-api.git
 git clone https://github.com/peat-platform/crud-api.git
 git clone https://github.com/peat-platform/auth-dialogs.git
 
-cd ~/repos/auth-dialogs npm install --no-bin-links
+cd ~/repos/auth-dialogs; npm install --no-bin-links
 cd ~/repos/auth-api; npm install --no-bin-links
 cd ~/repos/crud-api; npm install --no-bin-links
 
