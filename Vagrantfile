@@ -4,7 +4,7 @@
 
 
 VAGRANTFILE_API_VERSION = "2"
-PEAT_REPO_PATH         = "/Users/dconway/Work/mergetest"
+PEAT_REPO_PATH         = "/Users/dconway/Work/PEAT/repos"
 CPU_ALLOC               = 4
 RAM_ALLOC               = 4096
 CLIENT_IP_ADDRESS       = "192.168.33.10"
@@ -29,6 +29,8 @@ Vagrant::VERSION >= "1.1.0" and Vagrant.configure("2") do |config|
     config.ssh.forward_agent     = true
 
     config.ssh.forward_x11       = true
+
+    config.vbguest.auto_update   = false
 
     config.vm.provider :virtualbox do |vb, override|
         override.vm.provision :shell, :path => "bootstrap.sh"
