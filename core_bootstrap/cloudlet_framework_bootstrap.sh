@@ -19,9 +19,14 @@ sudo apt-get install -y sbt
 rm sbt.deb
 
 
-# Install ZMQ
-cd /tmp ; wget --quiet http://download.zeromq.org/zeromq-3.2.4.tar.gz ; tar -xzvf zeromq-3.2.4.tar.gz
-cd /tmp/zeromq-3.2.4/ ; ./configure ; make ; make install
+# Install ZMQ + libsodium
+sudo apt-get install uuid-dev
+cd /tmp ; wget --quiet https://download.libsodium.org/libsodium/releases/libsodium-1.0.3.tar.gz ; tar -xzvf libsodium-1.0.3.tar.gz
+cd /tmp/libsodium-1.0.3/ ; ./configure ; make ; make install
+#cd /tmp ; wget --quiet http://download.zeromq.org/zeromq-3.2.4.tar.gz ; tar -xzvf zeromq-3.2.4.tar.gz
+cd /tmp ; wget --quiet http://download.zeromq.org/zeromq-4.1.3.tar.gz ; tar -xzvf zeromq-4.1.3.tar.gz
+#cd /tmp/zeromq-3.2.4/ ; ./configure ; make ; make install
+cd /tmp/zeromq-4.1.3/ ; ./configure --without-libsodium ; make ; make install
 ldconfig
 sudo chown -R vagrant:vagrant /tmp
 cd ~
