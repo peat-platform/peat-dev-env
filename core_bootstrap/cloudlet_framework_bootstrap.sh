@@ -34,7 +34,7 @@ apt-get install -y libsqlite3-dev
 cd /tmp ;
 git clone https://github.com/mongrel2/mongrel2
 cd /tmp/mongrel2
-git checkout release/1.9.2
+#git checkout release/1.9.3
 
 make clean all
 sudo make install
