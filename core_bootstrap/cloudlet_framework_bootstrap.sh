@@ -32,20 +32,40 @@ apt-get install -y libsqlite3-dev
 
 # Install Mongrel2
 cd /tmp ;
-git clone https://github.com/mongrel2/mongrel2
+git clone https://github.com/mongrel2/mongrel2.git
 cd /tmp/mongrel2
 #git checkout release/1.9.3
 
 make clean all
+
+cat > /tmp/mongrel2/src/polarssl/library/asn1parse.patch <<DELIM
+diff --git a/library/asn1parse.c b/library/asn1parse.c
+index a3a2b56..e2117bf 100644
+--- a/library/asn1parse.c
++++ b/library/asn1parse.c
+@@ -278,6 +278,8 @@ int asn1_get_sequence_of( unsigned char **p,
+             if( cur->next == NULL )
+                 return( POLARSSL_ERR_ASN1_MALLOC_FAILED );
+
++            memset( cur->next, 0, sizeof( asn1_sequence ) );
++
+             cur = cur->next;
+         }
+     }
+DELIM
+patch src/polarssl/library/asn1parse.c src/polarssl/library/asn1parse.patch
+
 sudo make install
 sudo chown -R vagrant:vagrant /tmp
 # Install Couchbase
 cd /tmp ;
+
+
 #wget http://latestbuilds.hq.couchbase.com/couchbase-server/sherlock/3133/couchbase-server-enterprise_4.0.0-3133-ubuntu14.04_amd64.deb
 wget http://packages.couchbase.com/releases/4.0.0-beta/couchbase-server-enterprise_4.0.0-beta-ubuntu14.04_amd64.deb
 sudo dpkg -i couchbase-server-enterprise_4.0.0-beta-ubuntu14.04_amd64.deb
 rm /tmp/couchbase-server-enterprise_4.0.0-beta-ubuntu14.04_amd64.deb
-sudo chown -R $USER:$GROUP /tmp
+sudo chown -R vagrant:vagrant /tmp
 
 /bin/sleep 10
 sudo /opt/couchbase/bin/couchbase-cli cluster-init --cluster=127.0.0.1:8091 --user=admin --password=password --cluster-ramsize=2372 --services="data;index;query"
@@ -121,20 +141,20 @@ sudo apt-get update
 sudo apt-get -y install unzip php5 php5-mysql php5-gd
 cd /usr/share
 sudo wget http://builds.piwik.org/latest.zip
-y | sudo unzip latest.zip
+sudo unzip latest.zip
 sudo chmod a+w /usr/share/piwik/tmp
 sudo chmod a+w /usr/share/piwik/config
 sudo chown -R vagrant:vagrant /usr/share/piwik
 
 
-sudo wget https://debian.piwik.org/repository.gpg -qO piwik-repository.gpg
-sudo cat piwik-repository.gpg | sudo apt-key add -
-sudo rm -rf piwik-repository.gpg
-sudo bash -c 'echo "deb http://debian.piwik.org/ piwik main\ndeb-src http://debian.piwik.org/ piwik main" >> /etc/apt/sources.list.d/piwik.list'
-sudo apt-get update
-sudo apt-get install unzip php5-gd -y
-sudo apt-get install piwik -y
-sudo chown -R vagrant:vagrant /tmp
+# sudo wget https://debian.piwik.org/repository.gpg -qO piwik-repository.gpg
+# sudo cat piwik-repository.gpg | sudo apt-key add -
+# sudo rm -rf piwik-repository.gpg
+# sudo bash -c 'echo "deb http://debian.piwik.org/ piwik main\ndeb-src http://debian.piwik.org/ piwik main" >> /etc/apt/sources.list.d/piwik.list'
+# sudo apt-get update
+# sudo apt-get install unzip php5-gd -y
+# sudo apt-get install piwik -y
+# sudo chown -R $USER:$GROUP /tmp
 
 cd /usr/share/piwik/plugins
 sudo git clone https://github.com/peat-platform/openi-app-tracker.git OpeniAppTracker

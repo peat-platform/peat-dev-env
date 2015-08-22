@@ -121,19 +121,6 @@ curl -X PUT \
     http://admin:password@localhost:8092/permissions/_design/permissions_views
 
 
-  curl  -X PUT \
-    -H "Accept:application/json" \
-    -H "Content-Type: application/json" \
-    -d '{
-        "views": {
-           "app_permissions": {
-              "map": "function (doc, meta) {\n splitId = meta.id.split(\"_\")\n emit([splitId[0], splitId[1]], doc)\n}",
-              "reduce":"_count"
-           }
-        }
-     }' \
-    http://admin:password@localhost:8092/app_permissions/_design/permission_views
-
   curl -X PUT \
     -H "Accept:application/json" \
     -H "Content-Type: application/json" \
@@ -145,3 +132,10 @@ curl -X PUT \
         }
      }' \
     http://admin:password@localhost:8092/users/_design/user_views
+
+
+
+curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX `objects-index` ON `objects`;'
+curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX `types-index`   ON `types`;'
+curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX `clients-index` ON `clients`;'
+curl -v http://localhost:8093/query/service -d 'statement=CREATE PRIMARY INDEX `users-index`   ON `users`;'
