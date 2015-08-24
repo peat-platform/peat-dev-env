@@ -32,28 +32,11 @@ apt-get install -y libsqlite3-dev
 
 # Install Mongrel2
 cd /tmp ;
-git clone https://github.com/mongrel2/mongrel2.git
-cd /tmp/mongrel2
-#git checkout release/1.9.3
+wget https://github.com/mongrel2/mongrel2/releases/download/v1.9.3/mongrel2-v1.9.3.tar.bz2
+tar -xvf mongrel2-v1.9.3.tar.bz2
+cd /tmp/mongrel2-v1.9.3
 
 make clean all
-
-cat > /tmp/mongrel2/src/polarssl/library/asn1parse.patch <<DELIM
-diff --git a/library/asn1parse.c b/library/asn1parse.c
-index a3a2b56..e2117bf 100644
---- a/library/asn1parse.c
-+++ b/library/asn1parse.c
-@@ -278,6 +278,8 @@ int asn1_get_sequence_of( unsigned char **p,
-             if( cur->next == NULL )
-                 return( POLARSSL_ERR_ASN1_MALLOC_FAILED );
-
-+            memset( cur->next, 0, sizeof( asn1_sequence ) );
-+
-             cur = cur->next;
-         }
-     }
-DELIM
-patch src/polarssl/library/asn1parse.c src/polarssl/library/asn1parse.patch
 
 sudo make install
 sudo chown -R vagrant:vagrant /tmp
