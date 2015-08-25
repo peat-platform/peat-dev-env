@@ -32,15 +32,18 @@ apt-get install -y libsqlite3-dev
 
 # Install Mongrel2
 cd /tmp ;
-git clone https://github.com/mongrel2/mongrel2
-cd /tmp/mongrel2
-git checkout release/1.9.2
+wget https://github.com/mongrel2/mongrel2/releases/download/v1.9.3/mongrel2-v1.9.3.tar.bz2
+tar -xvf mongrel2-v1.9.3.tar.bz2
+cd /tmp/mongrel2-v1.9.3
 
 make clean all
+
 sudo make install
 sudo chown -R vagrant:vagrant /tmp
 # Install Couchbase
 cd /tmp ;
+
+
 #wget http://latestbuilds.hq.couchbase.com/couchbase-server/sherlock/3133/couchbase-server-enterprise_4.0.0-3133-ubuntu14.04_amd64.deb
 wget http://packages.couchbase.com/releases/4.0.0-beta/couchbase-server-enterprise_4.0.0-beta-ubuntu14.04_amd64.deb
 sudo dpkg -i couchbase-server-enterprise_4.0.0-beta-ubuntu14.04_amd64.deb
@@ -127,14 +130,14 @@ sudo chmod a+w /usr/share/piwik/config
 sudo chown -R vagrant:vagrant /usr/share/piwik
 
 
-sudo wget https://debian.piwik.org/repository.gpg -qO piwik-repository.gpg
-sudo cat piwik-repository.gpg | sudo apt-key add -
-sudo rm -rf piwik-repository.gpg
-sudo bash -c 'echo "deb http://debian.piwik.org/ piwik main\ndeb-src http://debian.piwik.org/ piwik main" >> /etc/apt/sources.list.d/piwik.list'
-sudo apt-get update
-sudo apt-get install unzip php5-gd -y
-sudo apt-get install piwik -y
-sudo chown -R vagrant:vagrant /tmp
+# sudo wget https://debian.piwik.org/repository.gpg -qO piwik-repository.gpg
+# sudo cat piwik-repository.gpg | sudo apt-key add -
+# sudo rm -rf piwik-repository.gpg
+# sudo bash -c 'echo "deb http://debian.piwik.org/ piwik main\ndeb-src http://debian.piwik.org/ piwik main" >> /etc/apt/sources.list.d/piwik.list'
+# sudo apt-get update
+# sudo apt-get install unzip php5-gd -y
+# sudo apt-get install piwik -y
+# sudo chown -R $USER:$GROUP /tmp
 
 cd /usr/share/piwik/plugins
 sudo git clone https://github.com/peat-platform/openi-app-tracker.git OpeniAppTracker
