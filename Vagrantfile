@@ -4,7 +4,7 @@
 
 
 VAGRANTFILE_API_VERSION = "2"
-PEAT_REPO_PATH         = "/Users/dconway/Work/PEAT/repos"
+PEAT_REPO_PATH         = "/Users/dmccarthy/work/openi/wp4/"
 CPU_ALLOC               = 4
 RAM_ALLOC               = 4096
 CLIENT_IP_ADDRESS       = "192.168.33.10"
@@ -39,4 +39,5 @@ Vagrant::VERSION >= "1.1.0" and Vagrant.configure("2") do |config|
         vb.customize ["modifyvm", :id, "--memory", RAM_ALLOC]
         vb.customize ["modifyvm", :id, "--cpus",   CPU_ALLOC   ]
     end
+
 end
