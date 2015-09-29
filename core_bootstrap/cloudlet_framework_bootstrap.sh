@@ -50,10 +50,9 @@ cd /tmp ;
 
 
 #wget http://latestbuilds.hq.couchbase.com/couchbase-server/sherlock/3133/couchbase-server-enterprise_4.0.0-3133-ubuntu14.04_amd64.deb
-wget http://packages.couchbase.com/releases/4.0.0-beta/couchbase-server-enterprise_4.0.0-beta-ubuntu14.04_amd64.deb
-sudo dpkg -i couchbase-server-enterprise_4.0.0-beta-ubuntu14.04_amd64.deb
-rm /tmp/couchbase-server-enterprise_4.0.0-beta-ubuntu14.04_amd64.deb
-sudo chown -R vagrant:vagrant /tmp
+wget http://packages.couchbase.com/releases/4.0.0-rc0/couchbase-server-community_4.0.0-rc0-ubuntu14.04_amd64.deb
+sudo dpkg -i couchbase-server-community_4.0.0-rc0-ubuntu14.04_amd64.deb
+rm /tmp/couchbase-server-community_4.0.0-rc0-ubuntu14.04_amd64.deb
 
 /bin/sleep 10
 sudo /opt/couchbase/bin/couchbase-cli cluster-init --cluster=127.0.0.1:8091 --user=admin --password=password --cluster-ramsize=2372 --services="data;index;query"
