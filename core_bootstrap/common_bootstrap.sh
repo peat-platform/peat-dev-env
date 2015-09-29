@@ -19,7 +19,7 @@ apt-get install -y linux-headers-3.13.0-40-generic
 #su vagrant -l -c "sudo chown -R vagrant:vagrant /home/vagrant"
 #su vagrant -l -c "nvm install 0.10 && nvm alias default 0.10 && npm install npm -g && npm install -g grunt-cli && npm install supervisor -g"
 
-su vagrant -l -c "curl --silent --location https://deb.nodesource.com/setup_0.12 | sudo bash -"
+su vagrant -l -c "curl --silent --location https://deb.nodesource.com/setup_4.x | sudo bash -"
 su vagrant -l -c "sudo apt-get install --yes nodejs"
 su vagrant -l -c "alias node="nodejs""
 
